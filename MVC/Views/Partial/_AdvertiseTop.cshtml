@@ -1,0 +1,47 @@
+@model BaseViewModel;
+
+<section class="__advert __section">
+  <div class="__advert-center __container">
+      <div class="__advert-box">
+          <a asp-controller="Product" asp-action="Index" asp-route-category="RauCuHuuCo">
+              <div class="__dotted">
+                  <div class="__content">
+                      <h2>
+                          Rau củ hữu cơ
+                      </h2>
+                      <h4>"Made in VietNam"</h4>
+                  </div>
+              </div>
+              <img src="~/images/advert1.png" alt="Advertise Featured Category 1">
+          </a>
+      </div>
+
+      <div class="__advert-box">
+          <a asp-controller="Product" asp-action="Index" asp-route-category="TraiCayDaLat">
+              <div class="__dotted">
+                  <div class="__content">
+                      <h2>
+                          Trái cây Đà Lạt
+                      </h2>
+                      <h4>"Made in VietNam"</h4>
+                  </div>
+              </div>
+              <img src="~/images/advert2.png" alt="Advertise Featured Category 2">
+          </a>
+      </div>
+
+      <div class="__advert-box">
+          <a asp-controller="Product" asp-action="Index" asp-route-category="ComboSanPham">
+              <div class="__dotted">
+                  <div class="__content">
+                      <h2>
+                          Combo sản phẩm
+                      </h2>
+                      <h4>"Made in VietNam"</h4>
+                  </div>
+              </div>
+              <img src="~/images/advert3.png" alt="Advertise Featured Category 3">
+          </a>
+      </div>
+  </div>
+</section>
