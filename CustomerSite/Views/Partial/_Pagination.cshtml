@@ -1,0 +1,60 @@
+@model PaginationViewModel;
+
+<div class="__pagination">
+    <div class="">
+
+        @if (Model.currentPage != 1)
+        {
+            @*Left arrow*@
+            <a asp-controller="Product" asp-action="Index" asp-route-category="@Model.category" asp-route-page="@(Model.currentPage - 1)" class="btn shadow-none p-0">
+                <span>
+                    <i class='bx bx-left-arrow-alt'></i>
+                </span>
+            </a>            
+        }
+
+        @{
+            double rank = (double)Model.currentPage / 5;
+            var from = -2;
+            var to = 2;
+
+            if (rank == 0.2)
+            {
+                from = 0;
+                to = 4;
+            }
+            else if (rank == 0.4)
+            {
+                from = -1;
+                to = 3;
+            }
+
+            for(var i = from; i <= to; i++)
+            {
+                @if (Model.totalPage != 1)
+                {
+                    var pageNumber = i + (rank * 5);
+                    if (pageNumber - 1 == Model.totalPage) break;
+
+                    <a class="btn shadow-none p-0 @(pageNumber == Model.currentPage ? "disabled" : "")" asp-controller="Product" asp-action="Index" asp-route-category="@Model.category" asp-route-page="@pageNumber">
+                        <span>
+                            @pageNumber
+                        </span>
+                    </a>
+                }
+            }
+        }
+
+        @if (Model.currentPage != Model.totalPage && Model.totalPage > 0)
+        {
+            @*Right arrow*@
+            <a class="btn shadow-none p-0" asp-controller="Product" asp-action="Index" asp-route-category="@Model.category" asp-route-page="@(Model.currentPage + 1)">
+                <span>
+                    <i class='bx bx-right-arrow-alt'></i>
+                </span>
+            </a>
+        }
+    </div>
+</div>
+
+

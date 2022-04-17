@@ -1,0 +1,56 @@
+﻿@using Shared.Clients
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+@model HomeIndexViewModel
+
+<div class="mb-5 pb-5">
+    <partial name="../Partial/_AdvertiseTop.cshtml">
+    <section class="__feature-section __featured">
+        <div class="__title">
+            <h1>Sản phẩm đặc trưng</h1>
+            <div>
+                <a class="__view-more" asp-controller="Product" asp-action="Featured">Xem thêm</a>
+            </div>
+        </div>
+        <div class="__product-center __container">
+            @foreach (ProductReadDto product in Model.products)
+            {
+                <div class="__product">
+                    <div class="__product-header">
+                        <img src="@product.thumbnailUri" alt="@product.thumbnailName">
+
+                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
+                            <ul class="icons">
+                                <span><i class='bx bxs-show show-icons'></i></span>
+                            </ul>
+                        </a>
+
+                    </div>
+                    <div class="__product-footer">
+                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
+                            <h3 class="__break-word-dots">@product.name</h3>
+                        </a>
+                        <div class="__rating">
+                            @for (int i = 0; i < product.averageRate; i++)
+                            {
+                                <i class="bx bxs-star"></i>
+                            }
+
+                            @for (int i = 0; i < 5 - product.averageRate; i++)
+                            {
+                                <i class="bx bx-star"></i>
+                            }
+                        </div>
+
+                        <h4 class="__price">@(product.prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")))đ</h4>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <partial name="../Partial/_AdvertiseBottom.cshtml">
+    <partial name="../Partial/_Feedback.cshtml">
+</div>
