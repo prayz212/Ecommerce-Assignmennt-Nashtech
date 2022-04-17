@@ -5,19 +5,19 @@ using Shared.Clients;
 
 namespace BackEnd.Services.Client
 {
-  public class CategoryService : ICategoryService
-  {
-    private readonly ICategoryRepository _categoryRepository;
-
-    public CategoryService(ICategoryRepository categoryRepository)
+    public class CategoryService : ICategoryService
     {
-      _categoryRepository = categoryRepository;
-    }
+        private readonly ICategoryRepository _categoryRepository;
 
-    public async Task<IEnumerable<CategoryReadDto>> GetCategories()
-    {
-      var categories = await _categoryRepository.GetCategories();
-      return categories;
+        public CategoryService(ICategoryRepository categoryRepository)
+        {
+            _categoryRepository = categoryRepository;
+        }
+
+        public async Task<IEnumerable<CategoryReadDto>> GetCategories()
+        {
+            var categories = await _categoryRepository.GetCategories();
+            return categories;
+        }
     }
-  }
 }

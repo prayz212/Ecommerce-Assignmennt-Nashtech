@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -18,18 +15,18 @@ namespace CustomerSite.Services
       _clientFactory = clientFactory;
     }
 
-    public async Task<IEnumerable<ProductReadDto>> GetFeaturedProductData()
+    public async Task<ProductListReadDto> GetFeaturedProductData(int page, int size)
     {
       using(var client = _clientFactory.CreateClient("API_SERVER"))
       {
-        var request = new HttpRequestMessage(HttpMethod.Get, "products/features");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"products/features?page={page}&size={size}");
         var response = await client.SendAsync(request);
-        var products = Enumerable.Empty<ProductReadDto>();
+        ProductListReadDto products = null;
 
         if (response.IsSuccessStatusCode)
         {
           var data = await response.Content.ReadAsStreamAsync();
-          products = await JsonSerializer.DeserializeAsync<IEnumerable<ProductReadDto>>(data);
+          products = await JsonSerializer.DeserializeAsync<ProductListReadDto>(data);
         }
         
         return products;

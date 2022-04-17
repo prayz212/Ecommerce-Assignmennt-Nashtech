@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Shared.Clients;
 
@@ -8,7 +6,7 @@ namespace CustomerSite.Interfaces
 {
   public interface IHomeService
   {
-    Task<IEnumerable<ProductReadDto>> GetFeaturedProductData();
+    Task<ProductListReadDto> GetFeaturedProductData(int page, int size);
   }
 
   public interface IProductService

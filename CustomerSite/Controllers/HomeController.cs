@@ -12,6 +12,8 @@ namespace CustomerSite.Controllers
     {
         private readonly IHomeService _homeService;
         private readonly ISharedService _sharedService;
+        private const int SHOW_ITEM_NUMBER = 12;
+        private const int SHOW_ITEM_PAGE = 1;
 
         public HomeController(IHomeService homeService, ISharedService sharedService)
         {
@@ -22,18 +24,18 @@ namespace CustomerSite.Controllers
         public async Task<IActionResult> Index()
         {
             IEnumerable<CategoryReadDto> categories = await _sharedService.GetCategoryData();
-            IEnumerable<ProductReadDto> products = await _homeService.GetFeaturedProductData();
+            ProductListReadDto data = await _homeService.GetFeaturedProductData(SHOW_ITEM_PAGE, SHOW_ITEM_NUMBER);
+
+            if (data is null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
 
             var vm = new HomeIndexViewModel()
             {
                 categories = categories,
-                products = products
+                products = data.products
             };
-
-            if (products is null)
-            {
-                return RedirectToAction("Index", "Error");
-            }
 
             return View(vm);
         }
