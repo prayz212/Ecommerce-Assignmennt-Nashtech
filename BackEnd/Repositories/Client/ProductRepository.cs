@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Interfaces.Client;
-using BackEnd.Models;
 using Microsoft.EntityFrameworkCore;
 using Shared.Clients;
 
@@ -18,7 +16,7 @@ namespace BackEnd.Repositories.Client
             _context = context;
         }
 
-        public async Task<IList<ProductReadDto>> GetFeatureProducts()
+        public async Task<IList<ProductReadDto>> GetFeatureProducts(int page, int size)
         {
             return await _context.Products
                 .Where(p => p.IsFeatured == true)
@@ -31,6 +29,8 @@ namespace BackEnd.Repositories.Client
                     thumbnailName = p.Images.FirstOrDefault().Name,
                     thumbnailUri = p.Images.FirstOrDefault().Uri
                 })
+                .Skip((page - 1) * size)
+                .Take(size)
                 .ToListAsync();
         }
 
@@ -68,13 +68,6 @@ namespace BackEnd.Repositories.Client
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<int> CountProductByCategory(string category)
-        {
-            return await _context.Products
-                .Where(p => p.Category.Name == category)
-                .CountAsync();
-        }
-
         public async Task<IList<ProductReadDto>> GetAllProduct(int page, int size)
         {
             return await _context.Products
@@ -92,9 +85,23 @@ namespace BackEnd.Repositories.Client
                 .ToListAsync();
         }
 
+        public async Task<int> CountProductByCategory(string category)
+        {
+            return await _context.Products
+                .Where(p => p.Category.Name == category)
+                .CountAsync();
+        }
+
         public Task<int> CountAllProduct()
         {
             return _context.Products.CountAsync();
+        }
+
+        public Task<int> CountFeatureProduct()
+        {
+            return _context.Products
+                .Where(p => p.IsFeatured == true)
+                .CountAsync();
         }
     }
 }

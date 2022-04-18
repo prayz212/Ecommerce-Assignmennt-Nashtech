@@ -36,6 +36,7 @@ namespace UnitTest.Client.Services.Category
             mock.Setup(c => c.GetCategories()).ReturnsAsync(categories);
 
             var categoryService = new CategoryService(mock.Object);
+            
             //Act
             var actualResult = await categoryService.GetCategories();
 

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackEnd.Interfaces.Client;
 using Shared.Clients;
@@ -9,8 +7,6 @@ namespace BackEnd.Services.Client
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
-        private const int DEFAULT_PAGE_NUMBER = 1;
-        private const int DEFAULT_SIZE_PER_PAGE = 6;
         private const string GET_ALL_PRODUCT = "TatCaSanPham";
 
         public ProductService(IProductRepository productRepository)
@@ -18,15 +14,30 @@ namespace BackEnd.Services.Client
             _productRepository = productRepository;
         }
 
-        public async Task<IEnumerable<ProductReadDto>> GetFeatureProduct()
+        public async Task<ProductListReadDto> GetFeatureProduct(int page, int size)
         {
-            var products = await _productRepository.GetFeatureProducts();
-            return products;
+            if (page <= 0 || size <= 0) return null;
+            
+            var products = await _productRepository.GetFeatureProducts(page, size);
+            var count = await _productRepository.CountFeatureProduct();
+
+            var totalPage = this.GetTotalPage(count, size);
+            if (totalPage == -1)
+            {
+                return null;
+            }
+
+            return new ProductListReadDto()
+            {
+                products = products,
+                totalPage = totalPage,
+                currentPage = page
+            };
         }
 
-        public async Task<ProductListReadDto> GetProductByCategory(string category, int page = DEFAULT_PAGE_NUMBER, int size = DEFAULT_SIZE_PER_PAGE)
+        public async Task<ProductListReadDto> GetProductByCategory(string category, int page, int size)
         {
-            if (category is null) return null;
+            if (string.IsNullOrEmpty(category) || page <= 0 || size <= 0) return null;
 
             if (category == GET_ALL_PRODUCT) 
             {
@@ -35,6 +46,7 @@ namespace BackEnd.Services.Client
 
             var products = await _productRepository.GetProductByCategory(category, page, size);
             var count = await _productRepository.CountProductByCategory(category);
+            
             var totalPage = this.GetTotalPage(count, size);
             if (totalPage == -1)
             {
@@ -57,19 +69,14 @@ namespace BackEnd.Services.Client
             return product;
         }
 
-        private int GetTotalPage(int count, int size)
+        public async Task<ProductListReadDto> GetAllProduct(int page, int size)
         {
-            if (count == 0 || size == 0) return -1;
-            return count % size == 0 ? count / size : (count/ size) + 1;
-        }
+            if (page <= 0 || size <= 0) return null;
 
-        public async Task<ProductListReadDto> GetAllProduct(int page = DEFAULT_PAGE_NUMBER, int size = DEFAULT_SIZE_PER_PAGE)
-        {
             var products = await _productRepository.GetAllProduct(page, size);
             var count = await _productRepository.CountAllProduct();
 
             var totalPage = this.GetTotalPage(count, size);
-
             if (totalPage == -1)
             {
                 return null;
@@ -81,6 +88,12 @@ namespace BackEnd.Services.Client
                 totalPage = totalPage,
                 currentPage = page,
             };
+        }
+
+        private int GetTotalPage(int count, int size)
+        {
+            if (count <= 0 || size <= 0) return -1;
+            return count % size == 0 ? count / size : (count/ size) + 1;
         }
     }
 }

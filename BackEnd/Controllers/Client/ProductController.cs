@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using BackEnd.Interfaces.Client;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers.Client
@@ -10,6 +9,8 @@ namespace BackEnd.Controllers.Client
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+        private const int DEFAULT_PAGE_NUMBER = 1;
+        private const int DEFAULT_SIZE_PER_PAGE = 6;
 
         public ProductController(IProductService productService)
         {
@@ -17,19 +18,24 @@ namespace BackEnd.Controllers.Client
         }
 
         [HttpGet("features")]
-        public async Task<IActionResult> GetFeatureProducts()
+        public async Task<IActionResult> GetFeatureProducts([FromQuery] int page = DEFAULT_PAGE_NUMBER, [FromQuery] int size = DEFAULT_SIZE_PER_PAGE)
         {
-            var products = await _productService.GetFeatureProduct();
+            var products = await _productService.GetFeatureProduct(page, size);
+            if (products is null)
+            {
+                return BadRequest();
+            }
+            
             return Ok(products);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProductByCategory([FromQuery] string category, [FromQuery] int page, [FromQuery] int size)
+        public async Task<IActionResult> GetProductByCategory([FromQuery] string category, [FromQuery] int page = DEFAULT_PAGE_NUMBER, [FromQuery] int size = DEFAULT_SIZE_PER_PAGE)
         {
             var products = await _productService.GetProductByCategory(category, page, size);
             if (products is null)
             {
-            return BadRequest();
+                return BadRequest();
             }
 
             return Ok(products);
