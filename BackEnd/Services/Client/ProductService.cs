@@ -22,7 +22,7 @@ namespace BackEnd.Services.Client
             var count = await _productRepository.CountFeatureProduct();
 
             var totalPage = this.GetTotalPage(count, size);
-            if (totalPage == -1)
+            if (totalPage == -1 || totalPage < page)
             {
                 return null;
             }

@@ -12,6 +12,7 @@ namespace CustomerSite.Controllers
     {
         private readonly ISharedService _sharedService;
         private readonly IProductService _productService;
+        private const int DEFAULT_PAGE_NUMBER = 1;
         private const int DEFAULT_SIZE_PER_PAGE = 9;
 
         public ProductController(ISharedService sharedService, IProductService productService)
@@ -41,6 +42,8 @@ namespace CustomerSite.Controllers
                     totalPage = data.totalPage,
                     currentPage = data.currentPage,
                     category = category,
+                    controller = "Product",
+                    action = "Index"
                 }
             };
 
@@ -62,6 +65,33 @@ namespace CustomerSite.Controllers
             {
                 categories = categories,
                 product = productDetail,
+            };
+
+            return View(vm);
+        }
+
+        public async Task<IActionResult> Featured(int page = DEFAULT_PAGE_NUMBER)
+        {
+            IEnumerable<CategoryReadDto> categories = await _sharedService.GetCategoryData();
+            ProductListReadDto data = await _productService.GetFeaturedProductData(page, DEFAULT_SIZE_PER_PAGE);
+
+            if (data is null)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
+            var vm = new ProductListViewModel()
+            {
+                categories = categories,
+                products = data.products,
+                pagination = new PaginationViewModel()
+                {
+                    currentPage = data.currentPage,
+                    totalPage = data.totalPage,
+                    controller = "Product",
+                    action = "Featured",
+                    category = null
+                }
             };
 
             return View(vm);

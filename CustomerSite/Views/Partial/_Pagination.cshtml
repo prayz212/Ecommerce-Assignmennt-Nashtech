@@ -6,7 +6,7 @@
         @if (Model.currentPage != 1)
         {
             @*Left arrow*@
-            <a asp-controller="Product" asp-action="Index" asp-route-category="@Model.category" asp-route-page="@(Model.currentPage - 1)" class="btn shadow-none p-0">
+            <a asp-controller="@Model.controller" asp-action="@Model.action" asp-route-category="@Model.category" asp-route-page="@(Model.currentPage - 1)" class="btn shadow-none p-0">
                 <span>
                     <i class='bx bx-left-arrow-alt'></i>
                 </span>
@@ -36,7 +36,7 @@
                     var pageNumber = i + (rank * 5);
                     if (pageNumber - 1 == Model.totalPage) break;
 
-                    <a class="btn shadow-none p-0 @(pageNumber == Model.currentPage ? "disabled" : "")" asp-controller="Product" asp-action="Index" asp-route-category="@Model.category" asp-route-page="@pageNumber">
+                    <a class="btn shadow-none p-0 @(pageNumber == Model.currentPage ? "disabled" : "")" asp-controller="@Model.controller" asp-action="@Model.action" asp-route-category="@Model.category" asp-route-page="@pageNumber">
                         <span>
                             @pageNumber
                         </span>
@@ -48,7 +48,7 @@
         @if (Model.currentPage != Model.totalPage && Model.totalPage > 0)
         {
             @*Right arrow*@
-            <a class="btn shadow-none p-0" asp-controller="Product" asp-action="Index" asp-route-category="@Model.category" asp-route-page="@(Model.currentPage + 1)">
+            <a class="btn shadow-none p-0" asp-controller="@Model.controller" asp-action="@Model.action" asp-route-category="@Model.category" asp-route-page="@(Model.currentPage + 1)">
                 <span>
                     <i class='bx bx-right-arrow-alt'></i>
                 </span>
