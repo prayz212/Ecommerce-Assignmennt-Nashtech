@@ -12,19 +12,21 @@ namespace CustomerSite.Controllers
     {
         private readonly IHomeService _homeService;
         private readonly ISharedService _sharedService;
+        private readonly IProductService _productService;
         private const int SHOW_ITEM_NUMBER = 12;
         private const int SHOW_ITEM_PAGE = 1;
 
-        public HomeController(IHomeService homeService, ISharedService sharedService)
+        public HomeController(IHomeService homeService, ISharedService sharedService, IProductService productService)
         {
             _homeService = homeService;
             _sharedService = sharedService;
+            _productService = productService;
         }
 
         public async Task<IActionResult> Index()
         {
             IEnumerable<CategoryReadDto> categories = await _sharedService.GetCategoryData();
-            ProductListReadDto data = await _homeService.GetFeaturedProductData(SHOW_ITEM_PAGE, SHOW_ITEM_NUMBER);
+            ProductListReadDto data = await _productService.GetFeaturedProductData(SHOW_ITEM_PAGE, SHOW_ITEM_NUMBER);
 
             if (data is null)
             {

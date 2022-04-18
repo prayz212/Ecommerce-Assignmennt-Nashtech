@@ -1,0 +1,69 @@
+@using Shared.Clients
+@model ProductListViewModel
+
+@{
+    ViewData["Title"] = "Sản phẩm đặc trưng";
+}
+
+<div class="container __section">
+    <div>
+        <h1>Sản phẩm đặc trưng</h1>
+        <div class="m-5">
+            <section id="products">
+                <div class="__product-center">
+                    @foreach (ProductReadDto product in Model.products)
+                    {
+                        <div class="__product">
+                            <div class="__product-header">
+                                <img src="@product.thumbnailUri" alt="@product.thumbnailName">
+                                
+                                @*@if ($p->discount)
+                                <img style="width: 7rem; height: 5rem; position: absolute; top: 1%; right: 2%" src="{{ asset('images/sales.png') }}" alt="discount">
+                                <span style="position: absolute; top: 6.5%; right: 9%; color: red; font-size: 1.4rem;">-{{$p->discount}}%</span>
+                                @endif*@
+
+                                <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
+                                    <ul class="icons">
+                                        <span><i class='bx bxs-show show-icons'></i></span>
+                                    </ul>
+                                </a>
+                            </div>
+                            <div class="__product-footer">
+                                <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
+                                    <h3 class="__break-word-dots">@product.name</h3>
+                                </a>
+                                <div class="__rating">
+                                
+                                @for (int i = 0; i < product.averageRate; i++)
+                                {
+                                    <i class="bx bxs-star"></i>
+                                }
+
+                                @for (int i = 0; i < 5 - product.averageRate; i++)
+                                {
+                                    <i class="bx bx-star"></i>
+                                }
+
+                                </div>
+
+                                @* @if ($p->discount)
+                                @php
+                                $discountPrice = $p->price - $p->price * ($p->discount/(float)100);
+                                @endphp
+                                <h4 class="__price">{{ number_format(round($discountPrice), 0, ",", ".") }}đ</h4>
+                                @else
+                                <h4 class="__price">{{ number_format($p->price, 0, ",", ".") }}đ</h4>
+                                @endif *@
+
+                                <h4 class="__price">@(product.prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")))đ</h4>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                @await Html.PartialAsync("../Partial/_Pagination", Model.pagination)
+            </section>
+        </div>
+    </div>
+</div>

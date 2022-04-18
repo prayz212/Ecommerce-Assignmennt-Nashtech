@@ -97,6 +97,8 @@
                                     <h4 class="__price">{{ number_format($p->price, 0, ",", ".") }}đ</h4>
                                     @endif*@
 
+                                    <h4 class="__price">@(product.prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")))đ</h4>
+
                                 </div>
                             </div>
                         }
