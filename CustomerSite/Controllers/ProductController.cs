@@ -14,6 +14,7 @@ namespace CustomerSite.Controllers
         private readonly IProductService _productService;
         private const int DEFAULT_PAGE_NUMBER = 1;
         private const int DEFAULT_SIZE_PER_PAGE = 9;
+        private const int NUMBER_OF_RELATIVE_PRODUCT = 4;
 
         public ProductController(ISharedService sharedService, IProductService productService)
         {
@@ -55,6 +56,7 @@ namespace CustomerSite.Controllers
         {
             IEnumerable<CategoryReadDto> categories = await _sharedService.GetCategoryData();
             ProductDetailReadDto productDetail = await _productService.GetProductDetailData(id);
+            IEnumerable<ProductReadDto> relative = await _productService.GetRelativeProducts(id, NUMBER_OF_RELATIVE_PRODUCT);
 
             if (productDetail is null)
             {
@@ -65,6 +67,7 @@ namespace CustomerSite.Controllers
             {
                 categories = categories,
                 product = productDetail,
+                relative = relative
             };
 
             return View(vm);
@@ -95,6 +98,13 @@ namespace CustomerSite.Controllers
             };
 
             return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Rating(ProductRatingWriteDto data)
+        {
+            var result = await _productService.ProductRating(data);
+            return result ? Ok() : BadRequest();
         }
     }
 }

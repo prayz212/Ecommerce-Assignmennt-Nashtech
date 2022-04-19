@@ -28,4 +28,10 @@ namespace Shared.Clients
     public int totalPage { get; set; }
     public int currentPage { get; set; }
   }
+
+  public class ProductRatingWriteDto
+  {
+    public int productID { get; set; }
+    public int star { get; set; }
+  }
 }
