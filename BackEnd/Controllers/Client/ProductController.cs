@@ -72,7 +72,7 @@ namespace BackEnd.Controllers.Client
         {
             var result = await _productService.ProductRating(data);
             return result 
-                ? Ok(new { message = "Save successfull" }) 
+                ? Ok()
                 : BadRequest();
         }
     }

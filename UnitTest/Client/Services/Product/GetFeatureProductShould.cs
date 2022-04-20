@@ -24,11 +24,13 @@ namespace UnitTest.Client.Services.Product
                 new ProductReadDto() { id = 2, name = "Product 2", prices = 140000, averageRate = 4.5, thumbnailName = "Image 2", thumbnailUri = "Uri image 2"}
             };
 
-            var mock = new Mock<IProductRepository>();
-            mock.Setup(r => r.GetFeatureProducts(1, 6)).ReturnsAsync(products);
-            mock.Setup(r => r.CountFeatureProduct()).ReturnsAsync(10);
+            var mockProductRepository = new Mock<IProductRepository>();            
+            mockProductRepository.Setup(r => r.GetFeatureProducts(1, 6)).ReturnsAsync(products);
+            mockProductRepository.Setup(r => r.CountFeatureProduct()).ReturnsAsync(10);
 
-            var productService = new ProductService(mock.Object);
+            var mockRatingRepository = new Mock<IRatingRepository>();
+
+            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
             
             //Act
             var actualResult = await productService.GetFeatureProduct(0, 6);
@@ -49,11 +51,13 @@ namespace UnitTest.Client.Services.Product
                 new ProductReadDto() { id = 2, name = "Product 2", prices = 140000, averageRate = 4.5, thumbnailName = "Image 2", thumbnailUri = "Uri image 2"}
             };
 
-            var mock = new Mock<IProductRepository>();
-            mock.Setup(r => r.GetFeatureProducts(1, 6)).ReturnsAsync(products);
-            mock.Setup(r => r.CountFeatureProduct()).ReturnsAsync(10);
+            var mockProductRepository = new Mock<IProductRepository>();
+            mockProductRepository.Setup(r => r.GetFeatureProducts(1, 6)).ReturnsAsync(products);
+            mockProductRepository.Setup(r => r.CountFeatureProduct()).ReturnsAsync(10);
 
-            var productService = new ProductService(mock.Object);
+            var mockRatingRepository = new Mock<IRatingRepository>();
+
+            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
             
             //Act
             var actualResult = await productService.GetFeatureProduct(1, -1);
@@ -74,11 +78,13 @@ namespace UnitTest.Client.Services.Product
                 new ProductReadDto() { id = 2, name = "Product 2", prices = 140000, averageRate = 4.5, thumbnailName = "Image 2", thumbnailUri = "Uri image 2"}
             };
 
-            var mock = new Mock<IProductRepository>();
-            mock.Setup(r => r.GetFeatureProducts(1, 6)).ReturnsAsync(products);
-            mock.Setup(r => r.CountFeatureProduct()).ReturnsAsync(-1);
+            var mockProductRepository = new Mock<IProductRepository>();
+            mockProductRepository.Setup(r => r.GetFeatureProducts(1, 6)).ReturnsAsync(products);
+            mockProductRepository.Setup(r => r.CountFeatureProduct()).ReturnsAsync(-1);
 
-            var productService = new ProductService(mock.Object);
+            var mockRatingRepository = new Mock<IRatingRepository>();
+
+            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
             
             //Act
             var actualResult = await productService.GetFeatureProduct(1, 8);
@@ -104,11 +110,13 @@ namespace UnitTest.Client.Services.Product
                 totalPage = 3
             };
 
-            var mock = new Mock<IProductRepository>();
-            mock.Setup(r => r.GetFeatureProducts(1, 8)).ReturnsAsync(products);
-            mock.Setup(r => r.CountFeatureProduct()).ReturnsAsync(24);
+            var mockProductRepository = new Mock<IProductRepository>();
+            mockProductRepository.Setup(r => r.GetFeatureProducts(1, 8)).ReturnsAsync(products);
+            mockProductRepository.Setup(r => r.CountFeatureProduct()).ReturnsAsync(24);
 
-            var productService = new ProductService(mock.Object);
+            var mockRatingRepository = new Mock<IRatingRepository>();
+
+            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
             
             //Act
             var actualResult = await productService.GetFeatureProduct(1, 8);
