@@ -98,101 +98,99 @@
 </section>
 
 <section class="__section-feature __container-md">
-  <ul class="nav nav-tabs __nav-tab" id="myTab" role="tablist">
-      <li class="nav-item" role="presentation">
-          @*{{ count($errors) == 0 ? 'active' : '' }}*@
-          <button class="nav-link" id="detail-tab" data-bs-toggle="tab" data-bs-target="#detail" type="button" role="tab" aria-controls="detail" aria-selected="true">Mô tả sản phẩm</button>
-      </li>
-      <li class="nav-item" role="presentation">
-          @*{{ count($errors) > 0 ? 'active' : '' }}*@
-        <button class="nav-link" id="comment-tab" data-bs-toggle="tab" data-bs-target="#comment" type="button" role="tab" aria-controls="comment" aria-selected="true">Bình luận</button>
-      </li>
-  </ul>
-  <div class="tab-content" id="myTabContent">
-      @*{{ count($errors) == 0 ? 'active' : '' }}*@
-      <div class="tab-pane fade show p-3 __product-detail-content" id="detail" role="tabpanel" aria-labelledby="detail-tab">
-          @Model.product.description
-      </div>
-      @*{{ count($errors) > 0 ? 'active' : '' }}*@
-      <div class="tab-pane fade show p-3 __product-detail-content" id="comment" role="tabpanel" aria-labelledby="comment-tab">
-        <div class="">
-            <div class="blog-comment">
-                @*<form class="clearfix" method="post" action="{{ route('addComment') }}">
-                    @csrf
-                    <input hidden value="{{ $detail->id }}" name="id" />
-                    <img src="https://bootdey.com/img/Content/user_1.jpg" class="avatar" alt="">
-                    <div class="post-comments">
-                        <div class="input-group mb-3">
-                            <div id="customerNameText" style="padding: 0.65rem 0.75rem!important; font-size: 1.4rem!important;" class="input-group-text">Bình luận với tên: </div>
-                            <input type="text" name="name" style="padding: 0.65rem 0.75rem!important; font-size: 1.4rem!important;" class="form-control" placeholder="Nhập tên..." value="{{Auth::guard('web')->user()->fullname ?? ''}}">
-                        </div>
-                        <input type="text" name="content" style="padding: 0.65rem 0.75rem!important; font-size: 1.4rem!important;" class="form-control" placeholder="Nhập nội dung bình luận...">
-
-                        <div class="d-flex justify-content-between flex-row-reverse">
-                            <button type="submit" class="_btn _submit-comment mt-3" style="font-size: 1.4rem!important; width: auto">Gửi</button>
-                            @if($errors)
-                                <div class="text-danger pt-2">
-                                    {{ $errors->first() }}
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </form>
-                <ul class="comments">
-                    @foreach($detail->comment as $c)
-                    <li class="clearfix">
-                        @if($c->reply_to == 0)
-                        <img src="https://bootdey.com/img/Content/user_1.jpg" class="avatar" alt="">
-                        <div class="post-comments">
-                            <p class="meta">{{ $c->name }} bình luận lúc {{ $c->created_at->format('H:i d/m/Y') }}: {!! $isAdmin ? '<i class="float-end"><a class="__reply-button" role="button"><small>Trả lời</small></a></i>' : '' !!} </p>
-                            <p>
-                                {{ $c->content }}
-                            </p>
-                        </div>
-                        <ul class="comments">
-                            @foreach($detail->comment as $r)
-                                @if($r->reply_to == $c->id)
-                                <li class="clearfix">
-                                    <img src="https://bootdey.com/img/Content/user_3.jpg" class="avatar" alt="">
-                                    <div class="post-comments">
-                                        <p class="meta">{{ $r->name }} trả lời lúc {{ $r->created_at->format('H:i d/m/Y') }}: </p>
-                                        <p>
-                                            {{ $r->content }}
-                                        </p>
-                                    </div>
-                                </li>
-                                @endif
-                            @endforeach
-                            <form style="display: none" method="post" action="{{ route('replyComment') }}"">
-                                @csrf
-                                <input hidden value="{{ $detail->id }}" name="product_id" />
-                                <input hidden value="{{ $c->id }}" name="comment_id" />
-                                <input hidden value="{{ $isAdmin ? Auth::guard('admin')->user()->fullname : '' }}" name="name" />
-                                <img src="https://bootdey.com/img/Content/user_3.jpg" class="avatar" alt="">
-                                <div class="post-comments">
-                                    <div class="row">
-                                        <div style="align-self: center;" class="col-12 col-sm-10">
-                                            <input type="text" name="content" style="padding: 0.65rem 0.75rem!important; font-size: 1.4rem!important;" class="form-control enter-event" placeholder="Nhập nội dung bình luận...">
-                                        </div>
-
-                                        <div class="col-12 col-sm-2 d-flex flex-row-reverse">
-                                            <button type="button" class="_btn _submit-comment mt-3 replyCommentSubmit" style="font-size: 1.4rem!important; width: auto">Gửi</button>
-                                        </div>
-
-                                        <div class="replyCommentError text-danger"></div>
-                                    </div>
-                                </div>
-                            </form>
-                        </ul>
-                        @endif
-                    </li>
-                    @endforeach
-                </ul>*@
+    <ul class="nav nav-tabs __nav-tab" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="detail-tab" data-bs-toggle="tab" data-bs-target="#detail" type="button" role="tab" aria-controls="detail" aria-selected="true">Chi tiết sản phẩm</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active p-3 __product-detail-content" id="detail" role="tabpanel" aria-labelledby="detail-tab">
+            <div>@Model.product.description</div>
+            <div>
+                <button id="rating-product" class="_btn" style="margin-bottom: 10px; background-color: #009432">Đánh giá sản phẩm</button>
             </div>
         </div>
     </div>
-  </div>
 </section>
+
+<!-- Related -->
+<section class="__section __featured mb-5">
+    <div class="__top __container">
+        <h1>Sản phẩm tương tự</h1>
+    </div>
+
+    <div class="__product-center __container">
+        @foreach (ProductReadDto product in Model.relative)
+        {
+            <div class="__product">
+                <div class="__product-header">
+                    <img src="@product.thumbnailUri" alt="@product.thumbnailName">
+
+                    @* @if ($r->discount)
+                    <img style="width: 7rem; height: 5rem; position: absolute; top: 1%; right: 2%" src="{{ asset('images/sales.png') }}" alt="discount">
+                    <span style="position: absolute; top: 6.5%; right: 9%; color: red; font-size: 1.4rem;">-{{$r->discount}}%</span>
+                    @endif *@
+
+                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
+                        <ul class="icons">
+                            <span><i class='bx bxs-show show-icons'></i></span>
+                        </ul>
+                    </a>
+                </div>
+                <div class="__product-footer">
+                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
+                        <h3 class="__break-word-dots">@product.name</h3>
+                    </a>
+
+                    <div class="__rating">
+                    @for (int i = 0; i < product.averageRate; i++)
+                    {
+                        <i class="bx bxs-star"></i>
+                    }
+
+                    @for (int i = 0; i < 5 - product.averageRate; i++)
+                    {
+                        <i class="bx bx-star"></i>
+                    }
+                    </div>
+                    
+                    <h4 class="__price">@(product.prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")))đ</h4>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!--    Popup rating    -->
+<div class="__popup-rating" data-href="Product/Rating" data-product="@Model.product.id">
+    <span class="helper"></span>
+    <div>
+        <div class="__popup-close __popup-rating-close">&times;</div>
+
+        <div class="fs-2 fw-bold">Đánh giá sản phẩm</div>
+        <!-- Rating Stars Box -->
+        <div class='__rating-stars'>
+            <ul id='stars'>
+                <li class='__star' title='Tệ' data-value='1'>
+                    <i class='bx bx-star'></i>
+                </li>
+                <li class='__star' title='Trung bình' data-value='2'>
+                    <i class='bx bx-star'></i>
+                </li>
+                <li class='__star' title='Tốt' data-value='3'>
+                    <i class='bx bx-star'></i>
+                </li>
+                <li class='__star' title='Rất tốt' data-value='4'>
+                    <i class='bx bx-star'></i>
+                </li>
+                <li class='__star' title='Xuất sắc' data-value='5'>
+                    <i class='bx bx-star'></i>
+                </li>
+            </ul>
+        </div>
+        <button class="_btn _submit-rating">Lưu đánh giá</button>
+    </div>
+</div>
 
 <div class="__wrapper" id="toast_success">
   <div id="toast">
@@ -208,4 +206,6 @@
     </button>
   </div>
 </div>
+
 <script src="~/js/quantity-btn.js"></script>
+<script src="~/js/popup-rating.js"></script>

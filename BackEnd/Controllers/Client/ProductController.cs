@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using BackEnd.Interfaces.Client;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Clients;
 
 namespace BackEnd.Controllers.Client
 {
@@ -11,6 +12,7 @@ namespace BackEnd.Controllers.Client
         private readonly IProductService _productService;
         private const int DEFAULT_PAGE_NUMBER = 1;
         private const int DEFAULT_SIZE_PER_PAGE = 6;
+        private const int DEFAULT_SIZE_OF_RELATIVE_PRODUCT = 4;
 
         public ProductController(IProductService productService)
         {
@@ -42,15 +44,36 @@ namespace BackEnd.Controllers.Client
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProductDetailByCategory(int id)
+        public async Task<IActionResult> GetProductDetailById(int id)
         {
             var product = await _productService.GetProductDetailById(id);
             if (product is null)
             {
-            return NotFound();
+                return NotFound();
             }
 
             return Ok(product);
+        }
+
+        [HttpGet("relative/{id}")]
+        public async Task<IActionResult> GetRelativeProducts(int id, int size = DEFAULT_SIZE_OF_RELATIVE_PRODUCT)
+        {
+            var products = await _productService.GetRelativeProducts(id, size);
+            if (products is null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(products);
+        }
+
+        [HttpPost("rating")]
+        public async Task<IActionResult> Rating(ProductRatingWriteDto data)
+        {
+            var result = await _productService.ProductRating(data);
+            return result 
+                ? Ok()
+                : BadRequest();
         }
     }
 }

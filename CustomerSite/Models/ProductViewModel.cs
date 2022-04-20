@@ -6,6 +6,7 @@ namespace CustomerSite.Models
     public class ProductDetailViewModel : BaseViewModel
     {
         public ProductDetailReadDto product { get; set; }
+        public IEnumerable<ProductReadDto> relative { get; set; }
     }
 
     public class ProductListViewModel : BaseViewModel

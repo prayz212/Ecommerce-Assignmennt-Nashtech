@@ -10,7 +10,6 @@ namespace BackEnd.Models
         [Key]
         public int Id { get; set; }
 
-
         [Range(1, 5)]
         public int Stars { get; set; }
 

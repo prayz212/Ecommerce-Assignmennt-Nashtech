@@ -14,6 +14,8 @@ namespace CustomerSite.Interfaces
     Task<ProductDetailReadDto> GetProductDetailData(int id);
     Task<ProductListReadDto> GetCategoryProductData(string category, int page, int size);
     Task<ProductListReadDto> GetFeaturedProductData(int page, int size);
+    Task<IEnumerable<ProductReadDto>> GetRelativeProducts(int id, int size);
+    Task<bool> ProductRating(ProductRatingWriteDto dto);
   }
 
   public interface ISharedService
