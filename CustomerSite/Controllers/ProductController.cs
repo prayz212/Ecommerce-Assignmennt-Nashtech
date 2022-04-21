@@ -72,7 +72,7 @@ namespace CustomerSite.Controllers
 
             if (data is null)
             {
-                return RedirectToAction("Index", "Error");
+                return RedirectToAction("Featured", new { page = 1 });
             }
 
             var vm = new ProductListViewModel()
