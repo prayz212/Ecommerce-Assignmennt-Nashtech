@@ -70,7 +70,7 @@ namespace CustomerSite.Services
             }
         }
 
-        public async Task<IEnumerable<ProductReadDto>> GetRelativeProducts(int id, int size)
+        public async Task<IEnumerable<ProductReadDto>> GetRelativeProductData(int id, int size)
         {
             using(var client = _clientFactory.CreateClient(CLIENT_NAME))
             {

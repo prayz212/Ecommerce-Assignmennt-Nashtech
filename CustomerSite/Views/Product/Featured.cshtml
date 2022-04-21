@@ -62,7 +62,7 @@
                     }
                 </div>
 
-                @await Html.PartialAsync("../Partial/_Pagination", Model.pagination)
+                <partial name="../Partial/_Pagination" for="@Model.pagination">
             </section>
         </div>
     </div>

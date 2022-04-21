@@ -1,0 +1,32 @@
+<!--    Popup rating    -->
+<div class="__popup-rating" data-href="Product/Rating" data-product="@Model.product.id">
+    <span class="helper"></span>
+    <div>
+        <div class="__popup-close __popup-rating-close">&times;</div>
+
+        <div class="fs-2 fw-bold">Đánh giá sản phẩm</div>
+        <!-- Rating Stars Box -->
+        <div class='__rating-stars'>
+            <ul id='stars'>
+                <li class='__star' title='Tệ' data-value='1'>
+                    <i class='bx bx-star'></i>
+                </li>
+                <li class='__star' title='Trung bình' data-value='2'>
+                    <i class='bx bx-star'></i>
+                </li>
+                <li class='__star' title='Tốt' data-value='3'>
+                    <i class='bx bx-star'></i>
+                </li>
+                <li class='__star' title='Rất tốt' data-value='4'>
+                    <i class='bx bx-star'></i>
+                </li>
+                <li class='__star' title='Xuất sắc' data-value='5'>
+                    <i class='bx bx-star'></i>
+                </li>
+            </ul>
+        </div>
+        <button class="_btn _submit-rating">Lưu đánh giá</button>
+    </div>
+</div>
+
+<script src="~/js/popup-rating.js"></script>
