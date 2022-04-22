@@ -42,7 +42,7 @@ namespace BackEnd.Services.Client
         {
             if (string.IsNullOrEmpty(category) || page <= 0 || size <= 0) return null;
 
-            if (category == GET_ALL_PRODUCT) 
+            if (string.Equals(category, GET_ALL_PRODUCT)) 
             {
                 return await this.GetAllProduct(page, size);
             }
