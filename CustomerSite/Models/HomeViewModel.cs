@@ -3,7 +3,7 @@ using Shared.Clients;
 
 namespace CustomerSite.Models
 {
-    public class HomeIndexViewModel : BaseViewModel
+    public class HomeIndexViewModel
     {
         public IEnumerable<ProductReadDto> products { get; set; }
     }

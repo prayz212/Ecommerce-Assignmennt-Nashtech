@@ -10,15 +10,13 @@ namespace CustomerSite.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ISharedService _sharedService;
         private readonly IProductService _productService;
         private const int DEFAULT_PAGE_NUMBER = 1;
         private const int DEFAULT_SIZE_PER_PAGE = 9;
         private const int NUMBER_OF_RELATIVE_PRODUCT = 4;
 
-        public ProductController(ISharedService sharedService, IProductService productService)
+        public ProductController(IProductService productService)
         {
-            _sharedService = sharedService;
             _productService = productService;
         }
 
@@ -26,17 +24,15 @@ namespace CustomerSite.Controllers
         {
             if (category is null) { return RedirectToAction("Index", "Home"); }
 
-            IEnumerable<CategoryReadDto> categories = await _sharedService.GetCategoryData();
             ProductListReadDto data = await _productService.GetCategoryProductData(category, page, DEFAULT_SIZE_PER_PAGE);
 
             if (data is null)
             {
-                return RedirectToAction("Index", "Error");
+                return RedirectToAction("Index", new { category = "TatCaSanPham" });
             }
 
             var vm = new ProductListViewModel
             {
-                categories = categories,
                 products = data.products,
                 pagination = new PaginationViewModel
                 {
@@ -54,9 +50,7 @@ namespace CustomerSite.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
-            IEnumerable<CategoryReadDto> categories = await _sharedService.GetCategoryData();
             ProductDetailReadDto productDetail = await _productService.GetProductDetailData(id);
-            IEnumerable<ProductReadDto> relative = await _productService.GetRelativeProducts(id, NUMBER_OF_RELATIVE_PRODUCT);
 
             if (productDetail is null)
             {
@@ -65,27 +59,24 @@ namespace CustomerSite.Controllers
 
             var vm = new ProductDetailViewModel()
             {
-                categories = categories,
                 product = productDetail,
-                relative = relative
             };
 
+            ViewData["Size"] = NUMBER_OF_RELATIVE_PRODUCT;
             return View(vm);
         }
 
         public async Task<IActionResult> Featured(int page = DEFAULT_PAGE_NUMBER)
         {
-            IEnumerable<CategoryReadDto> categories = await _sharedService.GetCategoryData();
             ProductListReadDto data = await _productService.GetFeaturedProductData(page, DEFAULT_SIZE_PER_PAGE);
 
             if (data is null)
             {
-                return RedirectToAction("Index", "Error");
+                return RedirectToAction("Featured", new { page = 1 });
             }
 
             var vm = new ProductListViewModel()
             {
-                categories = categories,
                 products = data.products,
                 pagination = new PaginationViewModel()
                 {

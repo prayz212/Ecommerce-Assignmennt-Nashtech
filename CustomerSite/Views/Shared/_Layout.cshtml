@@ -1,6 +1,4 @@
-﻿@model BaseViewModel;
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -30,26 +28,26 @@
 
             @if (isHomePage)
             {
-            <header id="home" class="__header">
-              <!-- Navigation -->
-              <partial name="../Partial/_Navbar.cshtml" model="@Model" view-data='@new ViewDataDictionary(ViewData) { { "categories", Model.categories } }' />
+                <header id="home" class="__header">
+                <!-- Navigation -->
+                @await Component.InvokeAsync("Navbar")
 
-              <!-- Hero -->
-              <img src="~/images/banner.png" alt="" class="__hero-img" />
+                <!-- Hero -->
+                <img src="~/images/banner.png" alt="" class="__hero-img" />
 
-              <div class="__hero-content">
-                <h2>Giảm giá<span class="__discount"> 70% </span></h2>
-                <h1>
-                  <span>Mua sắm thoả thích</span>
-                  <span>không lo covid</span>
-                </h1>
-                <a class="__btn" asp-controller="Product" asp-action="Index" asp-route-category="TatCaSanPham">Mua ngay</a>
-              </div>
-            </header>
+                <div class="__hero-content">
+                    <h2>Giảm giá<span class="__discount"> 70% </span></h2>
+                    <h1>
+                    <span>Mua sắm thoả thích</span>
+                    <span>không lo covid</span>
+                    </h1>
+                    <a class="__btn" asp-controller="Product" asp-action="Index" asp-route-category="TatCaSanPham">Mua ngay</a>
+                </div>
+                </header>
             }
             else
             {
-            <partial name="../Partial/_Navbar.cshtml" />
+                @await Component.InvokeAsync("Navbar")
             }
             <main role="main">
                 @RenderBody()

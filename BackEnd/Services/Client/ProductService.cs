@@ -25,7 +25,7 @@ namespace BackEnd.Services.Client
             var count = await _productRepository.CountFeatureProduct();
 
             var totalPage = this.GetTotalPage(count, size);
-            if (totalPage == -1 || totalPage < page)
+            if (totalPage == -1 || (totalPage != 0 && totalPage < page))
             {
                 return null;
             }
@@ -34,7 +34,7 @@ namespace BackEnd.Services.Client
             {
                 products = products,
                 totalPage = totalPage,
-                currentPage = page
+                currentPage = totalPage > 0 ? page : 0,
             };
         }
 
@@ -42,7 +42,7 @@ namespace BackEnd.Services.Client
         {
             if (string.IsNullOrEmpty(category) || page <= 0 || size <= 0) return null;
 
-            if (category == GET_ALL_PRODUCT) 
+            if (string.Equals(category, GET_ALL_PRODUCT)) 
             {
                 return await this.GetAllProduct(page, size);
             }
@@ -51,7 +51,7 @@ namespace BackEnd.Services.Client
             var count = await _productRepository.CountProductByCategory(category);
             
             var totalPage = this.GetTotalPage(count, size);
-            if (totalPage == -1)
+            if (totalPage == -1 || (totalPage != 0 && totalPage < page))
             {
                 return null;
             } 
@@ -60,7 +60,7 @@ namespace BackEnd.Services.Client
             { 
                 products = products,
                 totalPage = totalPage,
-                currentPage = page,
+                currentPage = totalPage > 0 ? page : 0,
             };
         }
 
@@ -80,7 +80,7 @@ namespace BackEnd.Services.Client
             var count = await _productRepository.CountAllProduct();
 
             var totalPage = this.GetTotalPage(count, size);
-            if (totalPage == -1)
+            if (totalPage == -1 || (totalPage != 0 && totalPage < page))
             {
                 return null;
             }
@@ -89,7 +89,7 @@ namespace BackEnd.Services.Client
             {
                 products = products,
                 totalPage = totalPage,
-                currentPage = page,
+                currentPage = totalPage > 0 ? page : 0,
             };
         }
 
@@ -122,7 +122,7 @@ namespace BackEnd.Services.Client
 
         private int GetTotalPage(int count, int size)
         {
-            if (count <= 0 || size <= 0) return -1;
+            if (count < 0 || size <= 0) return -1;
             return count % size == 0 ? count / size : (count/ size) + 1;
         }
     }

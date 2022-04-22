@@ -21,7 +21,12 @@ namespace CustomerSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddRazorOptions(options =>
+                {
+                    options.ViewLocationFormats.Add("/{0}.cshtml");
+                });
+
             services.AddHttpClient("API_SERVER", config => {
                 config.BaseAddress = new Uri(Configuration.GetValue<string>("HttpClient:BaseAddress"));
             });

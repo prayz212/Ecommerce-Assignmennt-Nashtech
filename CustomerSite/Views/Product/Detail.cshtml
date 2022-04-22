@@ -2,6 +2,7 @@
 @model ProductDetailViewModel;
 @{
     ViewData["Title"] = Model.product.name;
+    var relativeSize = Int32.Parse(ViewData["Size"].ToString());
 }
 
 <section class="__section __product-detail">
@@ -113,99 +114,7 @@
     </div>
 </section>
 
-<!-- Related -->
-<section class="__section __featured mb-5">
-    <div class="__top __container">
-        <h1>Sản phẩm tương tự</h1>
-    </div>
+@await Component.InvokeAsync("RelativeProducts", new { id = Model.product.id, size = relativeSize })
 
-    <div class="__product-center __container">
-        @foreach (ProductReadDto product in Model.relative)
-        {
-            <div class="__product">
-                <div class="__product-header">
-                    <img src="@product.thumbnailUri" alt="@product.thumbnailName">
-
-                    @* @if ($r->discount)
-                    <img style="width: 7rem; height: 5rem; position: absolute; top: 1%; right: 2%" src="{{ asset('images/sales.png') }}" alt="discount">
-                    <span style="position: absolute; top: 6.5%; right: 9%; color: red; font-size: 1.4rem;">-{{$r->discount}}%</span>
-                    @endif *@
-
-                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
-                        <ul class="icons">
-                            <span><i class='bx bxs-show show-icons'></i></span>
-                        </ul>
-                    </a>
-                </div>
-                <div class="__product-footer">
-                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
-                        <h3 class="__break-word-dots">@product.name</h3>
-                    </a>
-
-                    <div class="__rating">
-                    @for (int i = 0; i < product.averageRate; i++)
-                    {
-                        <i class="bx bxs-star"></i>
-                    }
-
-                    @for (int i = 0; i < 5 - product.averageRate; i++)
-                    {
-                        <i class="bx bx-star"></i>
-                    }
-                    </div>
-                    
-                    <h4 class="__price">@(product.prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")))đ</h4>
-                </div>
-            </div>
-        }
-    </div>
-</section>
-
-<!--    Popup rating    -->
-<div class="__popup-rating" data-href="Product/Rating" data-product="@Model.product.id">
-    <span class="helper"></span>
-    <div>
-        <div class="__popup-close __popup-rating-close">&times;</div>
-
-        <div class="fs-2 fw-bold">Đánh giá sản phẩm</div>
-        <!-- Rating Stars Box -->
-        <div class='__rating-stars'>
-            <ul id='stars'>
-                <li class='__star' title='Tệ' data-value='1'>
-                    <i class='bx bx-star'></i>
-                </li>
-                <li class='__star' title='Trung bình' data-value='2'>
-                    <i class='bx bx-star'></i>
-                </li>
-                <li class='__star' title='Tốt' data-value='3'>
-                    <i class='bx bx-star'></i>
-                </li>
-                <li class='__star' title='Rất tốt' data-value='4'>
-                    <i class='bx bx-star'></i>
-                </li>
-                <li class='__star' title='Xuất sắc' data-value='5'>
-                    <i class='bx bx-star'></i>
-                </li>
-            </ul>
-        </div>
-        <button class="_btn _submit-rating">Lưu đánh giá</button>
-    </div>
-</div>
-
-<div class="__wrapper" id="toast_success">
-  <div id="toast">
-    <div class="container-1">
-        <i class='bx bx-cart'></i>
-    </div>
-    <div class="container-2 my-2">
-        <p class="toast-sta"></p>
-        <p class="toast-msg"></p>
-    </div>
-    <button id="close">
-        <i class='bx bx-x'></i>
-    </button>
-  </div>
-</div>
-
-<script src="~/js/quantity-btn.js"></script>
-<script src="~/js/popup-rating.js"></script>
+<partial name="../Partial/_Popup.cshtml">
+<partial name="../Partial/_Toast.cshtml">

@@ -1,13 +1,8 @@
 ﻿@using Shared.Clients
 @model ProductListViewModel;
 @{
+    ViewData["Title"] = "Danh sách sản phẩm";
     var currentCategory = ViewData["CurrentCategory"].ToString();
-    var title = Model.categories
-        .ToList()
-        .Where(c => c.name == currentCategory)
-        .FirstOrDefault();
-
-    ViewData["Title"] = title is null ? "Danh sách sản phẩm" : title.displayName;
 }
 
 <!-- All Products -->
@@ -15,14 +10,7 @@
     <div class="row">
         <div class="mb-3 col-lg-3 col-sm-5 col-12 __category-block">
             <div class="card mb-3">
-                <div class="card-header text-uppercase py-3 text-center __category-block-title">DANH MỤC SẢN PHẨM</div>
-                    <ul class="list-group category_block">
-                    @foreach(CategoryReadDto category in Model.categories)
-                    {
-                        <a asp-controller="Product" asp-action="Index" asp-route-category="@category.name"><li class="list-group-item px-5 py-3 @(category.name == currentCategory ? "__selected-category" : "")">@category.displayName</li></a>
-                    }
-                    </ul>
-                </div>
+                @await Component.InvokeAsync("Categories", new { currentCategory = currentCategory })
             </div>
 
             <div class="col-lg-9 col-sm-7 col-12">
@@ -30,27 +18,6 @@
                   <section class="__all-products" id="products">
                       <div class="__top">
                           <h1>Tất cả sản phẩm</h1>
-                         @* <select name="sortBy" id="sortBy">
-                              @php
-                                $currentFilter = request()->filter ?? '';
-                              @endphp
-                            <option value="" {{ $currentFilter == '' ? 'selected' : '' }} disabled hidden>
-                                Lọc sản phẩm
-                            </option>
-                              <option value="a-z" {{ $currentFilter == 'a-z' ? 'selected' : '' }}>
-                                  Tên: A đến Z
-                              </option>
-                              <option value="z-a" {{ $currentFilter == 'z-a' ? 'selected' : '' }}>
-                                  Tên: Z đến A
-                              </option>
-                              <option value="gia-tang-dan" {{ $currentFilter == 'gia-tang-dan' ? 'selected' : '' }}>
-                                  Giá: Thấp đến Cao
-                              </option>
-                              <option value="gia-giam-dan"{{ $currentFilter == 'gia-giam-dan' ? 'selected' : '' }}>
-                                  Giá: Cao đến Thấp
-                              </option>
-                              <span><i class='bx bx-chevron-down'></i></span>
-                          </select>*@
                       </div>
 
                       <div class="__product-center px-3">
@@ -59,11 +26,6 @@
                             <div class="__product">
                                 <div class="__product-header">
                                     <img src="@product.thumbnailUri" alt="@product.thumbnailName">
-
-                                    @*@if ($p->discount)
-                                    <img style="width: 7rem; height: 5rem; position: absolute; top: 1%; right: 2%" src="{{ asset('images/sales.png') }}" alt="discount">
-                                    <span style="position: absolute; top: 6.5%; right: 9%; color: red; font-size: 1.4rem;">-{{$p->discount}}%</span>
-                                    @endif*@
 
                                     <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
                                         <ul class="icons">
@@ -88,23 +50,14 @@
                                         }
                                     </div>
 
-                                    @*@if ($p->discount)
-                                    @php
-                                    $discountPrice = $p->price - $p->price * ($p->discount/(float)100);
-                                    @endphp
-                                    <h4 class="__price">{{ number_format(round($discountPrice), 0, ",", ".") }}đ</h4>
-                                    @else
-                                    <h4 class="__price">{{ number_format($p->price, 0, ",", ".") }}đ</h4>
-                                    @endif*@
-
                                     <h4 class="__price">@(product.prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")))đ</h4>
 
                                 </div>
                             </div>
                         }
                       </div>
-                      @await Html.PartialAsync("../Partial/_Pagination", Model.pagination)
-                      @*<partial name="../Partial/_Pagination.cshtml" model="@Model" view-data='@new ViewDataDictionary(ViewData) { { "totalPage", Model.data.totalPage }, { "currentPage", Model.data.currentPage } }' >*@
+                      
+                      <partial name="../Partial/_Pagination.cshtml" for="@Model.pagination">
                   </section>
               </div>
           </div>
