@@ -7,7 +7,7 @@ using Moq;
 using Shared.Clients;
 using Xunit;
 
-namespace UnitTest.Client.Controllers.Product
+namespace UnitTest.BackEndProject.Client.Controllers.Product
 {
     public class GetProductByCategoryShould
     {

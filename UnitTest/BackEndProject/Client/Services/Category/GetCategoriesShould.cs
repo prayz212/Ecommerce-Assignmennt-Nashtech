@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Shared.Clients;
 using Xunit;
 
-namespace UnitTest.Client.Services.Category
+namespace UnitTest.BackEndProject.Client.Services.Category
 {
     public class GetCategoriesShould
     {

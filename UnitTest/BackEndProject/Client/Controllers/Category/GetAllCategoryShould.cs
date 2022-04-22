@@ -9,7 +9,7 @@ using Moq;
 using Shared.Clients;
 using Xunit;
 
-namespace UnitTest.Client.Controllers.Category
+namespace UnitTest.BackEndProject.Client.Controllers.Category
 {
     public class GetAllCategoryShould
     {

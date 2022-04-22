@@ -8,7 +8,7 @@ using Moq;
 using Shared.Clients;
 using Xunit;
 
-namespace UnitTest.Client.Services.Product
+namespace UnitTest.BackEndProject.Client.Services.Product
 {
     public class GetAllProductShould
     {
