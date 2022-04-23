@@ -4,11 +4,6 @@ using Shared.Clients;
 
 namespace CustomerSite.Interfaces
 {
-  public interface IHomeService
-  {
-    
-  }
-
   public interface IProductService
   {
     Task<ProductDetailReadDto> GetProductDetailData(int id);

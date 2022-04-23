@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Shared.Clients;
 using Microsoft.Extensions.Caching.Memory;
 using System;
+using CustomerSite.Utils;
 
 namespace CustomerSite.Services
 {
@@ -24,14 +25,14 @@ namespace CustomerSite.Services
 
         public async Task<IEnumerable<CategoryReadDto>> GetCategoryData()
         {
-            if (!_cache.TryGetValue<IEnumerable<CategoryReadDto>>("CATEGORY_CACHE", out IEnumerable<CategoryReadDto> cachingValue))
+            if (!_cache.TryGetValue<IEnumerable<CategoryReadDto>>(Constant.CATEGORY_CACHE_KEY, out IEnumerable<CategoryReadDto> cachingValue))
             {
                 MemoryCacheEntryOptions options = new MemoryCacheEntryOptions();
                 options.AbsoluteExpiration = DateTime.Now.AddMinutes(CACHING_TIME_IN_MINUTES);
                 
-                using (var client = _clientFactory.CreateClient("API_SERVER"))
+                using (var client = _clientFactory.CreateClient(Constant.CLIENT_NAME))
                 {
-                    var request = new HttpRequestMessage(HttpMethod.Get, "category");
+                    var request = new HttpRequestMessage(HttpMethod.Get, UrlRequest.GET_URL_CATEGORIES());
                     var response = await client.SendAsync(request);
                     var categories = Enumerable.Empty<CategoryReadDto>();
 
@@ -39,16 +40,14 @@ namespace CustomerSite.Services
                     {
                         var data = await response.Content.ReadAsStreamAsync();
                         categories = await JsonSerializer.DeserializeAsync<IEnumerable<CategoryReadDto>>(data);
-                        _cache.Set<IEnumerable<CategoryReadDto>>("CATEGORY_CACHE", categories, options);
+                        _cache.Set<IEnumerable<CategoryReadDto>>(Constant.CATEGORY_CACHE_KEY, categories, options);
                     }
 
                     return categories;
                 }
             } 
-            else 
-            {
-                return _cache.Get<IEnumerable<CategoryReadDto>>("CATEGORY_CACHE");
-            }
+
+            return cachingValue;
         }
     }
 }
