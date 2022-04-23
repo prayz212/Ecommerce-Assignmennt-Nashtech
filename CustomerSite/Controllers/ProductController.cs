@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using CustomerSite.Interfaces;
 using CustomerSite.Models;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Shared.Clients;
 
@@ -50,6 +48,9 @@ namespace CustomerSite.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
+            if (id <= 0) 
+                return RedirectToAction("Index", new { category = "TatCaSanPham" });
+
             ProductDetailReadDto productDetail = await _productService.GetProductDetailData(id);
 
             if (productDetail is null)
@@ -94,6 +95,9 @@ namespace CustomerSite.Controllers
         [HttpPost]
         public async Task<IActionResult> Rating(ProductRatingWriteDto data)
         {
+            if (data is null || data.productID <= 0 || data.star <= 0)
+                return BadRequest();
+
             var result = await _productService.ProductRating(data);
             return result ? Ok() : BadRequest();
         }

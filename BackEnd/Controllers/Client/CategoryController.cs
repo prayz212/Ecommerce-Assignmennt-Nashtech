@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BackEnd.Controllers.Client
 {
   [ApiController]
-  [Route("api/client/category")]
+  [Route("api/client/categories")]
   public class CategoryController : ControllerBase
   {
     private readonly ICategoryService _categoryService;

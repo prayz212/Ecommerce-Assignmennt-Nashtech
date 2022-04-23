@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CustomerSite.Interfaces;
@@ -10,14 +9,12 @@ namespace CustomerSite.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IHomeService _homeService;
         private readonly IProductService _productService;
         private const int SHOW_ITEM_NUMBER = 12;
         private const int SHOW_ITEM_PAGE = 1;
 
-        public HomeController(IHomeService homeService, IProductService productService)
+        public HomeController(IProductService productService)
         {
-            _homeService = homeService;
             _productService = productService;
         }
 

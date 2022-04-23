@@ -33,7 +33,6 @@ namespace CustomerSite
 
             services.AddMemoryCache();
 
-            services.AddScoped<IHomeService, HomeService>();
             services.AddScoped<ISharedService, SharedService>();
             services.AddScoped<IProductService, ProductService>();
         }
