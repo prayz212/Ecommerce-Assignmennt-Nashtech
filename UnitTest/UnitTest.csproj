@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BackEnd\BackEnd.csproj" />
+    <ProjectReference Include="..\CustomerSite\CustomerSite.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Moq" />
