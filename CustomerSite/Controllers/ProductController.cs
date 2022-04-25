@@ -67,31 +67,6 @@ namespace CustomerSite.Controllers
             return View(vm);
         }
 
-        public async Task<IActionResult> Featured(int page = DEFAULT_PAGE_NUMBER)
-        {
-            ProductListReadDto data = await _productService.GetFeaturedProductData(page, DEFAULT_SIZE_PER_PAGE);
-
-            if (data is null)
-            {
-                return RedirectToAction("Featured", new { page = 1 });
-            }
-
-            var vm = new ProductListViewModel()
-            {
-                products = data.products,
-                pagination = new PaginationViewModel()
-                {
-                    currentPage = data.currentPage,
-                    totalPage = data.totalPage,
-                    controller = "Product",
-                    action = "Featured",
-                    category = null
-                }
-            };
-
-            return View(vm);
-        }
-
         [HttpPost]
         public async Task<IActionResult> Rating(ProductRatingWriteDto data)
         {
