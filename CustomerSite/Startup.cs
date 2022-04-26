@@ -32,6 +32,7 @@ namespace CustomerSite
             });
 
             services.AddMemoryCache();
+            services.AddRazorPages();
 
             services.AddScoped<ISharedService, SharedService>();
             services.AddScoped<IProductService, ProductService>();
@@ -62,6 +63,8 @@ namespace CustomerSite
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                
+                endpoints.MapRazorPages();
             });
         }
     }
