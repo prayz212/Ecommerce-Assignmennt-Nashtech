@@ -409,3 +409,5 @@ ASALocalRun/
 /MVC/appsettings.json
 
 /APIs/appsettings.json
+
+/AdminSite/.env
