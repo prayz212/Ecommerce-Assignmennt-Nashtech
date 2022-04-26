@@ -39,7 +39,7 @@ const Breadscrum = ({ breadcrumbs }) => {
       aria-label="Breadcrumb"
     >
       <ol className="inline-flex items-center space-x-1 md:space-x-3">
-        {breadcrumbs.map(({ name, path }, index, array) => {
+        {breadcrumbs.map(({ name, path }) => {
           let icon = name === "Dashboard" ? <HomeIcon /> : <RightArrowIcon />;
           let isCurrent = isUndefined(path);
 

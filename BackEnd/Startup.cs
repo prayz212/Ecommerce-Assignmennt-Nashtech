@@ -9,6 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using Shared.Admin;
+using BackEnd.Validations;
 
 namespace BackEnd
 {
@@ -28,7 +32,7 @@ namespace BackEnd
                 Configuration.GetConnectionString("ApplicationDbConnect")
             ));
 
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "APIs", Version = "v1" });
@@ -41,6 +45,10 @@ namespace BackEnd
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             services.AddScoped<IRatingRepository, RatingRepository>();
+
+            //Validation setting
+            services.AddScoped<IValidator<CreateCategoryDto>, CreateCategoryValidator>();
+            services.AddScoped<IValidator<CategoryDetailDto>, UpdateCategoryValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackEnd.Models;
+using Shared.Admin;
 using Shared.Clients;
 
 namespace BackEnd.Interfaces.Client
@@ -20,7 +21,11 @@ namespace BackEnd.Interfaces.Client
 
   public interface ICategoryRepository
   {
-    Task<IList<CategoryReadDto>> GetCategories();
+    Task<IList<Category>> GetCategories(int page, int size);
+    Task<IList<Category>> GetCategories();
+    Task<bool> NewCategory(Category category);
+    Task<bool> UpdateCategory(Category category);
+    Task<Category> GetCategory(int id);
   }
 
   public interface IRatingRepository

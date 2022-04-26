@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Shared.Admin;
 using Shared.Clients;
 
 namespace BackEnd.Interfaces.Client
@@ -17,5 +18,10 @@ namespace BackEnd.Interfaces.Client
   public interface ICategoryService
   {
     Task<IEnumerable<CategoryReadDto>> GetCategories();
+    Task<IEnumerable<CategoryDto>> AdminGetCategories(int page, int size);
+    Task<CategoryDetailDto> GetCategory(int id);
+    Task<CategoryDetailDto> CreateCategory(CreateCategoryDto dto);
+    Task<CategoryDetailDto> UpdateCategory(CategoryDetailDto dto);
+    Task<bool> DeleteCategory(int id);
   }
 }
