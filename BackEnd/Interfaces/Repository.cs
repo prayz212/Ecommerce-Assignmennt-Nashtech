@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackEnd.Models;
-using Shared.Admin;
 using Shared.Clients;
 
-namespace BackEnd.Interfaces.Client
+namespace BackEnd.Interfaces
 {
   public interface IProductRepository
   {

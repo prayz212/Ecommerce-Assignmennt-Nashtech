@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BackEnd.Interfaces.Client;
+using BackEnd.Interfaces;
 using Shared.Clients;
 
-namespace BackEnd.Services.Client
+namespace BackEnd.Services
 {
     public class ProductService : IProductService
     {

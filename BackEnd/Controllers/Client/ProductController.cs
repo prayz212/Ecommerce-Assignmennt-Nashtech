@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using BackEnd.Interfaces.Client;
+using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Clients;
 

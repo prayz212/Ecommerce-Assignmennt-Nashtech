@@ -1,7 +1,7 @@
 ﻿using System;
-using BackEnd.Interfaces.Client;
-using BackEnd.Repositories.Client;
-using BackEnd.Services.Client;
+using BackEnd.Interfaces;
+using BackEnd.Repositories;
+using BackEnd.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

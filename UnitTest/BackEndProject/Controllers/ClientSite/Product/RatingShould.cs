@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Controllers.Client;
-using BackEnd.Interfaces.Client;
+using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Shared.Clients;
 using Xunit;
 
-namespace UnitTest.BackEndProject.Client.Controllers.Product
+namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
 {
     public class RatingShould
     {

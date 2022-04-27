@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BackEnd.Interfaces.Client;
+using BackEnd.Interfaces;
 using BackEnd.Models;
 using Shared.Admin;
 using Shared.Clients;
 
-namespace BackEnd.Services.Client
+namespace BackEnd.Services
 {
     public class CategoryService : ICategoryService
     {
@@ -19,19 +19,21 @@ namespace BackEnd.Services.Client
         public async Task<IEnumerable<CategoryDto>> AdminGetCategories(int page, int size)
         {
             var categories = await _categoryRepository.GetCategories(page, size);
-            if (categories is null || categories.Count <= 0) return null;
-
             var result = new List<CategoryDto>();
-            foreach(Category category in categories)
-            {
-                var element = new CategoryDto
-                {
-                    id = category.Id,
-                    name = category.Name,
-                    displayName = category.DisplayName
-                };
 
-                result.Add(element);
+            if (categories is not null && categories.Count > 0) 
+            {
+                foreach(Category category in categories)
+                {
+                    var element = new CategoryDto
+                    {
+                        id = category.Id,
+                        name = category.Name,
+                        displayName = category.DisplayName
+                    };
+
+                    result.Add(element);
+                }
             }
 
             return result;
@@ -71,20 +73,22 @@ namespace BackEnd.Services.Client
         public async Task<IEnumerable<CategoryReadDto>> GetCategories()
         {
             var categories = await _categoryRepository.GetCategories();
-            if (categories is null || categories.Count <= 0) return null;
-
             var result = new List<CategoryReadDto>();
-            foreach(Category category in categories)
-            {
-                var element = new CategoryReadDto
-                {
-                    id = category.Id,
-                    name = category.Name,
-                    displayName = category.DisplayName,
-                    description = category.Description
-                };
 
-                result.Add(element);
+            if (categories is not null && categories.Count > 0) 
+            {
+                foreach(Category category in categories)
+                {
+                    var element = new CategoryReadDto
+                    {
+                        id = category.Id,
+                        name = category.Name,
+                        displayName = category.DisplayName,
+                        description = category.Description
+                    };
+
+                    result.Add(element);
+                }
             }
 
             return result;

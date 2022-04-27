@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BackEnd.Interfaces.Client;
+using BackEnd.Interfaces;
 using BackEnd.Models;
 using Microsoft.EntityFrameworkCore;
 using Shared.Clients;
 
-namespace BackEnd.Repositories.Client
+namespace BackEnd.Repositories
 {
     public class ProductRepository : IProductRepository
     {

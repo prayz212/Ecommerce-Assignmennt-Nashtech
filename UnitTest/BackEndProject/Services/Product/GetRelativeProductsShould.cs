@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BackEnd.Interfaces.Client;
-using BackEnd.Services.Client;
+using BackEnd.Interfaces;
+using BackEnd.Services;
 using Moq;
 using Shared.Clients;
 using Xunit;
 
-namespace UnitTest.BackEndProject.Client.Services.Product
+namespace UnitTest.BackEndProject.Services.Product
 {
     public class GetRelativeProductsShould
     {

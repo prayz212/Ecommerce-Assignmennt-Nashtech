@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Shared.Admin;
 using Shared.Clients;
 
-namespace BackEnd.Interfaces.Client
+namespace BackEnd.Interfaces
 {
   public interface IProductService
   {

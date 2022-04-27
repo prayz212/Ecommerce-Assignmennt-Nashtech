@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BackEnd.Interfaces.Client;
+using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers.Client
