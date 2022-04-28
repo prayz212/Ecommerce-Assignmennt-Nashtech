@@ -25,8 +25,8 @@ axiosRequest.interceptors.request.use(
 );
 
 axiosRequest.interceptors.response.use(
-  (response) => {
-    return response.data;
+  ({data, status, statusText}) => {
+    return {data, status, statusText};
   },
   (error) => {
     const {status, statusText, data} = error.response;
