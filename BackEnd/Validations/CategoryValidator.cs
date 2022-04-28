@@ -1,5 +1,5 @@
 using FluentValidation;
-using Shared.Admin;
+using BackEnd.Models.ViewModels;
 
 namespace BackEnd.Validations
 {

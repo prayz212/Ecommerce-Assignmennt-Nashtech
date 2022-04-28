@@ -1,5 +1,4 @@
-﻿using System;
-using BackEnd.Interfaces;
+﻿using BackEnd.Interfaces;
 using BackEnd.Repositories;
 using BackEnd.Services;
 using Microsoft.AspNetCore.Builder;
@@ -11,8 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using FluentValidation.AspNetCore;
 using FluentValidation;
-using Shared.Admin;
 using BackEnd.Validations;
+using BackEnd.Models.ViewModels;
 
 namespace BackEnd
 {
