@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Admin;
+using BackEnd.Models.ViewModels;
 
 namespace BackEnd.Controllers.Admin
 {

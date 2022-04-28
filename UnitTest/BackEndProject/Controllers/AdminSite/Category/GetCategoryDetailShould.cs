@@ -4,7 +4,7 @@ using BackEnd.Controllers.Admin;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Shared.Admin;
+using BackEnd.Models.ViewModels;
 using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.AdminSite.Category

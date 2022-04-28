@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using BackEnd.Services;
 using Moq;
-using Shared.Admin;
+using BackEnd.Models.ViewModels;
 using Xunit;
 
 namespace UnitTest.BackEndProject.Services.Category

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Shared.Admin;
+using BackEnd.Models.ViewModels;
 using Shared.Clients;
 
 namespace BackEnd.Interfaces

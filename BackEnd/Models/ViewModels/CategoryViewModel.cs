@@ -1,4 +1,4 @@
-namespace Shared.Admin
+namespace BackEnd.Models.ViewModels
 {
     public class CategoryDto
     {
