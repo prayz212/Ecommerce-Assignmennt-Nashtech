@@ -32,6 +32,8 @@ namespace BackEnd
                 Configuration.GetConnectionString("ApplicationDbConnect")
             ));
 
+            services.AddCors();
+
             services.AddControllers().AddFluentValidation();
             services.AddSwaggerGen(c =>
             {
@@ -61,9 +63,16 @@ namespace BackEnd
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "APIs v1"));
             }
 
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(opts => opts
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
 
             app.UseAuthorization();
 

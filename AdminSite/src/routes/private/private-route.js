@@ -4,6 +4,8 @@ import {
   CustomerPage,
   DashboardPage,
   ProductPage,
+  CreateCategoryPage,
+  EditCategoryPage,
 } from "../../pages";
 
 const PRIVATE_DASHBOARD_ROUTE = {
@@ -20,6 +22,30 @@ const PRIVATE_CATEGORY_LIST_ROUTE = {
   private: true,
   permission: [ADMIN_PERMISSION, STAFF_PERMISSION],
   breadcrumbs: [{ name: "Dashboard", path: "/" }, { name: "Quản lý thể loại" }],
+};
+
+const PRIVATE_CATEGORY_CREATE_ROUTE = {
+  path: "/categories/create",
+  component: <CreateCategoryPage />,
+  private: true,
+  permission: [ADMIN_PERMISSION, STAFF_PERMISSION],
+  breadcrumbs: [
+    { name: "Dashboard", path: "/" },
+    { name: "Quản lý thể loại", path: "/categories" },
+    { name: "Tạo mới thể loại" },
+  ],
+};
+
+const PRIVATE_CATEGORY_EDIT_ROUTE = {
+  path: "/categories/edit",
+  component: <EditCategoryPage />,
+  private: true,
+  permission: [ADMIN_PERMISSION, STAFF_PERMISSION],
+  breadcrumbs: [
+    { name: "Dashboard", path: "/" },
+    { name: "Quản lý thể loại", path: "/categories" },
+    { name: "Chỉnh sửa thể loại" },
+  ],
 };
 
 const PRIVATE_PRODUCT_LIST_ROUTE = {
@@ -56,4 +82,6 @@ export default [
   PRIVATE_CATEGORY_LIST_ROUTE,
   PRIVATE_PRODUCT_LIST_ROUTE,
   PRIVATE_CUSTOMER_LIST_ROUTE,
+  PRIVATE_CATEGORY_CREATE_ROUTE,
+  PRIVATE_CATEGORY_EDIT_ROUTE,
 ];
