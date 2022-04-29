@@ -54,34 +54,15 @@ namespace BackEnd.Repositories
                 .ToListAsync();
         }
 
-        public async Task<ProductDetailReadDto> GetProductDetailById(int id)
+        public async Task<Product> GetProduct(int id)
         {
             return await _context.Products
-                .Where(p => p.Id == id)
-                .Select(p => new ProductDetailReadDto()
-                {
-                    id = p.Id,
-                    name = p.Name,
-                    description = p.Description,
-                    prices = p.Prices,
-                    averageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    images = p.Images.Select(i => new ImageReadDto() { name = i.Name, uri = i.Uri }).ToList<ImageReadDto>()
-                })
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<IList<ProductReadDto>> GetAllProduct(int page, int size)
+        public async Task<IList<Product>> GetProducts(int page, int size)
         {
             return await _context.Products
-                .Select(p => new ProductReadDto()
-                {
-                    id = p.Id,
-                    name = p.Name,
-                    prices = p.Prices,
-                    averageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    thumbnailName = p.Images.FirstOrDefault().Name,
-                    thumbnailUri = p.Images.FirstOrDefault().Uri
-                })
                 .Skip((page - 1) * size)
                 .Take(size)
                 .ToListAsync();
@@ -103,11 +84,6 @@ namespace BackEnd.Repositories
                 .OrderBy(p => Guid.NewGuid())
                 .Take(size)
                 .ToListAsync();
-        }
-
-        public async Task<Product> GetProductById(int id)
-        {
-            return await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<int> CountProductByCategory(string category)

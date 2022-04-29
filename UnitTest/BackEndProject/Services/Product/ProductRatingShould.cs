@@ -66,10 +66,10 @@ namespace UnitTest.BackEndProject.Services.Product
                 star = 4
             };
 
-            ProductDetailReadDto productDetail = null;
+            BackEnd.Models.Product productDetail = null;
 
             var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.GetProductDetailById(data.productID)).ReturnsAsync(productDetail);
+            mockProductRepository.Setup(r => r.GetProduct(data.productID)).ReturnsAsync(productDetail);
             
             var mockRatingRepository = new Mock<IRatingRepository>();
 
@@ -92,22 +92,18 @@ namespace UnitTest.BackEndProject.Services.Product
                 star = 4
             };
 
-            ProductDetailReadDto productDetail = new ProductDetailReadDto()
+            var productDetail = new BackEnd.Models.Product()
             {
-                id = 1,
-                name = "Product 1",
-                description = "Description 1",
-                prices = 120000,
-                averageRate = 4,
-                images = new List<ImageReadDto>()
-                {
-                    new ImageReadDto() { name = "image 1", uri = "uri 1"},
-                    new ImageReadDto() { name = "image 2", uri = "uri 2"},
-                }
+                Id = 1,
+                Name = "Product 1",
+                Description = "Description 1",
+                Prices = 120000,
+                Ratings = null,
+                Images = null
             };
 
             var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.GetProductDetailById(data.productID)).ReturnsAsync(productDetail);
+            mockProductRepository.Setup(r => r.GetProduct(data.productID)).ReturnsAsync(productDetail);
             
             var mockRatingRepository = new Mock<IRatingRepository>();
             mockRatingRepository.Setup(r => r.CreateProductRating(data)).ReturnsAsync(true);
