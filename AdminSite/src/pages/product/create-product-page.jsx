@@ -1,28 +1,25 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import CategoryForm from "../../components/form/category-form";
-import { NAVIGATE_URL } from "../../constants/navigate-url";
+import ProductForm from "../../components/form/product-form";
 import { CREATE_FORM_TYPE } from "../../constants/variables";
-import categoryService from "../../services/modules/category-service";
 
-const CreateCategoryPage = () => {
+const CreateProductPage = () => {
   const navigate = useNavigate();
 
   const onSubmitForm = (formData) => {
-    categoryService
-      .createCategory(formData)
-      .then(() => navigate(NAVIGATE_URL.CATEGORIES_LIST));
+    console.log("submited form");
+    console.log(formData);
   }
 
   return (
     <>
       <div className="p-6 pb-2 flex justify-center">
         <div className="text-xl text-slate-100 font-bold text-">
-          Biểu mẫu tạo mới thể loại
+          Biểu mẫu tạo mới sản phẩm
         </div>
       </div>
 
-      <CategoryForm
+      <ProductForm
         type={CREATE_FORM_TYPE}
         handleSubmitForm={onSubmitForm}
       />
@@ -30,4 +27,4 @@ const CreateCategoryPage = () => {
   );
 };
 
-export default CreateCategoryPage;
+export default CreateProductPage;

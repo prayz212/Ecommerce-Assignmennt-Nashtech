@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -166,14 +167,64 @@ namespace BackEnd.Services
             return count % size == 0 ? count / size : (count/ size) + 1;
         }
 
-        public Task<IEnumerable<ProductDto>> AdminGetProducts(int page, int size)
+        public async Task<ProductListDto> AdminGetProducts(int page, int size)
         {
-            throw new System.NotImplementedException();
+            var count = await _productRepository.CountAllProduct();
+            var totalPage = this.GetTotalPage(count, size);
+
+            //first condition: total page = -1 mean GetTotalPage function occurred error
+            //second condition: count > 0 but total page less than passing page
+            if (totalPage == -1 || (totalPage > 0 && totalPage < page))
+            {
+                return null;
+            }
+
+            var products = await _productRepository.GetProducts(page, size);
+            var result = new List<ProductDto>();
+
+            if (products is not null && products.Count > 0)
+            {
+                foreach(Product product in products)
+                {
+                    var element = new ProductDto
+                    {
+                        id = product.Id,
+                        name = product.Name,
+                        prices = product.Prices,
+                        category = product.Category.DisplayName,
+                        isFeatured = product.IsFeatured
+                    };
+
+                    result.Add(element);
+                }
+            }
+
+            return new ProductListDto
+            {
+                products = result,
+                totalPage = totalPage,
+                currentPage = totalPage > 0 ? page : 0,
+            };
         }
 
-        public Task<ProductDetailDto> AdminGetProductDetail(int id)
+        public async Task<ProductDetailDto> AdminGetProductDetail(int id)
         {
-            throw new System.NotImplementedException();
+            var product = await _productRepository.GetProduct(id);
+            return product is null
+                ? null
+                : new ProductDetailDto
+                {
+                    id = product.Id,
+                    name = product.Name,
+                    description = product.Description,
+                    category = product.Category.DisplayName,
+                    prices = product.Prices,
+                    isFeatured = product.IsFeatured,
+                    averageRate = product.Ratings.FirstOrDefault() is not null ? product.Ratings.Average(r => r.Stars) : 0,
+                    images = product.Images.Select(i => new ImageReadDto { name = i.Name, uri = i.Uri }).ToList<ImageReadDto>(),
+                    createdAt = product.CreatedDate.ToString("dd/MM/yyyy"),
+                    updatedAt = product.UpdatedDate.ToString("dd/MM/yyyy")
+                };
         }
     }
 }

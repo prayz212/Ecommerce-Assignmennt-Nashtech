@@ -57,12 +57,18 @@ namespace BackEnd.Repositories
         public async Task<Product> GetProduct(int id)
         {
             return await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .Include(p => p.Ratings)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IList<Product>> GetProducts(int page, int size)
         {
             return await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .Include(p => p.Ratings)
                 .Skip((page - 1) * size)
                 .Take(size)
                 .ToListAsync();

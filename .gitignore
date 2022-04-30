@@ -411,3 +411,5 @@ ASALocalRun/
 /APIs/appsettings.json
 
 /AdminSite/.env
+
+.vscode/*
