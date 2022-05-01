@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using CustomerSite.Interfaces;
+using CustomerSite.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerSite.ViewComponents
@@ -7,14 +8,13 @@ namespace CustomerSite.ViewComponents
     public class RelativeProductsViewComponent : ViewComponent
     {
         private readonly IProductService _productService;
-        private const int DEFAULT_RELATIVE_SIZE = 4;
 
         public RelativeProductsViewComponent(IProductService productService)
         {
             _productService = productService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int id, int size = DEFAULT_RELATIVE_SIZE)
+        public async Task<IViewComponentResult> InvokeAsync(int id, int size = ConstantVariable.NUMBER_OF_RELATIVE_PRODUCTS)
         {
             var products = await _productService.GetRelativeProductData(id, size);
             return View(products);

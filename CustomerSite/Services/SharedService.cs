@@ -25,12 +25,12 @@ namespace CustomerSite.Services
 
         public async Task<IEnumerable<CategoryReadDto>> GetCategoryData()
         {
-            if (!_cache.TryGetValue<IEnumerable<CategoryReadDto>>(Constant.CATEGORY_CACHE_KEY, out IEnumerable<CategoryReadDto> cachingValue))
+            if (!_cache.TryGetValue<IEnumerable<CategoryReadDto>>(ConstantVariable.CATEGORY_CACHE_KEY, out IEnumerable<CategoryReadDto> cachingValue))
             {
                 MemoryCacheEntryOptions options = new MemoryCacheEntryOptions();
                 options.AbsoluteExpiration = DateTime.Now.AddMinutes(CACHING_TIME_IN_MINUTES);
                 
-                using (var client = _clientFactory.CreateClient(Constant.CLIENT_NAME))
+                using (var client = _clientFactory.CreateClient(ConstantVariable.CLIENT_NAME))
                 {
                     var request = new HttpRequestMessage(HttpMethod.Get, UrlRequest.GET_URL_CATEGORIES());
                     var response = await client.SendAsync(request);
@@ -40,7 +40,7 @@ namespace CustomerSite.Services
                     {
                         var data = await response.Content.ReadAsStreamAsync();
                         categories = await JsonSerializer.DeserializeAsync<IEnumerable<CategoryReadDto>>(data);
-                        _cache.Set<IEnumerable<CategoryReadDto>>(Constant.CATEGORY_CACHE_KEY, categories, options);
+                        _cache.Set<IEnumerable<CategoryReadDto>>(ConstantVariable.CATEGORY_CACHE_KEY, categories, options);
                     }
 
                     return categories;

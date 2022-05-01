@@ -3,26 +3,24 @@ using CustomerSite.Interfaces;
 using CustomerSite.Models;
 using System.Threading.Tasks;
 using Shared.Clients;
+using CustomerSite.Utils;
 
 namespace CustomerSite.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
-        private const int DEFAULT_PAGE_NUMBER = 1;
-        private const int DEFAULT_SIZE_PER_PAGE = 9;
-        private const int NUMBER_OF_RELATIVE_PRODUCT = 4;
 
         public ProductController(IProductService productService)
         {
             _productService = productService;
         }
 
-        public async Task<IActionResult> Index(string category, int page = 1)
+        public async Task<IActionResult> Index(string category, int page = ConstantVariable.DEFAULT_PAGE_NUMBER)
         {
             if (category is null) { return RedirectToAction("Index", "Home"); }
 
-            ProductListReadDto data = await _productService.GetCategoryProductData(category, page, DEFAULT_SIZE_PER_PAGE);
+            ProductListReadDto data = await _productService.GetCategoryProductData(category, page, ConstantVariable.DEFAULT_SIZE_PER_PAGE);
 
             if (data is null)
             {
@@ -63,7 +61,7 @@ namespace CustomerSite.Controllers
                 product = productDetail,
             };
 
-            ViewData["Size"] = NUMBER_OF_RELATIVE_PRODUCT;
+            ViewData["Size"] = ConstantVariable.NUMBER_OF_RELATIVE_PRODUCTS;
             return View(vm);
         }
 
