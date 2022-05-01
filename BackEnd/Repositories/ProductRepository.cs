@@ -36,7 +36,7 @@ namespace BackEnd.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IList<ProductReadDto>> GetProductByCategory(string category, int page, int size)
+        public async Task<IList<ProductReadDto>> GetProductsByCategory(string category, int page, int size)
         {
             return await _context.Products
                 .Where(p => p.Category.Name == category)
@@ -70,7 +70,7 @@ namespace BackEnd.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IList<ProductReadDto>> GetAllProduct(int page, int size)
+        public async Task<IList<ProductReadDto>> GetAllProducts(int page, int size)
         {
             return await _context.Products
                 .Select(p => new ProductReadDto()
@@ -87,7 +87,7 @@ namespace BackEnd.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IList<ProductReadDto>> GetRelativeProduct(int currentCategoryId, int currentProductId, int size)
+        public async Task<IList<ProductReadDto>> GetRelativeProducts(int currentCategoryId, int currentProductId, int size)
         {
             return await _context.Products
                 .Where(p => p.CategoryId == currentCategoryId && p.Id != currentProductId)
@@ -110,19 +110,19 @@ namespace BackEnd.Repositories
             return await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<int> CountProductByCategory(string category)
+        public async Task<int> CountProductsByCategory(string category)
         {
             return await _context.Products
                 .Where(p => p.Category.Name == category)
                 .CountAsync();
         }
 
-        public Task<int> CountAllProduct()
+        public Task<int> CountAllProducts()
         {
             return _context.Products.CountAsync();
         }
 
-        public Task<int> CountFeatureProduct()
+        public Task<int> CountFeatureProducts()
         {
             return _context.Products
                 .Where(p => p.IsFeatured == true)

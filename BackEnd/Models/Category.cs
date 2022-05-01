@@ -24,6 +24,6 @@ namespace BackEnd.Models
 
     public bool IsDeleted { get; set; }
 
-    public ICollection<Product> Product { get; set; }
+    public ICollection<Product> Products { get; set; }
   }
 }

@@ -19,7 +19,7 @@ namespace BackEnd.Controllers.Admin
         }
         
         [HttpGet]
-        public async Task<IActionResult> GetAllCategory([FromQuery] int page = DEFAULT_PAGE_NUMBER, [FromQuery] int size = DEFAULT_SIZE_PER_PAGE)
+        public async Task<IActionResult> GetAllCategories([FromQuery] int page = DEFAULT_PAGE_NUMBER, [FromQuery] int size = DEFAULT_SIZE_PER_PAGE)
         {
             if (page < 1 || size < 1) return BadRequest();
             var categories = await _categoryService.AdminGetCategories(page, size);
