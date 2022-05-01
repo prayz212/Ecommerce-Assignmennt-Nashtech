@@ -30,7 +30,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var expectedStatusCode = 200;
             
             var mock = new Mock<IProductService>();
-            mock.Setup(s => s.GetFeatureProduct(1, 12)).ReturnsAsync(data);
+            mock.Setup(s => s.GetFeatureProducts(1, 12)).ReturnsAsync(data);
 
             var productController = new ProductController(mock.Object);
 
@@ -57,7 +57,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var expectedStatusCode = 200;
             
             var mock = new Mock<IProductService>();
-            mock.Setup(s => s.GetFeatureProduct(1, 6)).ReturnsAsync(data);
+            mock.Setup(s => s.GetFeatureProducts(1, 6)).ReturnsAsync(data);
 
             var productController = new ProductController(mock.Object);
 
@@ -78,7 +78,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var expectedStatusCode = 400;
             
             var mock = new Mock<IProductService>();
-            mock.Setup(s => s.GetFeatureProduct(1, 8)).ReturnsAsync(expectedValue);
+            mock.Setup(s => s.GetFeatureProducts(1, 8)).ReturnsAsync(expectedValue);
 
             var productController = new ProductController(mock.Object);
 

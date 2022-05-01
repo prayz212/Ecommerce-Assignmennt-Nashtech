@@ -10,21 +10,22 @@ using Xunit;
 
 namespace UnitTest.BackEndProject.Services.Product
 {
-    public class GetAllProductShould
+    public class GetProductsByCategoryShould
     {
         [Fact]
         public async Task ReturnNullWhenPassingInvalidParams()
         {
             //Arrange
+            String category = null;
             int page = 1;
-            int size = 0;
+            int size = 9;
 
             var mockProductRepository = new Mock<IProductRepository>();
             var mockRatingRepository = new Mock<IRatingRepository>();
             var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
 
             //Act
-            var result = await productService.GetAllProduct(page, size);
+            var result = await productService.GetProductsByCategory(category, page, size);
 
             //Assert
             Assert.Null(result);
@@ -34,6 +35,7 @@ namespace UnitTest.BackEndProject.Services.Product
         public async Task ReturnOkWithValueWhenHavingProducts()
         {
             //Arrange
+            String category = "TraiCayNgoaiNhap";
             int page = 2;
             int size = 2;
 
@@ -50,14 +52,14 @@ namespace UnitTest.BackEndProject.Services.Product
             };
 
             var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.GetAllProduct(page, size)).ReturnsAsync(mockData);
-            mockProductRepository.Setup(r => r.CountAllProduct()).ReturnsAsync(3);
+            mockProductRepository.Setup(r => r.GetProductsByCategory(category, page, size)).ReturnsAsync(mockData);
+            mockProductRepository.Setup(r => r.CountProductsByCategory(category)).ReturnsAsync(3);
 
             var mockRatingRepository = new Mock<IRatingRepository>();
             var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
             
             //Act
-            var result = await productService.GetAllProduct(page, size);
+            var result = await productService.GetProductsByCategory(category, page, size);
 
             //Assert
             Assert.Equal(expectedResult.products, result.products);

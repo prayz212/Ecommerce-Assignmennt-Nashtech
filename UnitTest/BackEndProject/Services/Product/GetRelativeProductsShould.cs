@@ -78,7 +78,7 @@ namespace UnitTest.BackEndProject.Services.Product
             
             var mockProductRepository = new Mock<IProductRepository>();
             mockProductRepository.Setup(r => r.GetProductById(productId)).ReturnsAsync(currentProduct);
-            mockProductRepository.Setup(r => r.GetRelativeProduct(currentProduct.CategoryId, currentProduct.Id, size)).ReturnsAsync(expectedResult);
+            mockProductRepository.Setup(r => r.GetRelativeProducts(currentProduct.CategoryId, currentProduct.Id, size)).ReturnsAsync(expectedResult);
 
             var mockRatingRepository = new Mock<IRatingRepository>();
             

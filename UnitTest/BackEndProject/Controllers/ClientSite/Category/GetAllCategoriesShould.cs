@@ -11,7 +11,7 @@ using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.ClientSite.Category
 {
-    public class GetAllCategoryShould
+    public class GetAllCategoriesShould
     {
         [Fact]
         public async Task ReturnOkWithValueWhenHavingData()
@@ -31,7 +31,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Category
             var categoryController = new CategoryController(mock.Object);
 
             //Act
-            var result = await categoryController.GetAllCategory();
+            var result = await categoryController.GetAllCategories();
             var objectResult = result as OkObjectResult;
 
             //Assert
@@ -53,7 +53,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Category
             var categoryController = new CategoryController(mock.Object);
 
             //Act
-            var result = await categoryController.GetAllCategory();
+            var result = await categoryController.GetAllCategories();
             var objectResult = result as OkObjectResult;
 
             //Assert

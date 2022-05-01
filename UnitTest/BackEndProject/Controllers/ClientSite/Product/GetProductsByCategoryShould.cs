@@ -9,7 +9,7 @@ using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
 {
-    public class GetProductByCategoryShould
+    public class GetProductsByCategoryShould
     {
         [Fact]
         public async Task ReturnBadRequestWhenProductsIsNull()
@@ -24,12 +24,12 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var expectedStatusCode = 400;
 
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.GetProductByCategory(category, page, size)).ReturnsAsync(mockData);
+            mockProductService.Setup(s => s.GetProductsByCategory(category, page, size)).ReturnsAsync(mockData);
 
             var productController = new ProductController(mockProductService.Object);
 
             //Act
-            var result = await productController.GetProductByCategory(category);
+            var result = await productController.GetProductsByCategory(category);
             var objectResult = result as BadRequestResult;
             
             //Assert
@@ -60,12 +60,12 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var expectedStatusCode = 200;
 
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.GetProductByCategory(category, page, size)).ReturnsAsync(mockData);
+            mockProductService.Setup(s => s.GetProductsByCategory(category, page, size)).ReturnsAsync(mockData);
 
             var productController = new ProductController(mockProductService.Object);
 
             //Act
-            var result = await productController.GetProductByCategory(category, page, size);
+            var result = await productController.GetProductsByCategory(category, page, size);
             var objectResult = result as OkObjectResult;
             
             //Assert

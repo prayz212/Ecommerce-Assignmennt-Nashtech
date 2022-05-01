@@ -10,7 +10,7 @@ using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
 {
-    public class GetAllCategoryShould
+    public class GetAllCategoriesShould
     {
         [Theory]
         [InlineData(0, 5)]
@@ -28,7 +28,7 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.GetAllCategory(page, size);
+            var result = await categoryController.GetAllCategories(page, size);
             var objectResult = result as BadRequestResult;
 
             //Assert
@@ -61,7 +61,7 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.GetAllCategory(page, size);
+            var result = await categoryController.GetAllCategories(page, size);
             var objectResult = result as OkObjectResult;
 
             //Assert
@@ -93,7 +93,7 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.GetAllCategory();
+            var result = await categoryController.GetAllCategories();
             var objectResult = result as OkObjectResult;
 
             //Assert

@@ -10,7 +10,7 @@ using Xunit;
 
 namespace UnitTest.BackEndProject.Services.Product
 {
-    public class GetFeatureProductShould
+    public class GetFeatureProductsShould
     {
         [Fact]
         public async Task ReturnNullWhenHavingInvalidPage()
@@ -26,14 +26,14 @@ namespace UnitTest.BackEndProject.Services.Product
 
             var mockProductRepository = new Mock<IProductRepository>();            
             mockProductRepository.Setup(r => r.GetFeatureProducts(1, 6)).ReturnsAsync(products);
-            mockProductRepository.Setup(r => r.CountFeatureProduct()).ReturnsAsync(10);
+            mockProductRepository.Setup(r => r.CountFeatureProducts()).ReturnsAsync(10);
 
             var mockRatingRepository = new Mock<IRatingRepository>();
 
             var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
             
             //Act
-            var actualResult = await productService.GetFeatureProduct(0, 6);
+            var actualResult = await productService.GetFeatureProducts(0, 6);
 
             //Assert
             Assert.Equal(expectedResult, actualResult);
@@ -53,14 +53,14 @@ namespace UnitTest.BackEndProject.Services.Product
 
             var mockProductRepository = new Mock<IProductRepository>();
             mockProductRepository.Setup(r => r.GetFeatureProducts(1, 6)).ReturnsAsync(products);
-            mockProductRepository.Setup(r => r.CountFeatureProduct()).ReturnsAsync(10);
+            mockProductRepository.Setup(r => r.CountFeatureProducts()).ReturnsAsync(10);
 
             var mockRatingRepository = new Mock<IRatingRepository>();
 
             var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
             
             //Act
-            var actualResult = await productService.GetFeatureProduct(1, -1);
+            var actualResult = await productService.GetFeatureProducts(1, -1);
 
             //Assert
             Assert.Equal(expectedResult, actualResult);
@@ -80,14 +80,14 @@ namespace UnitTest.BackEndProject.Services.Product
 
             var mockProductRepository = new Mock<IProductRepository>();
             mockProductRepository.Setup(r => r.GetFeatureProducts(1, 6)).ReturnsAsync(products);
-            mockProductRepository.Setup(r => r.CountFeatureProduct()).ReturnsAsync(-1);
+            mockProductRepository.Setup(r => r.CountFeatureProducts()).ReturnsAsync(-1);
 
             var mockRatingRepository = new Mock<IRatingRepository>();
 
             var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
             
             //Act
-            var actualResult = await productService.GetFeatureProduct(1, 8);
+            var actualResult = await productService.GetFeatureProducts(1, 8);
 
             //Assert
             Assert.Equal(expectedResult, actualResult);
@@ -112,14 +112,14 @@ namespace UnitTest.BackEndProject.Services.Product
 
             var mockProductRepository = new Mock<IProductRepository>();
             mockProductRepository.Setup(r => r.GetFeatureProducts(1, 8)).ReturnsAsync(products);
-            mockProductRepository.Setup(r => r.CountFeatureProduct()).ReturnsAsync(24);
+            mockProductRepository.Setup(r => r.CountFeatureProducts()).ReturnsAsync(24);
 
             var mockRatingRepository = new Mock<IRatingRepository>();
 
             var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
             
             //Act
-            var actualResult = await productService.GetFeatureProduct(1, 8);
+            var actualResult = await productService.GetFeatureProducts(1, 8);
 
             //Assert
             Assert.Equal(expectedResult.currentPage, actualResult.currentPage);
