@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
+using BackEnd.Utils;
 using Shared.Clients;
 
 namespace BackEnd.Services
@@ -9,7 +10,6 @@ namespace BackEnd.Services
     {
         private readonly IProductRepository _productRepository;
         private readonly IRatingRepository _ratingRepository;
-        private const string GET_ALL_PRODUCT = "TatCaSanPham";
 
         public ProductService(IProductRepository productRepository, IRatingRepository ratingRepository)
         {
@@ -42,7 +42,7 @@ namespace BackEnd.Services
         {
             if (string.IsNullOrEmpty(category) || page <= 0 || size <= 0) return null;
 
-            if (string.Equals(category, GET_ALL_PRODUCT)) 
+            if (string.Equals(category, ConstantVariable.DEFAULT_PRODUCT_CATEGORY)) 
             {
                 return await this.GetAllProducts(page, size);
             }
