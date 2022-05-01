@@ -66,7 +66,7 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
             //Arrange
             String category = "TraiCayDaLat";
             int page = 1;
-            int size = 9;
+            int size = 12;
 
             ProductListReadDto mockData = new ProductListReadDto()
             {

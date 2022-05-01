@@ -7,6 +7,7 @@ using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Shared.Clients;
+using UnitTest.Utils;
 using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
@@ -22,7 +23,6 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
                 productID = -1,
                 star = 4
             };
-            var expectedStatusCode = 400;
 
             var mockProductService = new Mock<IProductService>();
             mockProductService.Setup(s => s.ProductRating(mockData)).ReturnsAsync(false);
@@ -34,7 +34,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var objectResult = result as BadRequestResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.BAD_REQUEST_STATUS_CODE, objectResult.StatusCode);
         }
 
         [Fact]
@@ -46,7 +46,6 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
                 productID = 1,
                 star = 4
             };
-            var expectedStatusCode = 200;
 
             var mockProductService = new Mock<IProductService>();
             mockProductService.Setup(s => s.ProductRating(mockData)).ReturnsAsync(true);
@@ -58,7 +57,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var objectResult = result as OkResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
         }
     }
 }

@@ -7,6 +7,7 @@ using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Shared.Clients;
+using UnitTest.Utils;
 using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
@@ -26,8 +27,6 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
                 currentPage = 1,
                 totalPage = 1
             };
-
-            var expectedStatusCode = 200;
             
             var mock = new Mock<IProductService>();
             mock.Setup(s => s.GetFeatureProducts(1, 12)).ReturnsAsync(data);
@@ -39,7 +38,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var objectResult = result as OkObjectResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
             Assert.Equal(data, objectResult.Value);
         }
 
@@ -53,8 +52,6 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
                 currentPage = 2,
                 totalPage = 5
             };
-
-            var expectedStatusCode = 200;
             
             var mock = new Mock<IProductService>();
             mock.Setup(s => s.GetFeatureProducts(1, 6)).ReturnsAsync(data);
@@ -66,7 +63,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var objectResult = result as OkObjectResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
             Assert.Equal(data, objectResult.Value);
         }
 
@@ -75,7 +72,6 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
         {
             //Arrange
             ProductListReadDto expectedValue = null;
-            var expectedStatusCode = 400;
             
             var mock = new Mock<IProductService>();
             mock.Setup(s => s.GetFeatureProducts(1, 8)).ReturnsAsync(expectedValue);
@@ -87,7 +83,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var objectResult = result as BadRequestResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.BAD_REQUEST_STATUS_CODE, objectResult.StatusCode);
         }
     }
 }

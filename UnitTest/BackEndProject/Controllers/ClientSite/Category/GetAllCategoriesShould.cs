@@ -7,6 +7,7 @@ using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Shared.Clients;
+using UnitTest.Utils;
 using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.ClientSite.Category
@@ -22,8 +23,6 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Category
                 new CategoryReadDto() { id = 1, name = "TraiCayDaLat", displayName = "Trái cây Đà Lạt", description = "Trái cây được trồng tại nông sản sạch" },
                 new CategoryReadDto() { id = 2, name = "TraiCayQuyNhon", displayName = "Trái cây Quy Nhơn", description = "Trái cây được trồng tại nông trại thuỷ phân" },
             };
-
-            var expectedStatusCode = 200;
             
             var mock = new Mock<ICategoryService>();
             mock.Setup(s => s.GetCategories()).ReturnsAsync(data);
@@ -35,7 +34,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Category
             var objectResult = result as OkObjectResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
             Assert.Equal(data, objectResult.Value);
         }
 
@@ -44,8 +43,6 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Category
         {
             //Arrange
             var data = new List<CategoryReadDto>();
-
-            var expectedStatusCode = 200;
             
             var mock = new Mock<ICategoryService>();
             mock.Setup(s => s.GetCategories()).ReturnsAsync(data);
@@ -57,7 +54,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Category
             var objectResult = result as OkObjectResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
             Assert.Equal(data, objectResult.Value);
         }
     }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using BackEnd.Models.ViewModels;
 using Xunit;
+using UnitTest.Utils;
 
 namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
 {
@@ -26,7 +27,7 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             var objectResult = result as BadRequestResult;
 
             //Assert
-            Assert.Equal(400, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.BAD_REQUEST_STATUS_CODE, objectResult.StatusCode);
         }
 
         [Fact]
@@ -46,7 +47,7 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             var objectResult = result as NotFoundResult;
 
             //Assert
-            Assert.Equal(404, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.NOT_FOUND_STATUS_CODE, objectResult.StatusCode);
         }
 
         [Fact]
@@ -72,7 +73,7 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             var objectResult = result as OkObjectResult;
 
             //Assert
-            Assert.Equal(200, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
             Assert.Equal(mockData, objectResult.Value);
         }
     }

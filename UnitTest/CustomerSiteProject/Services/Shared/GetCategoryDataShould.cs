@@ -9,6 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Moq;
 using Moq.Protected;
 using Shared.Clients;
+using UnitTest.Utils;
 using Xunit;
 
 namespace UnitTest.CustomerSiteProject.Services.Shared
@@ -39,10 +40,10 @@ namespace UnitTest.CustomerSiteProject.Services.Shared
                 .ReturnsAsync(response);
 
             var httpClient = new HttpClient(mockHttpClient.Object);
-            httpClient.BaseAddress = new System.Uri("https://localhost:4546/");
+            httpClient.BaseAddress = new System.Uri(ConstantVariable.BASE_URL);
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
-            mockHttpClientFactory.Setup(c => c.CreateClient("API_SERVER")).Returns(httpClient);
+            mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
             var sharedService = new SharedService(mockHttpClientFactory.Object, mockMemoryCache.Object);
 
@@ -67,7 +68,7 @@ namespace UnitTest.CustomerSiteProject.Services.Shared
 
             var mockMemoryCache = new Mock<IMemoryCache>();
             mockMemoryCache.Setup(c => c.TryGetValue(It.IsAny<object>(), out cachingValue)).Returns(false);
-            mockMemoryCache.Setup(c => c.Set("CATEGORY_CACHE", categories, options)).Returns(categories);
+            mockMemoryCache.Setup(c => c.Set(ConstantVariable.CATEGORY_CACHE_KEY, categories, options)).Returns(categories);
 
             var response = new HttpResponseMessage
             {
@@ -86,10 +87,10 @@ namespace UnitTest.CustomerSiteProject.Services.Shared
                 .ReturnsAsync(response);
 
             var httpClient = new HttpClient(mockHttpClient.Object);
-            httpClient.BaseAddress = new System.Uri("https://localhost:4546/");
+            httpClient.BaseAddress = new System.Uri(ConstantVariable.BASE_URL);
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
-            mockHttpClientFactory.Setup(c => c.CreateClient("API_SERVER")).Returns(httpClient);
+            mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
             var sharedService = new SharedService(mockHttpClientFactory.Object, mockMemoryCache.Object);
 

@@ -7,6 +7,7 @@ using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Shared.Clients;
+using UnitTest.Utils;
 using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
@@ -31,8 +32,6 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
                 }
             };
 
-            var expectedStatusCode = 200;
-
             var mockProductService = new Mock<IProductService>();
             mockProductService.Setup(s => s.GetProductDetailById(5)).ReturnsAsync(mockData);
 
@@ -43,7 +42,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var objectResult = result as OkObjectResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
             Assert.Equal(mockData, objectResult.Value);
         }
 
@@ -52,7 +51,6 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
         {
             //Arrange
             ProductDetailReadDto mockData = null;
-            var expectedStatusCode = 404;
 
             var mockProductService = new Mock<IProductService>();
             mockProductService.Setup(s => s.GetProductDetailById(100)).ReturnsAsync(mockData);
@@ -64,7 +62,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var objectResult = result as NotFoundResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.NOT_FOUND_STATUS_CODE, objectResult.StatusCode);
         }
     }
 }

@@ -5,6 +5,7 @@ using CustomerSite.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Shared.Clients;
+using UnitTest.Utils;
 using Xunit;
 
 namespace UnitTest.CustomerSiteProject.Controllers.Product
@@ -17,7 +18,6 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
         public async Task ReturnBadRequestWhenPassingInvalidPrams(int id, int star)
         {
             //Arrange
-            var expectedStatusCode = 400;
             var data = new ProductRatingWriteDto
             {
                 productID = id,
@@ -32,7 +32,7 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
             var objectResult = result as BadRequestResult;
 
             //Assert;
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.BAD_REQUEST_STATUS_CODE, objectResult.StatusCode);
         }
 
         [Fact]
@@ -45,7 +45,6 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
                 star = 5
             };
 
-            var expectedStatusCode = 200;
             var expectedValue = true;
 
             var mockProductService = new Mock<IProductService>();
@@ -58,7 +57,7 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
             var objectResult = result as OkResult;
 
             //Assert;
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
         }
 
         [Fact]
@@ -66,7 +65,6 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
         {
             //Arrange
             ProductRatingWriteDto mockData = null;
-            var expectedStatusCode = 400;
             var expectedValue = false;
 
             var mockProductService = new Mock<IProductService>();
@@ -79,7 +77,7 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
             var objectResult = result as BadRequestResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.BAD_REQUEST_STATUS_CODE, objectResult.StatusCode);
         }
     }
 }
