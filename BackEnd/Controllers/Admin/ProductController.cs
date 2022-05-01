@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +18,7 @@ namespace BackEnd.Controllers.Admin
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProduct([FromQuery] int page = DEFAULT_PAGE_NUMBER, [FromQuery] int size = DEFAULT_SIZE_PER_PAGE)
+        public async Task<IActionResult> GetAllProducts([FromQuery] int page = DEFAULT_PAGE_NUMBER, [FromQuery] int size = DEFAULT_SIZE_PER_PAGE)
         {
             if (page < 1 || size < 1) return BadRequest();
             var products = await _productService.AdminGetProducts(page, size);
