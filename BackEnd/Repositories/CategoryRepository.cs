@@ -24,8 +24,9 @@ namespace BackEnd.Repositories
 
         public async Task<IList<Category>> GetCategories(int page, int size)
         {
+            var skip = (page - 1) * size;
             return await _context.Categories
-                .Skip((page - 1) * size)
+                .Skip(skip)
                 .Take(size)
                 .ToListAsync();
         }

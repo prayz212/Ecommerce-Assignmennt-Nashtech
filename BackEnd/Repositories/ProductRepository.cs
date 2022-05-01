@@ -20,6 +20,7 @@ namespace BackEnd.Repositories
 
         public async Task<IList<ProductReadDto>> GetFeatureProducts(int page, int size)
         {
+            var skip = (page - 1) * size;
             return await _context.Products
                 .Where(p => p.IsFeatured == true)
                 .Select(p => new ProductReadDto
@@ -31,13 +32,14 @@ namespace BackEnd.Repositories
                     thumbnailName = p.Images.FirstOrDefault().Name,
                     thumbnailUri = p.Images.FirstOrDefault().Uri
                 })
-                .Skip((page - 1) * size)
+                .Skip(skip)
                 .Take(size)
                 .ToListAsync();
         }
 
         public async Task<IList<ProductReadDto>> GetProductsByCategory(string category, int page, int size)
         {
+            var skip = (page - 1) * size;
             return await _context.Products
                 .Where(p => p.Category.Name == category)
                 .Select(p => new ProductReadDto
@@ -49,7 +51,7 @@ namespace BackEnd.Repositories
                     thumbnailName = p.Images.FirstOrDefault().Name,
                     thumbnailUri = p.Images.FirstOrDefault().Uri
                 })
-                .Skip((page - 1) * size)
+                .Skip(skip)
                 .Take(size)
                 .ToListAsync();
         }
@@ -72,6 +74,7 @@ namespace BackEnd.Repositories
 
         public async Task<IList<ProductReadDto>> GetAllProducts(int page, int size)
         {
+            var skip = (page - 1) * size;
             return await _context.Products
                 .Select(p => new ProductReadDto()
                 {
@@ -82,7 +85,7 @@ namespace BackEnd.Repositories
                     thumbnailName = p.Images.FirstOrDefault().Name,
                     thumbnailUri = p.Images.FirstOrDefault().Uri
                 })
-                .Skip((page - 1) * size)
+                .Skip(skip)
                 .Take(size)
                 .ToListAsync();
         }
