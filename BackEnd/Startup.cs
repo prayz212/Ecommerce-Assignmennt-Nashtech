@@ -9,9 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using FluentValidation.AspNetCore;
-using FluentValidation;
 using BackEnd.Validations;
-using BackEnd.Models.ViewModels;
 
 namespace BackEnd
 {
@@ -39,17 +37,9 @@ namespace BackEnd
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "APIs", Version = "v1" });
             });
 
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-
-            services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-
-            services.AddScoped<IRatingRepository, RatingRepository>();
-
-            //Validation setting
-            services.AddScoped<IValidator<CreateCategoryDto>, CreateCategoryValidator>();
-            services.AddScoped<IValidator<CategoryDetailDto>, UpdateCategoryValidator>();
+            services.AddRepositoriesDependencyInjection();
+            services.AddServicesDependencyInjection();
+            services.AddValidatesDependencyInjection();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +51,6 @@ namespace BackEnd
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "APIs v1"));
             }
-
 
             app.UseHttpsRedirection();
 

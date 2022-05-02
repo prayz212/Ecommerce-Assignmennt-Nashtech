@@ -36,8 +36,7 @@ namespace CustomerSite
             services.AddMemoryCache();
             services.AddRazorPages();
 
-            services.AddScoped<ISharedService, SharedService>();
-            services.AddScoped<IProductService, ProductService>();
+            services.AddServicesDependencyInjection();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
