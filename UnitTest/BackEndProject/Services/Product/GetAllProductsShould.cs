@@ -39,14 +39,14 @@ namespace UnitTest.BackEndProject.Services.Product
 
             var mockData = new List<ProductReadDto>()
             {
-                new ProductReadDto() { id = 1, name = "Product 1", prices = 120000, averageRate = 4.5, thumbnailName = "Image 1", thumbnailUri = "Uri image 1"},
+                new ProductReadDto() { Id = 1, Name = "Product 1", Prices = 120000, AverageRate = 4.5, ThumbnailName = "Image 1", ThumbnailUri = "Uri image 1" },
             };
 
             var expectedResult = new ProductListReadDto()
             {
-                products = mockData,
-                currentPage = 2,
-                totalPage = 2
+                Products = mockData,
+                CurrentPage = 2,
+                TotalPage = 2
             };
 
             var mockProductRepository = new Mock<IProductRepository>();
@@ -60,9 +60,9 @@ namespace UnitTest.BackEndProject.Services.Product
             var result = await productService.GetAllProducts(page, size);
 
             //Assert
-            Assert.Equal(expectedResult.products, result.products);
-            Assert.Equal(expectedResult.currentPage, result.currentPage);
-            Assert.Equal(expectedResult.totalPage, result.totalPage);
+            Assert.Equal(expectedResult.Products, result.Products);
+            Assert.Equal(expectedResult.CurrentPage, result.CurrentPage);
+            Assert.Equal(expectedResult.TotalPage, result.TotalPage);
         }
     }
 }

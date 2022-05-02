@@ -57,10 +57,10 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             int id = 1;
             CategoryDetailDto mockData = new CategoryDetailDto
             {
-                id = new Random().Next(),
-                name = "Dummy name",
-                displayName = "Dummy display name",
-                description = "Dummy description"
+                Id = new Random().Next(),
+                Name = "Dummy name",
+                DisplayName = "Dummy display name",
+                Description = "Dummy description"
             };
 
             var mockCategoryService = new Mock<ICategoryService>();

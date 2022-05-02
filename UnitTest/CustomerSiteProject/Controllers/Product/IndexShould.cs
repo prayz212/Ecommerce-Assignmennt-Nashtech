@@ -70,9 +70,9 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
 
             ProductListReadDto mockData = new ProductListReadDto()
             {
-                products = new List<ProductReadDto>(),
-                currentPage = 1,
-                totalPage = 1
+                Products = new List<ProductReadDto>(),
+                CurrentPage = 1,
+                TotalPage = 1
             };
 
             var mockProductService = new Mock<IProductService>();

@@ -32,9 +32,9 @@ namespace BackEnd.Services
 
             return new ProductListReadDto()
             {
-                products = products,
-                totalPage = totalPage,
-                currentPage = totalPage > 0 ? page : 0,
+                Products = products,
+                TotalPage = totalPage,
+                CurrentPage = totalPage > 0 ? page : 0,
             };
         }
 
@@ -58,9 +58,9 @@ namespace BackEnd.Services
 
             return new ProductListReadDto() 
             { 
-                products = products,
-                totalPage = totalPage,
-                currentPage = totalPage > 0 ? page : 0,
+                Products = products,
+                TotalPage = totalPage,
+                CurrentPage = totalPage > 0 ? page : 0,
             };
         }
 
@@ -87,9 +87,9 @@ namespace BackEnd.Services
 
             return new ProductListReadDto()
             {
-                products = products,
-                totalPage = totalPage,
-                currentPage = totalPage > 0 ? page : 0,
+                Products = products,
+                TotalPage = totalPage,
+                CurrentPage = totalPage > 0 ? page : 0,
             };
         }
 
@@ -106,12 +106,12 @@ namespace BackEnd.Services
 
         public async Task<bool> ProductRating(ProductRatingWriteDto data)
         {
-            if (data.productID <= 0 || data.star <= 0)
+            if (data.ProductID <= 0 || data.Star <= 0)
             {
                 return false;
             }
 
-            var product = await _productRepository.GetProductDetailById(data.productID);
+            var product = await _productRepository.GetProductDetailById(data.ProductID);
             if (product is null)
             {
                 return false;

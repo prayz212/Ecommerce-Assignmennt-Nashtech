@@ -39,7 +39,7 @@ namespace CustomerSite.Services
                     if (response.IsSuccessStatusCode)
                     {
                         var data = await response.Content.ReadAsStreamAsync();
-                        categories = await JsonSerializer.DeserializeAsync<IEnumerable<CategoryReadDto>>(data);
+                        categories = await data.DeserializeToCamelCaseAsync<IEnumerable<CategoryReadDto>>();
                         _cache.Set<IEnumerable<CategoryReadDto>>(ConstantVariable.CATEGORY_CACHE_KEY, categories, options);
                     }
 

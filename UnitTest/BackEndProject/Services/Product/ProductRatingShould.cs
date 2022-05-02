@@ -18,8 +18,8 @@ namespace UnitTest.BackEndProject.Services.Product
             //Arrange
             var data = new ProductRatingWriteDto()
             {
-                productID = -1,
-                star = 5
+                ProductID = -1,
+                Star = 5
             };
 
             var mockProductRepository = new Mock<IProductRepository>();
@@ -40,8 +40,8 @@ namespace UnitTest.BackEndProject.Services.Product
             //Arrange
             var data = new ProductRatingWriteDto()
             {
-                productID = 1,
-                star = 0
+                ProductID = 1,
+                Star = 0
             };
 
             var mockProductRepository = new Mock<IProductRepository>();
@@ -62,14 +62,14 @@ namespace UnitTest.BackEndProject.Services.Product
             //Arrange
             var data = new ProductRatingWriteDto()
             {
-                productID = 1,
-                star = 4
+                ProductID = 1,
+                Star = 4
             };
 
             ProductDetailReadDto productDetail = null;
 
             var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.GetProductDetailById(data.productID)).ReturnsAsync(productDetail);
+            mockProductRepository.Setup(r => r.GetProductDetailById(data.ProductID)).ReturnsAsync(productDetail);
             
             var mockRatingRepository = new Mock<IRatingRepository>();
 
@@ -88,26 +88,26 @@ namespace UnitTest.BackEndProject.Services.Product
             //Arrange
             var data = new ProductRatingWriteDto()
             {
-                productID = 1,
-                star = 4
+                ProductID = 1,
+                Star = 4
             };
 
             ProductDetailReadDto productDetail = new ProductDetailReadDto()
             {
-                id = 1,
-                name = "Product 1",
-                description = "Description 1",
-                prices = 120000,
-                averageRate = 4,
-                images = new List<ImageReadDto>()
+                Id = 1,
+                Name = "Product 1",
+                Description = "Description 1",
+                Prices = 120000,
+                AverageRate = 4,
+                Images = new List<ImageReadDto>()
                 {
-                    new ImageReadDto() { name = "image 1", uri = "uri 1"},
-                    new ImageReadDto() { name = "image 2", uri = "uri 2"},
+                    new ImageReadDto() { Name = "image 1", Uri = "uri 1"},
+                    new ImageReadDto() { Name = "image 2", Uri = "uri 2"},
                 }
             };
 
             var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.GetProductDetailById(data.productID)).ReturnsAsync(productDetail);
+            mockProductRepository.Setup(r => r.GetProductDetailById(data.ProductID)).ReturnsAsync(productDetail);
             
             var mockRatingRepository = new Mock<IRatingRepository>();
             mockRatingRepository.Setup(r => r.CreateProductRating(data)).ReturnsAsync(true);

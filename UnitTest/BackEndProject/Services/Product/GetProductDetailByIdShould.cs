@@ -37,15 +37,15 @@ namespace UnitTest.BackEndProject.Services.Product
             var productId = 1;
             ProductDetailReadDto product = new ProductDetailReadDto()
             {
-                id = 1,
-                name = "Product 1",
-                description = "Description 1",
-                prices = 120000,
-                averageRate = 4,
-                images = new List<ImageReadDto>()
+                Id = 1,
+                Name = "Product 1",
+                Description = "Description 1",
+                Prices = 120000,
+                AverageRate = 4,
+                Images = new List<ImageReadDto>()
                 {
-                    new ImageReadDto() { name = "image 1", uri = "uri 1"},
-                    new ImageReadDto() { name = "image 2", uri = "uri 2"},
+                    new ImageReadDto() { Name = "image 1", Uri = "uri 1"},
+                    new ImageReadDto() { Name = "image 2", Uri = "uri 2"},
                 }
             };
 

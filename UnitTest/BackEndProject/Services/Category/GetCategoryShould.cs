@@ -45,10 +45,10 @@ namespace UnitTest.BackEndProject.Services.Category
 
             var expectedValue = new CategoryDetailDto
             {
-                id = id,
-                name = "name",
-                displayName = "display name",
-                description = "description",
+                Id = id,
+                Name = "name",
+                DisplayName = "display name",
+                Description = "description",
             };
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
@@ -61,10 +61,10 @@ namespace UnitTest.BackEndProject.Services.Category
 
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(expectedValue.id, result.id);
-            Assert.Equal(expectedValue.name, result.name);
-            Assert.Equal(expectedValue.displayName, result.displayName);
-            Assert.Equal(expectedValue.description, result.description);
+            Assert.Equal(expectedValue.Id, result.Id);
+            Assert.Equal(expectedValue.Name, result.Name);
+            Assert.Equal(expectedValue.DisplayName, result.DisplayName);
+            Assert.Equal(expectedValue.Description, result.Description);
         }
     }
 }

@@ -38,10 +38,10 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             var mockData = new CategoryDetailDto();
             var mockReturnData = new CategoryDetailDto
             {
-                id = 1,
-                name = "Dummy name",
-                displayName = "Dummy display name",
-                description = "Dummy description"
+                Id = 1,
+                Name = "Dummy name",
+                DisplayName = "Dummy display name",
+                Description = "Dummy description"
             };
 
             var mockCategoryService = new Mock<ICategoryService>();

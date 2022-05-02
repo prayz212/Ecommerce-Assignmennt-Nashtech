@@ -20,15 +20,15 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             //Arrange
             var mockData = new ProductDetailReadDto()
             {
-                id = 5,
-                name = "Product 5",
-                description = "This is description of product 5",
-                averageRate = 4,
-                prices = 120000,
-                images = new List<ImageReadDto>()
+                Id = 5,
+                Name = "Product 5",
+                Description = "This is description of product 5",
+                AverageRate = 4,
+                Prices = 120000,
+                Images = new List<ImageReadDto>()
                 {
-                    new ImageReadDto() { name = "image 1", uri = "uri 1" },
-                    new ImageReadDto() { name = "image 2", uri = "uri 2" },
+                    new ImageReadDto() { Name = "image 1", Uri = "uri 1" },
+                    new ImageReadDto() { Name = "image 2", Uri = "uri 2" },
                 }
             };
 

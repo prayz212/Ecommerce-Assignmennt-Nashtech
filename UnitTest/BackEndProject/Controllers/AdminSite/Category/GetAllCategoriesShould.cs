@@ -48,9 +48,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             {
                 var dummyElement = new CategoryDto
                 {
-                    id = new Random().Next(),
-                    name = "name" + item,
-                    displayName = "display name " + item
+                    Id = new Random().Next(),
+                    Name = "name" + item,
+                    DisplayName = "display name " + item
                 };
 
                 mockData.Add(dummyElement);
@@ -80,9 +80,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             {
                 var dummyElement = new CategoryDto
                 {
-                    id = new Random().Next(),
-                    name = "name" + item,
-                    displayName = "display name " + item
+                    Id = new Random().Next(),
+                    Name = "name" + item,
+                    DisplayName = "display name " + item
                 };
 
                 mockData.Add(dummyElement);

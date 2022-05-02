@@ -19,12 +19,12 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             //Arrange
             var expectedValues = new ProductDetailReadDto
             {
-                id = 1,
-                name = "San pham 1",
-                prices = 120000,
-                averageRate = 5,
-                description = "Mo ta",
-                images = null
+                Id = 1,
+                Name = "San pham 1",
+                Prices = 120000,
+                AverageRate = 5,
+                Description = "Mo ta",
+                Images = null
             };
 
             var response = new HttpResponseMessage
@@ -55,7 +55,7 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             ProductDetailReadDto result = await productService.GetProductDetailData(1);
 
             //Assert
-            Assert.Equal(expectedValues.id, result.id);
+            Assert.Equal(expectedValues.Id, result.Id);
         }
 
         [Fact]

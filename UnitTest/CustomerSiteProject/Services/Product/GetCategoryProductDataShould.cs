@@ -22,12 +22,12 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             {
                 new ProductReadDto
                 {
-                    id = 1,
-                    name = "San pham 1",
-                    prices = 120000,
-                    averageRate = 5,
-                    thumbnailName = "Tao my 1",
-                    thumbnailUri = "Tao my 1 uri"
+                    Id = 1,
+                    Name = "San pham 1",
+                    Prices = 120000,
+                    AverageRate = 5,
+                    ThumbnailName = "Tao my 1",
+                    ThumbnailUri = "Tao my 1 uri"
                 }
             };
 
@@ -59,9 +59,9 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             ProductListReadDto result = await productService.GetCategoryProductData("category", 1, 9);
 
             //Assert
-            Assert.Equal(expectedValues.Count, result.products.Count);
-            Assert.Equal(1, result.totalPage);
-            Assert.Equal(1, result.currentPage);
+            Assert.Equal(expectedValues.Count, result.Products.Count);
+            Assert.Equal(1, result.TotalPage);
+            Assert.Equal(1, result.CurrentPage);
         }
 
         [Fact]

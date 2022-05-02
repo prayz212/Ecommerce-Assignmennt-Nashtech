@@ -71,9 +71,9 @@ namespace UnitTest.BackEndProject.Services.Product
 
             var expectedResult = new List<ProductReadDto>()
             {
-                new ProductReadDto() { id = 1, name = "Product 1", prices = 120000, averageRate = 4, thumbnailName = "image 1", thumbnailUri = "uri 1" },
-                new ProductReadDto() { id = 2, name = "Product 2", prices = 120000, averageRate = 4, thumbnailName = "image 2", thumbnailUri = "uri 2" },
-                new ProductReadDto() { id = 3, name = "Product 3", prices = 120000, averageRate = 4, thumbnailName = "image 3", thumbnailUri = "uri 3" },
+                new ProductReadDto() { Id = 1, Name = "Product 1", Prices = 120000, AverageRate = 4, ThumbnailName = "image 1", ThumbnailUri = "uri 1" },
+                new ProductReadDto() { Id = 2, Name = "Product 2", Prices = 120000, AverageRate = 4, ThumbnailName = "image 2", ThumbnailUri = "uri 2" },
+                new ProductReadDto() { Id = 3, Name = "Product 3", Prices = 120000, AverageRate = 4, ThumbnailName = "image 3", ThumbnailUri = "uri 3" },
             };
             
             var mockProductRepository = new Mock<IProductRepository>();

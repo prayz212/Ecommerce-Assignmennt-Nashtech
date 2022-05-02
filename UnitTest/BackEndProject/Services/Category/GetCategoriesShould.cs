@@ -18,17 +18,17 @@ namespace UnitTest.BackEndProject.Services.Category
             {
                 new CategoryReadDto()
                 {
-                    id = 1,
-                    name = "TraiCayDaLat",
-                    displayName = "Trai Cay Da Lat",
-                    description = "Day la trai cay duoc trong o Da Lat"
+                    Id = 1,
+                    Name = "TraiCayDaLat",
+                    DisplayName = "Trai Cay Da Lat",
+                    Description = "Day la trai cay duoc trong o Da Lat"
                 },
                 new CategoryReadDto()
                 {
-                    id = 2,
-                    name = "TraiCayQuyNhon",
-                    displayName = "Trai Cay Quy Nhon",
-                    description = "Day la trai cay duoc trong o Quy Nhon"
+                    Id = 2,
+                    Name = "TraiCayQuyNhon",
+                    DisplayName = "Trai Cay Quy Nhon",
+                    Description = "Day la trai cay duoc trong o Quy Nhon"
                 }
             };
 

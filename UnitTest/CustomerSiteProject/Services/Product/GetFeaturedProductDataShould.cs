@@ -22,12 +22,12 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             {
                 new ProductReadDto
                 {
-                    id = 1,
-                    name = "San pham 1",
-                    prices = 120000,
-                    averageRate = 5,
-                    thumbnailName = "Tao my 1",
-                    thumbnailUri = "https://res.cloudinary.com/dazdxrnam/image/upload/v1643018065/NongSanBaoLam/DSCF7556_1643018065.jpg"
+                    Id = 1,
+                    Name = "San pham 1",
+                    Prices = 120000,
+                    AverageRate = 5,
+                    ThumbnailName = "Tao my 1",
+                    ThumbnailUri = "https://res.cloudinary.com/dazdxrnam/image/upload/v1643018065/NongSanBaoLam/DSCF7556_1643018065.jpg"
                 }
             };
 
@@ -59,9 +59,9 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             ProductListReadDto result = await productService.GetFeaturedProductData(1, 9);
 
             //Assert
-            Assert.Equal(expectedValues.Count, result.products.Count);
-            Assert.Equal(1, result.totalPage);
-            Assert.Equal(1, result.currentPage);
+            Assert.Equal(expectedValues.Count, result.Products.Count);
+            Assert.Equal(1, result.TotalPage);
+            Assert.Equal(1, result.CurrentPage);
         }
 
         [Fact]

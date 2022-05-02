@@ -61,7 +61,7 @@ namespace UnitTest.CustomerSiteProject.Services.Shared
             object cachingValue = null;
             List<CategoryReadDto> categories = new List<CategoryReadDto>()
             {
-                new CategoryReadDto() { id = 1, name = "TraiCayQuyNhon", displayName = "Trai Cay Quy Nhon", description = "Day la trai cay quy nhon"}
+                new CategoryReadDto() { Id = 1, Name = "TraiCayQuyNhon", DisplayName = "Trai Cay Quy Nhon", Description = "Day la trai cay quy nhon"}
             };
             var options = new MemoryCacheEntryOptions();
             options.AbsoluteExpiration = DateTime.Now.AddMinutes(60*10);

@@ -33,7 +33,7 @@
                     <ul class="__sub-menu">
                         @foreach (CategoryReadDto category in Model)
                         {
-                            <li><a asp-controller="Product" asp-action="Index" asp-route-category="@category.name">@category.displayName</a></li>
+                            <li><a asp-controller="Product" asp-action="Index" asp-route-category="@category.Name">@category.DisplayName</a></li>
                         }
                     </ul>
                 </li>

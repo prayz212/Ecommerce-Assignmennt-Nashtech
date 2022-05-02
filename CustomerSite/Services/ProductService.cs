@@ -1,7 +1,6 @@
 using CustomerSite.Interfaces;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Shared.Clients;
 using System.Text;
@@ -28,7 +27,7 @@ namespace CustomerSite.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStreamAsync();
-                    return await JsonSerializer.DeserializeAsync<ProductListReadDto>(data);
+                    return await data.DeserializeToCamelCaseAsync<ProductListReadDto>();
                 }
 
                 return null;
@@ -45,7 +44,7 @@ namespace CustomerSite.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var productDetail = await response.Content.ReadAsStreamAsync();
-                    return await JsonSerializer.DeserializeAsync<ProductDetailReadDto>(productDetail);
+                    return await productDetail.DeserializeToCamelCaseAsync<ProductDetailReadDto>();
                 }
 
                 return null;
@@ -63,7 +62,7 @@ namespace CustomerSite.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStreamAsync();
-                    products = await JsonSerializer.DeserializeAsync<ProductListReadDto>(data);
+                    products = await data.DeserializeToCamelCaseAsync<ProductListReadDto>();
                 }
                 
                 return products;
@@ -80,7 +79,7 @@ namespace CustomerSite.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStreamAsync();
-                    return await JsonSerializer.DeserializeAsync<IEnumerable<ProductReadDto>>(data);
+                    return await data.DeserializeToCamelCaseAsync<IEnumerable<ProductReadDto>>();
                 }
 
                 return null;

@@ -29,14 +29,14 @@ namespace CustomerSite.Controllers
 
             var vm = new ProductListViewModel
             {
-                products = data.products,
-                pagination = new PaginationViewModel
+                Products = data.Products,
+                Pagination = new PaginationViewModel
                 {
-                    totalPage = data.totalPage,
-                    currentPage = data.currentPage,
-                    category = category,
-                    controller = "Product",
-                    action = "Index"
+                    TotalPage = data.TotalPage,
+                    CurrentPage = data.CurrentPage,
+                    Category = category,
+                    Controller = "Product",
+                    Action = "Index"
                 }
             };
 
@@ -58,7 +58,7 @@ namespace CustomerSite.Controllers
 
             var vm = new ProductDetailViewModel()
             {
-                product = productDetail,
+                Product = productDetail,
             };
 
             ViewData["Size"] = ConstantVariable.NUMBER_OF_RELATIVE_PRODUCTS;
@@ -68,7 +68,7 @@ namespace CustomerSite.Controllers
         [HttpPost]
         public async Task<IActionResult> Rating(ProductRatingWriteDto data)
         {
-            if (data is null || data.productID <= 0 || data.star <= 0)
+            if (data is null || data.ProductID <= 0 || data.Star <= 0)
                 return BadRequest();
 
             var result = await _productService.ProductRating(data);

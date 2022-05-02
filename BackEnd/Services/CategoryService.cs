@@ -27,9 +27,9 @@ namespace BackEnd.Services
                 {
                     var element = new CategoryDto
                     {
-                        id = category.Id,
-                        name = category.Name,
-                        displayName = category.DisplayName
+                        Id = category.Id,
+                        Name = category.Name,
+                        DisplayName = category.DisplayName
                     };
 
                     result.Add(element);
@@ -43,19 +43,19 @@ namespace BackEnd.Services
         {
             var newCategory = new Category
             {
-                Name = dto.name,
-                DisplayName = dto.displayName,
-                Description = dto.description,
+                Name = dto.Name,
+                DisplayName = dto.DisplayName,
+                Description = dto.Description,
             };
 
             var saveResult = await _categoryRepository.NewCategory(newCategory);
             return saveResult 
                 ? new CategoryDetailDto
                     {
-                        id = newCategory.Id,
-                        name = newCategory.Name,
-                        displayName = newCategory.DisplayName,
-                        description = newCategory.Description,
+                        Id = newCategory.Id,
+                        Name = newCategory.Name,
+                        DisplayName = newCategory.DisplayName,
+                        Description = newCategory.Description,
                     }
                 : null;
         }
@@ -81,10 +81,10 @@ namespace BackEnd.Services
                 {
                     var element = new CategoryReadDto
                     {
-                        id = category.Id,
-                        name = category.Name,
-                        displayName = category.DisplayName,
-                        description = category.Description
+                        Id = category.Id,
+                        Name = category.Name,
+                        DisplayName = category.DisplayName,
+                        Description = category.Description
                     };
 
                     result.Add(element);
@@ -101,30 +101,30 @@ namespace BackEnd.Services
                 ? null
                 : new CategoryDetailDto
                 {
-                    id = category.Id,
-                    name = category.Name,
-                    displayName = category.DisplayName,
-                    description = category.Description
+                    Id = category.Id,
+                    Name = category.Name,
+                    DisplayName = category.DisplayName,
+                    Description = category.Description
                 };
         }
 
         public async Task<CategoryDetailDto> UpdateCategory(CategoryDetailDto dto)
         {
-            Category category = await _categoryRepository.GetCategory(dto.id);
+            Category category = await _categoryRepository.GetCategory(dto.Id);
             if (category is null) return null;
 
-            category.Name = dto.name;
-            category.DisplayName = dto.displayName;
-            category.Description = dto.description;
+            category.Name = dto.Name;
+            category.DisplayName = dto.DisplayName;
+            category.Description = dto.Description;
 
             var updateResult = await _categoryRepository.UpdateCategory(category);
             return updateResult 
                 ? new CategoryDetailDto
                 {
-                    id = category.Id,
-                    name = category.Name,
-                    displayName = category.DisplayName,
-                    description = category.Description
+                    Id = category.Id,
+                    Name = category.Name,
+                    DisplayName = category.DisplayName,
+                    Description = category.Description
                 }
                 : null;
         }

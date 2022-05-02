@@ -28,7 +28,7 @@ namespace CustomerSite.Controllers
 
             var vm = new HomeIndexViewModel()
             {
-                products = data.products
+                Products = data.Products
             };
 
             return View(vm);

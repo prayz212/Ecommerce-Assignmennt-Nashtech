@@ -45,9 +45,9 @@ namespace UnitTest.BackEndProject.Services.Category
 
             var expectedValue = new List<CategoryDto>()
             {
-                new CategoryDto { id = 1, name = "category 1", displayName = "display name" },
-                new CategoryDto { id = 2, name = "category 2", displayName = "display name" },
-                new CategoryDto { id = 3, name = "category 3", displayName = "display name" },
+                new CategoryDto { Id = 1, Name = "category 1", DisplayName = "display name" },
+                new CategoryDto { Id = 2, Name = "category 2", DisplayName = "display name" },
+                new CategoryDto { Id = 3, Name = "category 3", DisplayName = "display name" },
             };
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();

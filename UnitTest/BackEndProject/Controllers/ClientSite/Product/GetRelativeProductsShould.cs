@@ -39,10 +39,10 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             //Arrange
             var mockData = new List<ProductReadDto>()
             {
-                new ProductReadDto() { id = 1, name = "Product 1", prices = 120000, averageRate = 5, thumbnailName = "image 1", thumbnailUri = "uri 1" },
-                new ProductReadDto() { id = 2, name = "Product 2", prices = 120000, averageRate = 5, thumbnailName = "image 2", thumbnailUri = "uri 2" },
-                new ProductReadDto() { id = 3, name = "Product 3", prices = 120000, averageRate = 5, thumbnailName = "image 3", thumbnailUri = "uri 3" },
-                new ProductReadDto() { id = 4, name = "Product 4", prices = 120000, averageRate = 5, thumbnailName = "image 4", thumbnailUri = "uri 4" },
+                new ProductReadDto() { Id = 1, Name = "Product 1", Prices = 120000, AverageRate = 5, ThumbnailName = "image 1", ThumbnailUri = "uri 1" },
+                new ProductReadDto() { Id = 2, Name = "Product 2", Prices = 120000, AverageRate = 5, ThumbnailName = "image 2", ThumbnailUri = "uri 2" },
+                new ProductReadDto() { Id = 3, Name = "Product 3", Prices = 120000, AverageRate = 5, ThumbnailName = "image 3", ThumbnailUri = "uri 3" },
+                new ProductReadDto() { Id = 4, Name = "Product 4", Prices = 120000, AverageRate = 5, ThumbnailName = "image 4", ThumbnailUri = "uri 4" },
             };
 
             var mockProductService = new Mock<IProductService>();
@@ -65,12 +65,12 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             //Arrange
             var mockData = new List<ProductReadDto>()
             {
-                new ProductReadDto() { id = 1, name = "Product 1", prices = 120000, averageRate = 5, thumbnailName = "image 1", thumbnailUri = "uri 1" },
-                new ProductReadDto() { id = 3, name = "Product 3", prices = 120000, averageRate = 5, thumbnailName = "image 3", thumbnailUri = "uri 3" },
-                new ProductReadDto() { id = 4, name = "Product 4", prices = 120000, averageRate = 5, thumbnailName = "image 4", thumbnailUri = "uri 4" },
-                new ProductReadDto() { id = 7, name = "Product 7", prices = 120000, averageRate = 5, thumbnailName = "image 7", thumbnailUri = "uri 7" },
-                new ProductReadDto() { id = 9, name = "Product 9", prices = 120000, averageRate = 5, thumbnailName = "image 9", thumbnailUri = "uri 9" },
-                new ProductReadDto() { id = 12, name = "Product 12", prices = 120000, averageRate = 5, thumbnailName = "image 12", thumbnailUri = "uri 12" },
+                new ProductReadDto() { Id = 1, Name = "Product 1", Prices = 120000, AverageRate = 5, ThumbnailName = "image 1", ThumbnailUri = "uri 1" },
+                new ProductReadDto() { Id = 3, Name = "Product 3", Prices = 120000, AverageRate = 5, ThumbnailName = "image 3", ThumbnailUri = "uri 3" },
+                new ProductReadDto() { Id = 4, Name = "Product 4", Prices = 120000, AverageRate = 5, ThumbnailName = "image 4", ThumbnailUri = "uri 4" },
+                new ProductReadDto() { Id = 7, Name = "Product 7", Prices = 120000, AverageRate = 5, ThumbnailName = "image 7", ThumbnailUri = "uri 7" },
+                new ProductReadDto() { Id = 9, Name = "Product 9", Prices = 120000, AverageRate = 5, ThumbnailName = "image 9", ThumbnailUri = "uri 9" },
+                new ProductReadDto() { Id = 12, Name = "Product 12", Prices = 120000, AverageRate = 5, ThumbnailName = "image 12", ThumbnailUri = "uri 12" },
             };
 
             var mockProductService = new Mock<IProductService>();

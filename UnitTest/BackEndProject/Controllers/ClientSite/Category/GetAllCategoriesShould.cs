@@ -20,8 +20,8 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Category
             //Arrange
             var data = new List<CategoryReadDto>()
             {
-                new CategoryReadDto() { id = 1, name = "TraiCayDaLat", displayName = "Trái cây Đà Lạt", description = "Trái cây được trồng tại nông sản sạch" },
-                new CategoryReadDto() { id = 2, name = "TraiCayQuyNhon", displayName = "Trái cây Quy Nhơn", description = "Trái cây được trồng tại nông trại thuỷ phân" },
+                new CategoryReadDto() { Id = 1, Name = "TraiCayDaLat", DisplayName = "Trái cây Đà Lạt", Description = "Trái cây được trồng tại nông sản sạch" },
+                new CategoryReadDto() { Id = 2, Name = "TraiCayQuyNhon", DisplayName = "Trái cây Quy Nhơn", Description = "Trái cây được trồng tại nông trại thuỷ phân" },
             };
             
             var mock = new Mock<ICategoryService>();

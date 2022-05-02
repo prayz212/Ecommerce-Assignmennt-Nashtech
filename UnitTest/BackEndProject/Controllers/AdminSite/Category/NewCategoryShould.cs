@@ -17,9 +17,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             //Arrange
             var mockData = new CreateCategoryDto
             {
-                name = "dummy name",
-                displayName = "dummy display name",
-                description = "dummy description"
+                Name = "dummy name",
+                DisplayName = "dummy display name",
+                Description = "dummy description"
             };
 
             CategoryDetailDto expectedValue = null;
@@ -43,17 +43,17 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             //Arrange
             var mockData = new CreateCategoryDto
             {
-                name = "dummy name",
-                displayName = "dummy display name",
-                description = "dummy description"
+                Name = "dummy name",
+                DisplayName = "dummy display name",
+                Description = "dummy description"
             };
 
             var expectedValue = new CategoryDetailDto
             {
-                id = 1,
-                name = "dummy name",
-                displayName = "dummy display name",
-                description = "dummy description"
+                Id = 1,
+                Name = "dummy name",
+                DisplayName = "dummy display name",
+                Description = "dummy description"
             };
 
             var mockCategoryService = new Mock<ICategoryService>();

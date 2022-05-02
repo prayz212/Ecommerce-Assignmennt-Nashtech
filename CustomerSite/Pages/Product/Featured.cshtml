@@ -59,7 +59,7 @@
                                 <ul class="__sub-menu">
                                     @foreach (CategoryReadDto category in Model.Category)
                                     {
-                                        <li><a asp-controller="Product" asp-action="Index" asp-route-category="@category.name">@category.displayName</a></li>
+                                        <li><a asp-controller="Product" asp-action="Index" asp-route-category="@category.Name">@category.DisplayName</a></li>
                                     }
                                 </ul>
                             </li>
@@ -96,39 +96,39 @@
                             <div class="m-5">
                                 <section id="products">
                                     <div class="__product-center">
-                                        @if (Model.ProductList.products.Count > 0)
+                                        @if (Model.ProductList.Products.Count > 0)
                                         {
-                                            @foreach (ProductReadDto product in Model.ProductList.products)
+                                            @foreach (ProductReadDto product in Model.ProductList.Products)
                                             {
                                                 <div class="__product">
                                                     <div class="__product-header">
-                                                        <img src="@product.thumbnailUri" alt="@product.thumbnailName">
+                                                        <img src="@product.ThumbnailUri" alt="@product.ThumbnailName">
 
-                                                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
+                                                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.Id">
                                                             <ul class="icons">
                                                                 <span><i class='bx bxs-show show-icons'></i></span>
                                                             </ul>
                                                         </a>
                                                     </div>
                                                     <div class="__product-footer">
-                                                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
-                                                            <h3 class="__break-word-dots">@product.name</h3>
+                                                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.Id">
+                                                            <h3 class="__break-word-dots">@product.Name</h3>
                                                         </a>
                                                         <div class="__rating">
                                                         
-                                                        @for (int i = 0; i < product.averageRate; i++)
+                                                        @for (int i = 0; i < product.AverageRate; i++)
                                                         {
                                                             <i class="bx bxs-star"></i>
                                                         }
 
-                                                        @for (int i = 0; i < 5 - product.averageRate; i++)
+                                                        @for (int i = 0; i < 5 - product.AverageRate; i++)
                                                         {
                                                             <i class="bx bx-star"></i>
                                                         }
 
                                                         </div>
 
-                                                        <h4 class="__price">@(product.prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")))đ</h4>
+                                                        <h4 class="__price">@(product.Prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")))đ</h4>
 
                                                     </div>
                                                 </div>
@@ -136,15 +136,15 @@
                                         }
                                     </div>
 
-                                    @if (Model.ProductList.totalPage > 1)
+                                    @if (Model.ProductList.TotalPage > 1)
                                     {
                                         <div class="__pagination">
                                             <div class="">
 
-                                                @if (Model.ProductList.currentPage != 1)
+                                                @if (Model.ProductList.CurrentPage != 1)
                                                 {
                                                     @*Left arrow*@
-                                                    <a asp-controller="Product" asp-action="Featured" asp-route-page="@(Model.ProductList.currentPage - 1)" class="btn shadow-none p-0">
+                                                    <a asp-controller="Product" asp-action="Featured" asp-route-page="@(Model.ProductList.CurrentPage - 1)" class="btn shadow-none p-0">
                                                         <span>
                                                             <i class='bx bx-left-arrow-alt'></i>
                                                         </span>
@@ -152,7 +152,7 @@
                                                 }
 
                                                 @{
-                                                    double rank = (double)Model.ProductList.currentPage / 5;
+                                                    double rank = (double)Model.ProductList.CurrentPage / 5;
                                                     var from = -2;
                                                     var to = 2;
 
@@ -169,12 +169,12 @@
 
                                                     for(var i = from; i <= to; i++)
                                                     {
-                                                        @if (Model.ProductList.totalPage != 1)
+                                                        @if (Model.ProductList.TotalPage != 1)
                                                         {
                                                             var pageNumber = i + (rank * 5);
-                                                            if (pageNumber - 1 == Model.ProductList.totalPage) break;
+                                                            if (pageNumber - 1 == Model.ProductList.TotalPage) break;
 
-                                                            <a class="btn shadow-none p-0 @(pageNumber == Model.ProductList.currentPage ? "disabled" : "")" asp-controller="Product" asp-action="Featured" asp-route-page="@pageNumber">
+                                                            <a class="btn shadow-none p-0 @(pageNumber == Model.ProductList.CurrentPage ? "disabled" : "")" asp-controller="Product" asp-action="Featured" asp-route-page="@pageNumber">
                                                                 <span>
                                                                     @pageNumber
                                                                 </span>
@@ -183,10 +183,10 @@
                                                     }
                                                 }
 
-                                                @if (Model.ProductList.currentPage != Model.ProductList.totalPage && Model.ProductList.totalPage > 0)
+                                                @if (Model.ProductList.CurrentPage != Model.ProductList.TotalPage && Model.ProductList.TotalPage > 0)
                                                 {
                                                     @*Right arrow*@
-                                                    <a class="btn shadow-none p-0" asp-controller="Product" asp-action="Featured" asp-route-page="@(Model.ProductList.currentPage + 1)">
+                                                    <a class="btn shadow-none p-0" asp-controller="Product" asp-action="Featured" asp-route-page="@(Model.ProductList.CurrentPage + 1)">
                                                         <span>
                                                             <i class='bx bx-right-arrow-alt'></i>
                                                         </span>

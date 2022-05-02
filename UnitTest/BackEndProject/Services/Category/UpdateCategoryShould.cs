@@ -15,16 +15,16 @@ namespace UnitTest.BackEndProject.Services.Category
             //Arrange
             var dto = new CategoryDetailDto
             {
-                id = 1,
-                name = "name",
-                displayName = "display name",
-                description = "description"
+                Id = 1,
+                Name = "name",
+                DisplayName = "display name",
+                Description = "description"
             };
 
             BackEnd.Models.Category mockData = null;
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategory(dto.id)).ReturnsAsync(mockData);
+            mockCategoryRepository.Setup(r => r.GetCategory(dto.Id)).ReturnsAsync(mockData);
 
             var categoryService = new CategoryService(mockCategoryRepository.Object);
 
@@ -41,10 +41,10 @@ namespace UnitTest.BackEndProject.Services.Category
             //Arrange
             var inputData = new CategoryDetailDto
             {
-                id = 1,
-                name = "edited name",
-                displayName = "edited display name",
-                description = "edited description"
+                Id = 1,
+                Name = "edited name",
+                DisplayName = "edited display name",
+                Description = "edited description"
             };
 
             var mockData = new BackEnd.Models.Category
@@ -57,7 +57,7 @@ namespace UnitTest.BackEndProject.Services.Category
             };
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategory(inputData.id)).ReturnsAsync(mockData);
+            mockCategoryRepository.Setup(r => r.GetCategory(inputData.Id)).ReturnsAsync(mockData);
             mockCategoryRepository.Setup(r => r.UpdateCategory(mockData)).ReturnsAsync(false);
 
             var categoryService = new CategoryService(mockCategoryRepository.Object);
@@ -75,10 +75,10 @@ namespace UnitTest.BackEndProject.Services.Category
             //Arrange
             var inputData = new CategoryDetailDto
             {
-                id = 1,
-                name = "name",
-                displayName = "display name",
-                description = "description"
+                Id = 1,
+                Name = "name",
+                DisplayName = "display name",
+                Description = "description"
             };
 
             var mockData = new BackEnd.Models.Category
@@ -91,7 +91,7 @@ namespace UnitTest.BackEndProject.Services.Category
             };
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategory(inputData.id)).ReturnsAsync(mockData);
+            mockCategoryRepository.Setup(r => r.GetCategory(inputData.Id)).ReturnsAsync(mockData);
             mockCategoryRepository.Setup(r => r.UpdateCategory(mockData)).ReturnsAsync(true);
 
             var categoryService = new CategoryService(mockCategoryRepository.Object);
@@ -101,10 +101,10 @@ namespace UnitTest.BackEndProject.Services.Category
 
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(inputData.id, result.id);
-            Assert.Equal(inputData.name, result.name);
-            Assert.Equal(inputData.displayName, result.displayName);
-            Assert.Equal(inputData.description, result.description);
+            Assert.Equal(inputData.Id, result.Id);
+            Assert.Equal(inputData.Name, result.Name);
+            Assert.Equal(inputData.DisplayName, result.DisplayName);
+            Assert.Equal(inputData.Description, result.Description);
         }
     }
 }

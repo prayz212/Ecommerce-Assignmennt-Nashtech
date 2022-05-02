@@ -25,12 +25,12 @@ namespace BackEnd.Repositories
                 .Where(p => p.IsFeatured == true)
                 .Select(p => new ProductReadDto
                 {
-                    id = p.Id,
-                    name = p.Name,
-                    prices = p.Prices,
-                    averageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    thumbnailName = p.Images.FirstOrDefault().Name,
-                    thumbnailUri = p.Images.FirstOrDefault().Uri
+                    Id = p.Id,
+                    Name = p.Name,
+                    Prices = p.Prices,
+                    AverageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
+                    ThumbnailName = p.Images.FirstOrDefault().Name,
+                    ThumbnailUri = p.Images.FirstOrDefault().Uri
                 })
                 .Skip(skip)
                 .Take(size)
@@ -44,12 +44,12 @@ namespace BackEnd.Repositories
                 .Where(p => p.Category.Name == category)
                 .Select(p => new ProductReadDto
                 {
-                    id = p.Id,
-                    name = p.Name,
-                    prices = p.Prices,
-                    averageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    thumbnailName = p.Images.FirstOrDefault().Name,
-                    thumbnailUri = p.Images.FirstOrDefault().Uri
+                    Id = p.Id,
+                    Name = p.Name,
+                    Prices = p.Prices,
+                    AverageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
+                    ThumbnailName = p.Images.FirstOrDefault().Name,
+                    ThumbnailUri = p.Images.FirstOrDefault().Uri
                 })
                 .Skip(skip)
                 .Take(size)
@@ -62,12 +62,12 @@ namespace BackEnd.Repositories
                 .Where(p => p.Id == id)
                 .Select(p => new ProductDetailReadDto()
                 {
-                    id = p.Id,
-                    name = p.Name,
-                    description = p.Description,
-                    prices = p.Prices,
-                    averageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    images = p.Images.Select(i => new ImageReadDto() { name = i.Name, uri = i.Uri }).ToList<ImageReadDto>()
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Prices = p.Prices,
+                    AverageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
+                    Images = p.Images.Select(i => new ImageReadDto() { Name = i.Name, Uri = i.Uri }).ToList<ImageReadDto>()
                 })
                 .FirstOrDefaultAsync();
         }
@@ -78,12 +78,12 @@ namespace BackEnd.Repositories
             return await _context.Products
                 .Select(p => new ProductReadDto()
                 {
-                    id = p.Id,
-                    name = p.Name,
-                    prices = p.Prices,
-                    averageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    thumbnailName = p.Images.FirstOrDefault().Name,
-                    thumbnailUri = p.Images.FirstOrDefault().Uri
+                    Id = p.Id,
+                    Name = p.Name,
+                    Prices = p.Prices,
+                    AverageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
+                    ThumbnailName = p.Images.FirstOrDefault().Name,
+                    ThumbnailUri = p.Images.FirstOrDefault().Uri
                 })
                 .Skip(skip)
                 .Take(size)
@@ -96,12 +96,12 @@ namespace BackEnd.Repositories
                 .Where(p => p.CategoryId == currentCategoryId && p.Id != currentProductId)
                 .Select(p => new ProductReadDto()
                 {
-                    id = p.Id,
-                    name = p.Name,
-                    prices = p.Prices,
-                    averageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    thumbnailName = p.Images.FirstOrDefault().Name,
-                    thumbnailUri = p.Images.FirstOrDefault().Uri
+                    Id = p.Id,
+                    Name = p.Name,
+                    Prices = p.Prices,
+                    AverageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
+                    ThumbnailName = p.Images.FirstOrDefault().Name,
+                    ThumbnailUri = p.Images.FirstOrDefault().Uri
                 })
                 .OrderBy(p => Guid.NewGuid())
                 .Take(size)

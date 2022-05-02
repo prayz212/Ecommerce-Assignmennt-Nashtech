@@ -17,8 +17,8 @@ namespace BackEnd.Repositories
         public async Task<bool> CreateProductRating(ProductRatingWriteDto data)
         {
             await _context.Ratings.AddAsync(new Rating() {
-                ProductID = data.productID,
-                Stars = data.star,
+                ProductID = data.ProductID,
+                Stars = data.Star,
             });
 
             return await _context.SaveChangesAsync() == 1;

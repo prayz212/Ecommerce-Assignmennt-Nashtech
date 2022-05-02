@@ -22,9 +22,9 @@ namespace UnitTest.BackEndProject.Services.Category
 
             var createCategory = new CreateCategoryDto
             {
-                name = "name",
-                displayName = "display name",
-                description = "description"
+                Name = "name",
+                DisplayName = "display name",
+                Description = "description"
             };
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();

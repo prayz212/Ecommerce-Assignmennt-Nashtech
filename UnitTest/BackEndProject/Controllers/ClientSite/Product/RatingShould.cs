@@ -20,8 +20,8 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             //Arrange
             ProductRatingWriteDto mockData = new ProductRatingWriteDto()
             {
-                productID = -1,
-                star = 4
+                ProductID = -1,
+                Star = 4
             };
 
             var mockProductService = new Mock<IProductService>();
@@ -43,8 +43,8 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             //Arrange
             ProductRatingWriteDto mockData = new ProductRatingWriteDto()
             {
-                productID = 1,
-                star = 4
+                ProductID = 1,
+                Star = 4
             };
 
             var mockProductService = new Mock<IProductService>();

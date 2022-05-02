@@ -20,12 +20,12 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             //Arrange
             var data = new ProductListReadDto()
             {
-                products = new List<ProductReadDto>()
+                Products = new List<ProductReadDto>()
                 {
-                    new ProductReadDto() { id = 1, name = "Product 1", prices = 120000, averageRate = 4.5, thumbnailName = "Image 1", thumbnailUri = "Uri image 1"}
+                    new ProductReadDto() { Id = 1, Name = "Product 1", Prices = 120000, AverageRate = 4.5, ThumbnailName = "Image 1", ThumbnailUri = "Uri image 1"}
                 },
-                currentPage = 1,
-                totalPage = 1
+                CurrentPage = 1,
+                TotalPage = 1
             };
             
             var mock = new Mock<IProductService>();
@@ -48,9 +48,9 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             //Arrange
             var data = new ProductListReadDto()
             {
-                products = new List<ProductReadDto>(),
-                currentPage = 2,
-                totalPage = 5
+                Products = new List<ProductReadDto>(),
+                CurrentPage = 2,
+                TotalPage = 5
             };
             
             var mock = new Mock<IProductService>();

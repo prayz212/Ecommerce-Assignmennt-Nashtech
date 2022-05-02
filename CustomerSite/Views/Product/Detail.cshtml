@@ -1,7 +1,7 @@
 ﻿@using Shared.Clients
 @model ProductDetailViewModel;
 @{
-    ViewData["Title"] = Model.product.name;
+    ViewData["Title"] = Model.Product.Name;
     var relativeSize = Int32.Parse(ViewData["Size"].ToString());
 }
 
@@ -9,13 +9,13 @@
     <div class="__details __container-md">
         <div class="__left">
             <div class="__main">
-                <img src="@Model.product.images.FirstOrDefault().uri" alt="@Model.product.images.FirstOrDefault().name">
+                <img src="@Model.Product.Images.FirstOrDefault().Uri" alt="@Model.Product.Images.FirstOrDefault().Name">
             </div>
             <div class="__thumbnails">
-                @foreach (ImageReadDto image in Model.product.images)
+                @foreach (ImageReadDto image in Model.Product.Images)
                 {
                    <div class="__thumbnail">
-                        <img src="@image.uri" alt="@image.name">
+                        <img src="@image.Uri" alt="@image.Name">
                     </div>   
                 }
             </div>
@@ -24,18 +24,18 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-body">
                     <li class="breadcrumb-item"><a asp-controller="Product" asp-action="Index" asp-route-category="TatCaSanPham">Sản phẩm</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">@Model.product.name</li>
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Product.Name</li>
                 </ol>
             </nav>
-            <h1>@Model.product.name</h1>
+            <h1>@Model.Product.Name</h1>
             <div class="__rating-sold">
                 <div class="__rating">
-                    @for (int i = 0; i < @Model.product.averageRate; i++)
+                    @for (int i = 0; i < @Model.Product.AverageRate; i++)
                     {
                         <i class="bx bxs-star"></i>
                     }
 
-                    @for (int i = 0; i < 5 - @Model.product.averageRate; i++)
+                    @for (int i = 0; i < 5 - @Model.Product.AverageRate; i++)
                     {
                         <i class="bx bx-star"></i>
                     }
@@ -46,10 +46,10 @@
                 </div>
             </div>
             <div class="__price-detail">
-                <div class="__final-price">@Model.product.prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))đ</div>
+                <div class="__final-price">@Model.Product.Prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))đ</div>
             </div>
             <form method="post" id="addToCartForm" asp-controller="Cart" asp-action="Add">
-                <input hidden value="@Model.product.id" name="id" />
+                <input hidden value="@Model.Product.Id" name="id" />
 
                 <div style="display: flex;">
                     <div class="quantity buttons_added">
@@ -106,7 +106,7 @@
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active p-3 __product-detail-content" id="detail" role="tabpanel" aria-labelledby="detail-tab">
-            <div>@Model.product.description</div>
+            <div>@Model.Product.Description</div>
             <div>
                 <button id="rating-product" class="_btn" style="margin-bottom: 10px; background-color: #009432">Đánh giá sản phẩm</button>
             </div>
@@ -114,7 +114,7 @@
     </div>
 </section>
 
-@await Component.InvokeAsync("RelativeProducts", new { id = Model.product.id, size = relativeSize })
+@await Component.InvokeAsync("RelativeProducts", new { id = Model.Product.Id, size = relativeSize })
 
 <partial name="../Partial/_Popup.cshtml">
 <partial name="../Partial/_Toast.cshtml">
