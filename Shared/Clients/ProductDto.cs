@@ -4,34 +4,34 @@ namespace Shared.Clients
 {
   public class ProductReadDto
   {
-    public int id { get; set; }
-    public string name { get; set; }
-    public int prices { get; set; }
-    public double averageRate { get; set; }
-    public string thumbnailName { get; set; }
-    public string thumbnailUri { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int Prices { get; set; }
+    public double AverageRate { get; set; }
+    public string ThumbnailName { get; set; }
+    public string ThumbnailUri { get; set; }
   }
 
   public class ProductDetailReadDto
   {
-    public int id { get; set; }
-    public string name { get; set; }
-    public string description { get; set; }
-    public int prices { get; set; }
-    public double averageRate { get; set; }
-    public IList<ImageReadDto> images { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public int Prices { get; set; }
+    public double AverageRate { get; set; }
+    public IList<ImageReadDto> Images { get; set; }
   }
 
   public class ProductListReadDto
   {
-    public IList<ProductReadDto> products { get; set; }
-    public int totalPage { get; set; }
-    public int currentPage { get; set; }
+    public IList<ProductReadDto> Products { get; set; }
+    public int TotalPage { get; set; }
+    public int CurrentPage { get; set; }
   }
 
   public class ProductRatingWriteDto
   {
-    public int productID { get; set; }
-    public int star { get; set; }
+    public int ProductID { get; set; }
+    public int Star { get; set; }
   }
 }

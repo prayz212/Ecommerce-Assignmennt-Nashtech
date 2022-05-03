@@ -8,13 +8,13 @@ namespace BackEnd.Interfaces
   public interface IProductRepository
   {
     Task<IList<ProductReadDto>> GetFeatureProducts(int page, int size);
-    Task<IList<ProductReadDto>> GetProductByCategory(string category, int page, int size);
+    Task<IList<ProductReadDto>> GetProductsByCategory(string category, int page, int size);
     Task<Product> GetProduct(int id);
     Task<IList<Product>> GetProducts(int page, int size);
-    Task<IList<ProductReadDto>> GetRelativeProduct(int categoryId, int productId, int size);
-    Task<int> CountProductByCategory(string category);
-    Task<int> CountAllProduct();
-    Task<int> CountFeatureProduct();
+    Task<IList<ProductReadDto>> GetRelativeProducts(int categoryId, int productId, int size);
+    Task<int> CountProductsByCategory(string category);
+    Task<int> CountAllProducts();
+    Task<int> CountFeatureProducts();
   }
 
   public interface ICategoryRepository

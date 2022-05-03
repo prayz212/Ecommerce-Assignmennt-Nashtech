@@ -20,9 +20,9 @@
 <body>
     <div class="__page pt-5">
         <div class="__content-wrap py-5">
-            @using Microsoft.AspNetCore.Http;
             @{
-                var isHomePage = ViewContext.RouteData.Values["controller"].ToString().Equals("Home") && ViewContext.RouteData.Values["action"].ToString().Equals("Index");
+                var routeValues = ViewContext.RouteData.Values.ToList();
+                var isHomePage = routeValues.Count == 2 ? routeValues[0].Value.ToString().Equals("Home") && routeValues[1].Value.ToString().Equals("Index") : false;
                 @*var isLoggedIn = Context.Session.GetInt32("user_id") != null;*@
             }
 

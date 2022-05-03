@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using BackEnd.Controllers.Admin;
 using BackEnd.Interfaces;
-using BackEnd.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using UnitTest.Utils;
 using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.AdminSite.Product
@@ -33,10 +33,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Product
         {
             //Arrange
             int id = 1;
-            ProductDetailDto product = null;
 
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.AdminGetProductDetail(id)).ReturnsAsync(product);
+            mockProductService.Setup(s => s.AdminGetProductDetail(id)).ReturnsAsync(MockData.NullProductDetailDto);
 
             var adminProductController = new AdminProductController(mockProductService.Object);
 
@@ -53,22 +52,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Product
         {
             //Arrange
             int id = 1;
-            var product = new ProductDetailDto
-            {
-                id = 1,
-                name = "product 1",
-                description = "description 1",
-                prices = 120000,
-                averageRate = 4.5,
-                isFeatured = false,
-                category = "category 1",
-                images = null,
-                createdAt = null,
-                updatedAt = null
-            };
 
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.AdminGetProductDetail(id)).ReturnsAsync(product);
+            mockProductService.Setup(s => s.AdminGetProductDetail(id)).ReturnsAsync(MockData.DummyProductDetailDto);
 
             var adminProductController = new AdminProductController(mockProductService.Object);
 
@@ -78,7 +64,7 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Product
 
             //Assert
             Assert.Equal(200, objectResult.StatusCode);
-            Assert.Equal(product, objectResult.Value);
+            Assert.Equal(MockData.DummyProductDetailDto, objectResult.Value);
         }
     }
 }

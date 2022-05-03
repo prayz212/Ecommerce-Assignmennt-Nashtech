@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CustomerSite.Interfaces;
 using CustomerSite.Services;
+using CustomerSite.Utils;
+using System.Text.Json;
 
 namespace CustomerSite
 {
@@ -27,15 +29,14 @@ namespace CustomerSite
                     options.ViewLocationFormats.Add("/{0}.cshtml");
                 });
 
-            services.AddHttpClient("API_SERVER", config => {
+            services.AddHttpClient(ConstantVariable.CLIENT_NAME, config => {
                 config.BaseAddress = new Uri(Configuration.GetValue<string>("HttpClient:BaseAddress"));
             });
 
             services.AddMemoryCache();
             services.AddRazorPages();
 
-            services.AddScoped<ISharedService, SharedService>();
-            services.AddScoped<IProductService, ProductService>();
+            services.AddServicesDependencyInjection();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

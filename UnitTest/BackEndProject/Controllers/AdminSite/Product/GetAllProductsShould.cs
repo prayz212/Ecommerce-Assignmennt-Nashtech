@@ -1,15 +1,15 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackEnd.Controllers.Admin;
 using BackEnd.Interfaces;
 using BackEnd.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using UnitTest.Utils;
 using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.AdminSite.Product
 {
-    public class GetAllProductShould
+    public class GetAllProductsShould
     {
         [Theory]
         [InlineData(-1, 5)]
@@ -36,10 +36,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Product
             //Arrange
             int page = 1;
             int size = 5;
-            ProductListDto products = null;
 
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.AdminGetProducts(page, size)).ReturnsAsync(products);
+            mockProductService.Setup(s => s.AdminGetProducts(page, size)).ReturnsAsync(MockData.NullProductListDto);
             
             var adminProductController = new AdminProductController(mockProductService.Object);
 
@@ -57,18 +56,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Product
             //Arrange
             int page = 1;
             int size = 5;
-            var products = new ProductListDto
-            {
-                products = new List<ProductDto>
-                {
-                    new ProductDto { id = 1, name = "Product 1", category = "Category 1", isFeatured = true, prices = 120000 },
-                },
-                totalPage = 1,
-                currentPage = 1,
-            };
 
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.AdminGetProducts(page, size)).ReturnsAsync(products);
+            mockProductService.Setup(s => s.AdminGetProducts(page, size)).ReturnsAsync(MockData.DummyProductListDto);
             
             var adminProductController = new AdminProductController(mockProductService.Object);
 
@@ -79,9 +69,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Product
             //Assert
             var actualResult = objectResult.Value as ProductListDto;
             Assert.Equal(200, objectResult.StatusCode);
-            Assert.Equal(products.products, actualResult.products);
-            Assert.Equal(products.totalPage, actualResult.totalPage);
-            Assert.Equal(products.currentPage, actualResult.currentPage);
+            Assert.Equal(MockData.DummyProductListDto.Products, actualResult.Products);
+            Assert.Equal(MockData.DummyProductListDto.TotalPage, actualResult.TotalPage);
+            Assert.Equal(MockData.DummyProductListDto.CurrentPage, actualResult.CurrentPage);
         }
     }
 }

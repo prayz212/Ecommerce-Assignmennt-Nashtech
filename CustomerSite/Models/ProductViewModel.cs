@@ -5,12 +5,12 @@ namespace CustomerSite.Models
 {
     public class ProductDetailViewModel
     {
-        public ProductDetailReadDto product { get; set; }
+        public ProductDetailReadDto Product { get; set; }
     }
 
     public class ProductListViewModel
     {
-        public IEnumerable<ProductReadDto> products { get; set; }
-        public PaginationViewModel pagination { get; set; }
+        public IEnumerable<ProductReadDto> Products { get; set; }
+        public PaginationViewModel Pagination { get; set; }
     }
 }

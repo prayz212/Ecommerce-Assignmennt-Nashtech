@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Shared.Clients;
 using Xunit;
+using AutoMapper;
+using UnitTest.Utils;
+using Newtonsoft.Json;
 
 namespace UnitTest.BackEndProject.Services.Category
 {
@@ -14,68 +17,34 @@ namespace UnitTest.BackEndProject.Services.Category
         public async Task ReturnCategoriesWhenHavingData()
         {
             //Arrange
-            IList<CategoryReadDto> expectedValue = new List<CategoryReadDto>()
-            {
-                new CategoryReadDto()
-                {
-                    id = 1,
-                    name = "TraiCayDaLat",
-                    displayName = "Trai Cay Da Lat",
-                    description = "Day la trai cay duoc trong o Da Lat"
-                },
-                new CategoryReadDto()
-                {
-                    id = 2,
-                    name = "TraiCayQuyNhon",
-                    displayName = "Trai Cay Quy Nhon",
-                    description = "Day la trai cay duoc trong o Quy Nhon"
-                }
-            };
+            var mockCategoryRepository = new Mock<ICategoryRepository>();
+            mockCategoryRepository.Setup(c => c.GetCategories()).ReturnsAsync(MockData.DummyListCategory);
 
-            IList<BackEnd.Models.Category> mockData = new List<BackEnd.Models.Category>()
-            {
-                new BackEnd.Models.Category()
-                {
-                    Id = 1,
-                    Name = "TraiCayDaLat",
-                    DisplayName = "Trai Cay Da Lat",
-                    Description = "Day la trai cay duoc trong o Da Lat",
-                    IsDeleted = false
-                },
-                new BackEnd.Models.Category()
-                {
-                    Id = 2,
-                    Name = "TraiCayQuyNhon",
-                    DisplayName = "Trai Cay Quy Nhon",
-                    Description = "Day la trai cay duoc trong o Quy Nhon",
-                    IsDeleted = false
-                }
-            };
+            var mockAutoMapper = new Mock<IMapper>();
+            mockAutoMapper.Setup(m => m.Map<IEnumerable<CategoryReadDto>>(MockData.DummyListCategory)).Returns(MockData.DummyListCategoryReadDto);
 
-            var mock = new Mock<ICategoryRepository>();
-            mock.Setup(c => c.GetCategories()).ReturnsAsync(mockData);
-
-            var categoryService = new CategoryService(mock.Object);
+            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
             
             //Act
             var actualResult = new List<CategoryReadDto>(await categoryService.GetCategories());
 
             //Assert
             Assert.NotEmpty(actualResult);
-            Assert.Equal(expectedValue.Count, actualResult.Count);
+            Assert.Equal(MockData.DummyListCategoryReadDto.Count, actualResult.Count);
+            Assert.True(string.Equals(JsonConvert.SerializeObject(MockData.DummyListCategoryReadDto), JsonConvert.SerializeObject(actualResult)));
         }
 
         [Fact]
         public async Task ReturnEmptyListWhenCategoriesIsEmpty()
         {
             //Arrange
-            IList<CategoryReadDto> expectedValue = new List<CategoryReadDto>();
-            IList<BackEnd.Models.Category> mockData = new List<BackEnd.Models.Category>();
+            var mockCategoryRepository = new Mock<ICategoryRepository>();
+            mockCategoryRepository.Setup(c => c.GetCategories()).ReturnsAsync(MockData.EmptyListCategory);
 
-            var mock = new Mock<ICategoryRepository>();
-            mock.Setup(c => c.GetCategories()).ReturnsAsync(mockData);
+            var mockAutoMapper = new Mock<IMapper>();
+            mockAutoMapper.Setup(m => m.Map<IEnumerable<CategoryReadDto>>(MockData.EmptyListCategory)).Returns(MockData.EmptyListCategoryReadDto);
 
-            var categoryService = new CategoryService(mock.Object);
+            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
             
             //Act
             IList<CategoryReadDto> actualResult = new List<CategoryReadDto>(await categoryService.GetCategories());

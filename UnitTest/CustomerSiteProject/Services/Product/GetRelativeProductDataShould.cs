@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -6,7 +5,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CustomerSite.Services;
-using CustomerSite.Utils;
+using UnitTest.Utils;
 using Moq;
 using Moq.Protected;
 using Shared.Clients;
@@ -24,12 +23,12 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             {
                 new ProductReadDto
                 {
-                    id = 1,
-                    name = "San pham 1",
-                    prices = 120000,
-                    averageRate = 5,
-                    thumbnailName = "Tao my 1",
-                    thumbnailUri = "https://res.cloudinary.com/dazdxrnam/image/upload/v1643018065/NongSanBaoLam/DSCF7556_1643018065.jpg"
+                    Id = 1,
+                    Name = "San pham 1",
+                    Prices = 120000,
+                    AverageRate = 5,
+                    ThumbnailName = "Tao my 1",
+                    ThumbnailUri = "https://res.cloudinary.com/dazdxrnam/image/upload/v1643018065/NongSanBaoLam/DSCF7556_1643018065.jpg"
                 }
             };
 
@@ -50,10 +49,10 @@ namespace UnitTest.CustomerSiteProject.Services.Product
                 .ReturnsAsync(response);
 
             var httpClient = new HttpClient(mockHttpClient.Object);
-            httpClient.BaseAddress = new System.Uri("https://localhost:4546/");
+            httpClient.BaseAddress = new System.Uri(ConstantVariable.BASE_URL);
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
-            mockHttpClientFactory.Setup(c => c.CreateClient(Constant.CLIENT_NAME)).Returns(httpClient);
+            mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
             var productService = new ProductService(mockHttpClientFactory.Object);
 
@@ -84,10 +83,10 @@ namespace UnitTest.CustomerSiteProject.Services.Product
                 .ReturnsAsync(response);
 
             var httpClient = new HttpClient(mockHttpClient.Object);
-            httpClient.BaseAddress = new System.Uri("https://localhost:4546/");
+            httpClient.BaseAddress = new System.Uri(ConstantVariable.BASE_URL);
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
-            mockHttpClientFactory.Setup(c => c.CreateClient(Constant.CLIENT_NAME)).Returns(httpClient);
+            mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
             var productService = new ProductService(mockHttpClientFactory.Object);
 

@@ -5,6 +5,6 @@ namespace CustomerSite.Models
 {
     public class HomeIndexViewModel
     {
-        public IEnumerable<ProductReadDto> products { get; set; }
+        public IEnumerable<ProductReadDto> Products { get; set; }
     }
 }

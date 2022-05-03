@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CustomerSite.Services;
-using CustomerSite.Utils;
+using UnitTest.Utils;
 using Moq;
 using Moq.Protected;
 using Shared.Clients;
@@ -22,12 +19,12 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             //Arrange
             var expectedValues = new ProductDetailReadDto
             {
-                id = 1,
-                name = "San pham 1",
-                prices = 120000,
-                averageRate = 5,
-                description = "Mo ta",
-                images = null
+                Id = 1,
+                Name = "San pham 1",
+                Prices = 120000,
+                AverageRate = 5,
+                Description = "Mo ta",
+                Images = null
             };
 
             var response = new HttpResponseMessage
@@ -47,10 +44,10 @@ namespace UnitTest.CustomerSiteProject.Services.Product
                 .ReturnsAsync(response);
 
             var httpClient = new HttpClient(mockHttpClient.Object);
-            httpClient.BaseAddress = new System.Uri("https://localhost:4546/");
+            httpClient.BaseAddress = new System.Uri(ConstantVariable.BASE_URL);
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
-            mockHttpClientFactory.Setup(c => c.CreateClient(Constant.CLIENT_NAME)).Returns(httpClient);
+            mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
             var productService = new ProductService(mockHttpClientFactory.Object);
 
@@ -58,7 +55,7 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             ProductDetailReadDto result = await productService.GetProductDetailData(1);
 
             //Assert
-            Assert.Equal(expectedValues.id, result.id);
+            Assert.Equal(expectedValues.Id, result.Id);
         }
 
         [Fact]
@@ -81,10 +78,10 @@ namespace UnitTest.CustomerSiteProject.Services.Product
                 .ReturnsAsync(response);
 
             var httpClient = new HttpClient(mockHttpClient.Object);
-            httpClient.BaseAddress = new System.Uri("https://localhost:4546/");
+            httpClient.BaseAddress = new System.Uri(ConstantVariable.BASE_URL);
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
-            mockHttpClientFactory.Setup(c => c.CreateClient(Constant.CLIENT_NAME)).Returns(httpClient);
+            mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
             var productService = new ProductService(mockHttpClientFactory.Object);
 

@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using BackEnd.Services;
 using Moq;
-using Shared.Clients;
 using Xunit;
+using AutoMapper;
+using UnitTest.Utils;
+using Shared.Clients;
 
 namespace UnitTest.BackEndProject.Services.Product
 {
@@ -19,8 +21,8 @@ namespace UnitTest.BackEndProject.Services.Product
 
             var mockProductRepository = new Mock<IProductRepository>();
             var mockRatingRepository = new Mock<IRatingRepository>();
-            
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
+            var mockAutoMapper = new Mock<IMapper>();
+            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
             
             //Act
             var result = await productService.GetProductDetailById(productId);
@@ -34,49 +36,22 @@ namespace UnitTest.BackEndProject.Services.Product
         {
             //Arrange
             var productId = 1;
-            var rawProduct = new BackEnd.Models.Product 
-            { 
-                Id = 1, 
-                Name = "Product 1", 
-                Prices = 120000, 
-                Description = "Description 1", 
-                Ratings = new List<BackEnd.Models.Rating> 
-                {
-                    new BackEnd.Models.Rating { Id = 2, ProductID = 1, Stars = 4}
-                },
-                Images = new List<BackEnd.Models.Image>
-                {
-                    new BackEnd.Models.Image { Id = 1, Name = "image 1", ProductId = 1, Uri = "uri 1" },
-                    new BackEnd.Models.Image { Id = 2, Name = "image 2", ProductId = 1, Uri = "uri 2" },
-                }
-            };
-
-            var expectedValue = new ProductDetailReadDto()
-            {
-                id = 1,
-                name = "Product 1",
-                description = "Description 1",
-                prices = 120000,
-                averageRate = 4,
-                images = new List<ImageReadDto>()
-                {
-                    new ImageReadDto() { name = "image 1", uri = "uri 1"},
-                    new ImageReadDto() { name = "image 2", uri = "uri 2"},
-                }
-            };
 
             var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.GetProduct(productId)).ReturnsAsync(rawProduct);
+            mockProductRepository.Setup(r => r.GetProduct(productId)).ReturnsAsync(MockData.DummyProduct);
 
             var mockRatingRepository = new Mock<IRatingRepository>();
-            
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object);
+
+            var mockAutoMapper = new Mock<IMapper>();            
+            mockAutoMapper.Setup(m => m.Map<ProductDetailReadDto>(MockData.DummyProduct)).Returns(MockData.DummyProductDetailReadDto);
+
+            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
             
             //Act
             var result = await productService.GetProductDetailById(productId);
             
             //Assert
-            Assert.True(string.Equals(JsonConvert.SerializeObject(expectedValue), JsonConvert.SerializeObject(result)));
+            Assert.True(string.Equals(JsonConvert.SerializeObject(MockData.DummyProductDetailReadDto), JsonConvert.SerializeObject(result)));
         }
     }
 }

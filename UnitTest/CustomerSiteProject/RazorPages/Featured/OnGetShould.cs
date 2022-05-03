@@ -20,9 +20,9 @@ namespace UnitTest.CustomerSiteProject.RazorPages.Featured
             int size = 9;
             ProductListReadDto mockProductData = new ProductListReadDto
             {
-                products = new List<ProductReadDto>(),
-                totalPage = 1,
-                currentPage = 1
+                Products = new List<ProductReadDto>(),
+                TotalPage = 1,
+                CurrentPage = 1
             };
             var mockProductService = new Mock<IProductService>();
             mockProductService.Setup(s => s.GetFeaturedProductData(page, size)).ReturnsAsync(mockProductData);

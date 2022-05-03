@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
+using BackEnd.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers.Admin
@@ -9,8 +10,6 @@ namespace BackEnd.Controllers.Admin
     public class AdminProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private const int DEFAULT_PAGE_NUMBER = 1;
-        private const int DEFAULT_SIZE_PER_PAGE = 10;
 
         public AdminProductController(IProductService productService)
         {
@@ -18,7 +17,7 @@ namespace BackEnd.Controllers.Admin
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts([FromQuery] int page = DEFAULT_PAGE_NUMBER, [FromQuery] int size = DEFAULT_SIZE_PER_PAGE)
+        public async Task<IActionResult> GetAllProducts([FromQuery] int page = ConstantVariable.DEFAULT_PRODUCT_PAGE_NUMBER, [FromQuery] int size = ConstantVariable.DEFAULT_ADMIN_PRODUCT_SIZE_PER_PAGE)
         {
             if (page < 1 || size < 1) return BadRequest();
             var products = await _productService.AdminGetProducts(page, size);

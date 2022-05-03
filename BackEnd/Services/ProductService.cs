@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using BackEnd.Interfaces;
 using BackEnd.Models;
 using BackEnd.Models.ViewModels;
+using BackEnd.Utils;
 using Shared.Clients;
 
 namespace BackEnd.Services
@@ -13,19 +15,20 @@ namespace BackEnd.Services
     {
         private readonly IProductRepository _productRepository;
         private readonly IRatingRepository _ratingRepository;
-        private const string GET_ALL_PRODUCT = "TatCaSanPham";
+        private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository, IRatingRepository ratingRepository)
+        public ProductService(IProductRepository productRepository, IRatingRepository ratingRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _ratingRepository = ratingRepository;
+            _mapper = mapper;
         }
 
-        public async Task<ProductListReadDto> GetFeatureProduct(int page, int size)
+        public async Task<ProductListReadDto> GetFeatureProducts(int page, int size)
         {
             if (page <= 0 || size <= 0) return null;
             
-            var count = await _productRepository.CountFeatureProduct();
+            var count = await _productRepository.CountFeatureProducts();
             var totalPage = this.GetTotalPage(count, size);
 
             //first condition: total page = -1 mean GetTotalPage function occurred error
@@ -39,22 +42,22 @@ namespace BackEnd.Services
 
             return new ProductListReadDto()
             {
-                products = products,
-                totalPage = totalPage,
-                currentPage = totalPage > 0 ? page : 0,
+                Products = products,
+                TotalPage = totalPage,
+                CurrentPage = totalPage > 0 ? page : 0,
             };
         }
 
-        public async Task<ProductListReadDto> GetProductByCategory(string category, int page, int size)
+        public async Task<ProductListReadDto> GetProductsByCategory(string category, int page, int size)
         {
             if (string.IsNullOrEmpty(category) || page <= 0 || size <= 0) return null;
 
-            if (string.Equals(category, GET_ALL_PRODUCT)) 
+            if (string.Equals(category, ConstantVariable.DEFAULT_PRODUCT_CATEGORY)) 
             {
-                return await this.GetAllProduct(page, size);
+                return await this.GetAllProducts(page, size);
             }
 
-            var count = await _productRepository.CountProductByCategory(category);
+            var count = await _productRepository.CountProductsByCategory(category);
             var totalPage = this.GetTotalPage(count, size);
 
             //first condition: total page = -1 mean GetTotalPage function occurred error
@@ -64,13 +67,13 @@ namespace BackEnd.Services
                 return null;
             }
 
-            var products = await _productRepository.GetProductByCategory(category, page, size);
+            var products = await _productRepository.GetProductsByCategory(category, page, size);
 
             return new ProductListReadDto() 
             { 
-                products = products,
-                totalPage = totalPage,
-                currentPage = totalPage > 0 ? page : 0,
+                Products = products,
+                TotalPage = totalPage,
+                CurrentPage = totalPage > 0 ? page : 0,
             };
         }
 
@@ -81,22 +84,14 @@ namespace BackEnd.Services
             var rawProduct = await _productRepository.GetProduct(id);
             return rawProduct is null
                 ? null
-                : new ProductDetailReadDto
-                {
-                    id = rawProduct.Id,
-                    name = rawProduct.Name,
-                    description = rawProduct.Description,
-                    prices = rawProduct.Prices,
-                    averageRate = rawProduct.Ratings.FirstOrDefault() is not null ? rawProduct.Ratings.Average(r => r.Stars) : 0,
-                    images = rawProduct.Images.Select(i => new ImageReadDto { name = i.Name, uri = i.Uri }).ToList<ImageReadDto>()
-                };
+                : _mapper.Map<ProductDetailReadDto>(rawProduct);
         }
 
-        public async Task<ProductListReadDto> GetAllProduct(int page, int size)
+        public async Task<ProductListReadDto> GetAllProducts(int page, int size)
         {
             if (page <= 0 || size <= 0) return null;
 
-            var count = await _productRepository.CountAllProduct();
+            var count = await _productRepository.CountAllProducts();
             var totalPage = this.GetTotalPage(count, size);
 
             //first condition: total page = -1 mean GetTotalPage function occurred error
@@ -107,30 +102,13 @@ namespace BackEnd.Services
             }
 
             var rawProducts = await _productRepository.GetProducts(page, size);
-            var products = new List<ProductReadDto>();
-            if (rawProducts is not null && rawProducts.Count > 0)
-            {
-                foreach(Product product in rawProducts)
-                {
-                    var element = new ProductReadDto
-                    {
-                        id = product.Id,
-                        name = product.Name,
-                        prices = product.Prices,
-                        averageRate = product.Ratings.FirstOrDefault() is not null ? product.Ratings.Average(r => r.Stars) : 0,
-                        thumbnailName = product.Images.FirstOrDefault().Name,
-                        thumbnailUri = product.Images.FirstOrDefault().Uri
-                    };
-
-                    products.Add(element);
-                }
-            }
+            var products = _mapper.Map<IEnumerable<ProductReadDto>>(rawProducts);
 
             return new ProductListReadDto()
             {
-                products = products,
-                totalPage = totalPage,
-                currentPage = totalPage > 0 ? page : 0,
+                Products = products.ToList(),
+                TotalPage = totalPage,
+                CurrentPage = totalPage > 0 ? page : 0,
             };
         }
 
@@ -141,18 +119,18 @@ namespace BackEnd.Services
             var product = await _productRepository.GetProduct(id);
             if (product is null) return null;
 
-            var products = await _productRepository.GetRelativeProduct(product.CategoryId, product.Id, size);
+            var products = await _productRepository.GetRelativeProducts(product.CategoryId, product.Id, size);
             return products;
         }
 
         public async Task<bool> ProductRating(ProductRatingWriteDto data)
         {
-            if (data.productID <= 0 || data.star <= 0)
+            if (data.ProductID <= 0 || data.Star <= 0)
             {
                 return false;
             }
 
-            var product = await _productRepository.GetProduct(data.productID);
+            var product = await _productRepository.GetProduct(data.ProductID);
             if (product is null)
             {
                 return false;
@@ -169,7 +147,7 @@ namespace BackEnd.Services
 
         public async Task<ProductListDto> AdminGetProducts(int page, int size)
         {
-            var count = await _productRepository.CountAllProduct();
+            var count = await _productRepository.CountAllProducts();
             var totalPage = this.GetTotalPage(count, size);
 
             //first condition: total page = -1 mean GetTotalPage function occurred error
@@ -180,30 +158,13 @@ namespace BackEnd.Services
             }
 
             var products = await _productRepository.GetProducts(page, size);
-            var result = new List<ProductDto>();
-
-            if (products is not null && products.Count > 0)
-            {
-                foreach(Product product in products)
-                {
-                    var element = new ProductDto
-                    {
-                        id = product.Id,
-                        name = product.Name,
-                        prices = product.Prices,
-                        category = product.Category.DisplayName,
-                        isFeatured = product.IsFeatured
-                    };
-
-                    result.Add(element);
-                }
-            }
+            var result = _mapper.Map<IEnumerable<ProductDto>>(products);
 
             return new ProductListDto
             {
-                products = result,
-                totalPage = totalPage,
-                currentPage = totalPage > 0 ? page : 0,
+                Products = result,
+                TotalPage = totalPage,
+                CurrentPage = totalPage > 0 ? page : 0,
             };
         }
 
@@ -212,19 +173,7 @@ namespace BackEnd.Services
             var product = await _productRepository.GetProduct(id);
             return product is null
                 ? null
-                : new ProductDetailDto
-                {
-                    id = product.Id,
-                    name = product.Name,
-                    description = product.Description,
-                    category = product.Category.DisplayName,
-                    prices = product.Prices,
-                    isFeatured = product.IsFeatured,
-                    averageRate = product.Ratings.FirstOrDefault() is not null ? product.Ratings.Average(r => r.Stars) : 0,
-                    images = product.Images.Select(i => new ImageReadDto { name = i.Name, uri = i.Uri }).ToList<ImageReadDto>(),
-                    createdAt = product.CreatedDate.ToString("dd/MM/yyyy"),
-                    updatedAt = product.UpdatedDate.ToString("dd/MM/yyyy")
-                };
+                : _mapper.Map<ProductDetailDto>(product);
         }
     }
 }

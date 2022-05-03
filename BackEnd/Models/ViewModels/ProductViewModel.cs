@@ -5,26 +5,26 @@ namespace BackEnd.Models.ViewModels
 {
     public class ProductDto
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public int prices { get; set; }
-        public bool isFeatured { get; set; }
-        public string category { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Prices { get; set; }
+        public bool IsFeatured { get; set; }
+        public string Category { get; set; }
     }
 
     public class ProductDetailDto : ProductDto
     {
-        public IList<ImageReadDto> images { get; set; }
-        public string description { get; set; }
-        public double averageRate { get; set; }
-        public string createdAt { get; set; }
-        public string updatedAt { get; set; }
+        public IList<ImageReadDto> Images { get; set; }
+        public string Description { get; set; }
+        public double AverageRate { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
     }
 
     public class ProductListDto
     {
-        public IEnumerable<ProductDto> products { get; set; }
-        public int totalPage { get; set; }
-        public int currentPage { get; set; }
+        public IEnumerable<ProductDto> Products { get; set; }
+        public int TotalPage { get; set; }
+        public int CurrentPage { get; set; }
     }
 }

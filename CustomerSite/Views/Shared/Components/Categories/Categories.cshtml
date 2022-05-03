@@ -10,7 +10,7 @@
     <ul class="list-group category_block">
     @foreach(CategoryReadDto category in Model)
     {
-        <a asp-controller="Product" asp-action="Index" asp-route-category="@category.name"><li class="list-group-item px-5 py-3 @(category.name == currentCategory ? "__selected-category" : "")">@category.displayName</li></a>
+        <a asp-controller="Product" asp-action="Index" asp-route-category="@category.Name"><li class="list-group-item px-5 py-3 @(category.Name == currentCategory ? "__selected-category" : "")">@category.DisplayName</li></a>
     }
     </ul>
 </div>

@@ -4,6 +4,9 @@ using BackEnd.Services;
 using Moq;
 using BackEnd.Models.ViewModels;
 using Xunit;
+using AutoMapper;
+using UnitTest.Utils;
+using Newtonsoft.Json;
 
 namespace UnitTest.BackEndProject.Services.Category
 {
@@ -13,20 +16,14 @@ namespace UnitTest.BackEndProject.Services.Category
         public async Task ReturnNullWhenCategoryIsNull()
         {
             //Arrange
-            var dto = new CategoryDetailDto
-            {
-                id = 1,
-                name = "name",
-                displayName = "display name",
-                description = "description"
-            };
-
-            BackEnd.Models.Category mockData = null;
+            CategoryDetailDto dto = MockData.DummyCategoryDetailDto;
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategory(dto.id)).ReturnsAsync(mockData);
+            mockCategoryRepository.Setup(r => r.GetCategory(dto.Id)).ReturnsAsync(MockData.NullCategory);
 
-            var categoryService = new CategoryService(mockCategoryRepository.Object);
+            var mockAutoMapper = new Mock<IMapper>();
+
+            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await categoryService.UpdateCategory(dto);
@@ -39,28 +36,15 @@ namespace UnitTest.BackEndProject.Services.Category
         public async Task ReturnNullWhenUpdateResultIsFalse()
         {
             //Arrange
-            var inputData = new CategoryDetailDto
-            {
-                id = 1,
-                name = "edited name",
-                displayName = "edited display name",
-                description = "edited description"
-            };
-
-            var mockData = new BackEnd.Models.Category
-            {
-                Id = 1,
-                Name = "name",
-                DisplayName = "display name",
-                Description = "description",
-                IsDeleted = false
-            };
+            CategoryDetailDto inputData = MockData.DummyCategoryDetailDto;
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategory(inputData.id)).ReturnsAsync(mockData);
-            mockCategoryRepository.Setup(r => r.UpdateCategory(mockData)).ReturnsAsync(false);
+            mockCategoryRepository.Setup(r => r.GetCategory(inputData.Id)).ReturnsAsync(MockData.DummyCategory);
+            mockCategoryRepository.Setup(r => r.UpdateCategory(MockData.DummyCategory)).ReturnsAsync(false);
 
-            var categoryService = new CategoryService(mockCategoryRepository.Object);
+            var mockAutoMapper = new Mock<IMapper>();
+
+            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await categoryService.UpdateCategory(inputData);
@@ -73,38 +57,23 @@ namespace UnitTest.BackEndProject.Services.Category
         public async Task ReturnDataWhenUpdateResultIsTrue()
         {
             //Arrange
-            var inputData = new CategoryDetailDto
-            {
-                id = 1,
-                name = "name",
-                displayName = "display name",
-                description = "description"
-            };
-
-            var mockData = new BackEnd.Models.Category
-            {
-                Id = 1,
-                Name = "name",
-                DisplayName = "display name",
-                Description = "description",
-                IsDeleted = false
-            };
+            CategoryDetailDto inputData = MockData.DummyCategoryDetailDto;
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategory(inputData.id)).ReturnsAsync(mockData);
-            mockCategoryRepository.Setup(r => r.UpdateCategory(mockData)).ReturnsAsync(true);
+            mockCategoryRepository.Setup(r => r.GetCategory(inputData.Id)).ReturnsAsync(MockData.DummyCategory);
+            mockCategoryRepository.Setup(r => r.UpdateCategory(MockData.DummyCategory)).ReturnsAsync(true);
 
-            var categoryService = new CategoryService(mockCategoryRepository.Object);
+            var mockAutoMapper = new Mock<IMapper>();
+            mockAutoMapper.Setup(m => m.Map<CategoryDetailDto>(MockData.DummyCategory)).Returns(MockData.DummyCategoryDetailDto);
+
+            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await categoryService.UpdateCategory(inputData);
 
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(inputData.id, result.id);
-            Assert.Equal(inputData.name, result.name);
-            Assert.Equal(inputData.displayName, result.displayName);
-            Assert.Equal(inputData.description, result.description);
+            Assert.True(string.Equals(JsonConvert.SerializeObject(MockData.DummyCategoryDetailDto), JsonConvert.SerializeObject(result)));
         }
     }
 }

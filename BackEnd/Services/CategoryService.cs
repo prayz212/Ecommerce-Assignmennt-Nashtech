@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using BackEnd.Interfaces;
 using BackEnd.Models;
 using BackEnd.Models.ViewModels;
@@ -10,32 +11,18 @@ namespace BackEnd.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public CategoryService(ICategoryRepository categoryRepository)
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<CategoryDto>> AdminGetCategories(int page, int size)
         {
             var categories = await _categoryRepository.GetCategories(page, size);
-            var result = new List<CategoryDto>();
-
-            if (categories is not null && categories.Count > 0) 
-            {
-                foreach(Category category in categories)
-                {
-                    var element = new CategoryDto
-                    {
-                        id = category.Id,
-                        name = category.Name,
-                        displayName = category.DisplayName
-                    };
-
-                    result.Add(element);
-                }
-            }
-
+            var result = _mapper.Map<IEnumerable<CategoryDto>>(categories);
             return result;
         }
 
@@ -43,20 +30,14 @@ namespace BackEnd.Services
         {
             var newCategory = new Category
             {
-                Name = dto.name,
-                DisplayName = dto.displayName,
-                Description = dto.description,
+                Name = dto.Name,
+                DisplayName = dto.DisplayName,
+                Description = dto.Description,
             };
 
             var saveResult = await _categoryRepository.NewCategory(newCategory);
             return saveResult 
-                ? new CategoryDetailDto
-                    {
-                        id = newCategory.Id,
-                        name = newCategory.Name,
-                        displayName = newCategory.DisplayName,
-                        description = newCategory.Description,
-                    }
+                ? _mapper.Map<CategoryDetailDto>(newCategory)
                 : null;
         }
 
@@ -73,24 +54,7 @@ namespace BackEnd.Services
         public async Task<IEnumerable<CategoryReadDto>> GetCategories()
         {
             var categories = await _categoryRepository.GetCategories();
-            var result = new List<CategoryReadDto>();
-
-            if (categories is not null && categories.Count > 0) 
-            {
-                foreach(Category category in categories)
-                {
-                    var element = new CategoryReadDto
-                    {
-                        id = category.Id,
-                        name = category.Name,
-                        displayName = category.DisplayName,
-                        description = category.Description
-                    };
-
-                    result.Add(element);
-                }
-            }
-
+            var result = _mapper.Map<IEnumerable<CategoryReadDto>>(categories);
             return result;
         }
 
@@ -99,33 +63,21 @@ namespace BackEnd.Services
             var category = await _categoryRepository.GetCategory(id);
             return category is null
                 ? null
-                : new CategoryDetailDto
-                {
-                    id = category.Id,
-                    name = category.Name,
-                    displayName = category.DisplayName,
-                    description = category.Description
-                };
+                : _mapper.Map<CategoryDetailDto>(category);
         }
 
         public async Task<CategoryDetailDto> UpdateCategory(CategoryDetailDto dto)
         {
-            Category category = await _categoryRepository.GetCategory(dto.id);
+            Category category = await _categoryRepository.GetCategory(dto.Id);
             if (category is null) return null;
 
-            category.Name = dto.name;
-            category.DisplayName = dto.displayName;
-            category.Description = dto.description;
+            category.Name = dto.Name;
+            category.DisplayName = dto.DisplayName;
+            category.Description = dto.Description;
 
             var updateResult = await _categoryRepository.UpdateCategory(category);
             return updateResult 
-                ? new CategoryDetailDto
-                {
-                    id = category.Id,
-                    name = category.Name,
-                    displayName = category.DisplayName,
-                    description = category.Description
-                }
+                ? _mapper.Map<CategoryDetailDto>(category)
                 : null;
         }
     }

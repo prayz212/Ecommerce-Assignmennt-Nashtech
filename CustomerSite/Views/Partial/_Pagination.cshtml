@@ -1,14 +1,14 @@
 @model PaginationViewModel;
 
-@if (Model.totalPage > 1)
+@if (Model.TotalPage > 1)
 {
     <div class="__pagination">
         <div class="">
 
-            @if (Model.currentPage != 1)
+            @if (Model.CurrentPage != 1)
             {
                 @*Left arrow*@
-                <a asp-controller="@Model.controller" asp-action="@Model.action" asp-route-category="@Model.category" asp-route-page="@(Model.currentPage - 1)" class="btn shadow-none p-0">
+                <a asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-category="@Model.Category" asp-route-page="@(Model.CurrentPage - 1)" class="btn shadow-none p-0">
                     <span>
                         <i class='bx bx-left-arrow-alt'></i>
                     </span>
@@ -16,7 +16,7 @@
             }
 
             @{
-                double rank = (double)Model.currentPage / 5;
+                double rank = (double)Model.CurrentPage / 5;
                 var from = -2;
                 var to = 2;
 
@@ -33,12 +33,12 @@
 
                 for(var i = from; i <= to; i++)
                 {
-                    @if (Model.totalPage != 1)
+                    @if (Model.TotalPage != 1)
                     {
                         var pageNumber = i + (rank * 5);
-                        if (pageNumber - 1 == Model.totalPage) break;
+                        if (pageNumber - 1 == Model.TotalPage) break;
 
-                        <a class="btn shadow-none p-0 @(pageNumber == Model.currentPage ? "disabled" : "")" asp-controller="@Model.controller" asp-action="@Model.action" asp-route-category="@Model.category" asp-route-page="@pageNumber">
+                        <a class="btn shadow-none p-0 @(pageNumber == Model.CurrentPage ? "disabled" : "")" asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-category="@Model.Category" asp-route-page="@pageNumber">
                             <span>
                                 @pageNumber
                             </span>
@@ -47,10 +47,10 @@
                 }
             }
 
-            @if (Model.currentPage != Model.totalPage && Model.totalPage > 0)
+            @if (Model.CurrentPage != Model.TotalPage && Model.TotalPage > 0)
             {
                 @*Right arrow*@
-                <a class="btn shadow-none p-0" asp-controller="@Model.controller" asp-action="@Model.action" asp-route-category="@Model.category" asp-route-page="@(Model.currentPage + 1)">
+                <a class="btn shadow-none p-0" asp-controller="@Model.Controller" asp-action="@Model.Action" asp-route-category="@Model.Category" asp-route-page="@(Model.CurrentPage + 1)">
                     <span>
                         <i class='bx bx-right-arrow-alt'></i>
                     </span>

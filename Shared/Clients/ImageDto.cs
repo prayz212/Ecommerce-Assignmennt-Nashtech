@@ -2,7 +2,7 @@
 {
     public class ImageReadDto
     {
-        public string name { get; set; }
-        public string uri { get; set; } 
+        public string Name { get; set; }
+        public string Uri { get; set; } 
     }
 }

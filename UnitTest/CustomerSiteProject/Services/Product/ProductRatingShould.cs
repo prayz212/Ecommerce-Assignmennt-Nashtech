@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using CustomerSite.Services;
-using CustomerSite.Utils;
+using UnitTest.Utils;
 using Moq;
 using Moq.Protected;
 using Shared.Clients;
@@ -37,15 +34,15 @@ namespace UnitTest.CustomerSiteProject.Services.Product
                 .ReturnsAsync(response);
 
             var httpClient = new HttpClient(mockHttpClient.Object);
-            httpClient.BaseAddress = new System.Uri("https://localhost:4546/");
+            httpClient.BaseAddress = new System.Uri(ConstantVariable.BASE_URL);
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
-            mockHttpClientFactory.Setup(c => c.CreateClient(Constant.CLIENT_NAME)).Returns(httpClient);
+            mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
             var productService = new ProductService(mockHttpClientFactory.Object);
 
             //Act
-            var result = await productService.ProductRating(new ProductRatingWriteDto { productID = 1, star = 5 });
+            var result = await productService.ProductRating(new ProductRatingWriteDto { ProductID = 1, Star = 5 });
 
             //Assert
             Assert.True(result);
@@ -72,15 +69,15 @@ namespace UnitTest.CustomerSiteProject.Services.Product
                 .ReturnsAsync(response);
 
             var httpClient = new HttpClient(mockHttpClient.Object);
-            httpClient.BaseAddress = new System.Uri("https://localhost:4546/");
+            httpClient.BaseAddress = new System.Uri(ConstantVariable.BASE_URL);
 
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
-            mockHttpClientFactory.Setup(c => c.CreateClient(Constant.CLIENT_NAME)).Returns(httpClient);
+            mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
             var productService = new ProductService(mockHttpClientFactory.Object);
 
             //Act
-            var result = await productService.ProductRating(new ProductRatingWriteDto { productID = 1, star = 5 });
+            var result = await productService.ProductRating(new ProductRatingWriteDto { ProductID = 1, Star = 5 });
 
             //Assert
             Assert.False(result);

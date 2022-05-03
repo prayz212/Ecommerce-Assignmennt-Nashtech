@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using BackEnd.Interfaces;
 using BackEnd.Services;
 using Moq;
+using UnitTest.Utils;
 using Xunit;
 
 namespace UnitTest.BackEndProject.Services.Category
@@ -14,12 +16,12 @@ namespace UnitTest.BackEndProject.Services.Category
         public async Task ReturnFalseWhenCategoryIsNull(int id)
         {
             //Arrange
-            BackEnd.Models.Category mockData = null;
-
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategory(id)).ReturnsAsync(mockData);
+            mockCategoryRepository.Setup(r => r.GetCategory(id)).ReturnsAsync(MockData.NullCategory);
 
-            var categoryService = new CategoryService(mockCategoryRepository.Object);
+            var mockAutoMapper = new Mock<IMapper>();
+
+            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await categoryService.DeleteCategory(id);
@@ -33,20 +35,14 @@ namespace UnitTest.BackEndProject.Services.Category
         {
             //Arrange
             int id = 1;
-            var mockData = new BackEnd.Models.Category
-            {
-                Id = 1,
-                Name = "name",
-                DisplayName = "display name",
-                Description = "description",
-                IsDeleted = false
-            };
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategory(id)).ReturnsAsync(mockData);
-            mockCategoryRepository.Setup(r => r.UpdateCategory(mockData)).ReturnsAsync(false);
+            mockCategoryRepository.Setup(r => r.GetCategory(id)).ReturnsAsync(MockData.DummyCategory);
+            mockCategoryRepository.Setup(r => r.UpdateCategory(MockData.DummyCategory)).ReturnsAsync(false);
 
-            var categoryService = new CategoryService(mockCategoryRepository.Object);
+            var mockAutoMapper = new Mock<IMapper>();
+
+            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await categoryService.DeleteCategory(id);
@@ -60,20 +56,14 @@ namespace UnitTest.BackEndProject.Services.Category
         {
             //Arrange
             int id = 1;
-            var mockData = new BackEnd.Models.Category
-            {
-                Id = 1,
-                Name = "name",
-                DisplayName = "display name",
-                Description = "description",
-                IsDeleted = false
-            };
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategory(id)).ReturnsAsync(mockData);
-            mockCategoryRepository.Setup(r => r.UpdateCategory(mockData)).ReturnsAsync(true);
+            mockCategoryRepository.Setup(r => r.GetCategory(id)).ReturnsAsync(MockData.DummyCategory);
+            mockCategoryRepository.Setup(r => r.UpdateCategory(MockData.DummyCategory)).ReturnsAsync(true);
 
-            var categoryService = new CategoryService(mockCategoryRepository.Object);
+            var mockAutoMapper = new Mock<IMapper>();
+
+            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await categoryService.DeleteCategory(id);
