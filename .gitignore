@@ -406,8 +406,8 @@ ASALocalRun/
 .localhistory/
 
 /MVC/wwwroot/images/*
-/MVC/appsettings.json
+/MVC/appsettings.*
 
-/APIs/appsettings.json
+/BackEnd/appsettings.*
 
 /AdminSite/.env

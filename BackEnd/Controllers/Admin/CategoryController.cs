@@ -37,7 +37,13 @@ namespace BackEnd.Controllers.Admin
         public async Task<IActionResult> NewCategory(CreateCategoryDto data)
         {
             var result = await _categoryService.CreateCategory(data);
-            return result is null ? BadRequest() : Ok(result);
+            return result is null 
+                ? BadRequest() 
+                : CreatedAtAction(
+                    nameof(GetCategoryDetail), 
+                    new { id = result.Id },
+                    result
+                );
         }
 
         [HttpPut]

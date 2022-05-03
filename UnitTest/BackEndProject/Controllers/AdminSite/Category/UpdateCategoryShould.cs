@@ -3,7 +3,6 @@ using BackEnd.Controllers.Admin;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using BackEnd.Models.ViewModels;
 using Xunit;
 using UnitTest.Utils;
 
@@ -15,16 +14,13 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
         public async Task ReturnBadRequestWhenResultIsNull()
         {
             //Arrange
-            var mockData = new CategoryDetailDto();
-            CategoryDetailDto mockReturnData = null;
-
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.UpdateCategory(mockData)).ReturnsAsync(mockReturnData);
+            mockCategoryService.Setup(s => s.UpdateCategory(MockData.DummyCategoryDetailDto)).ReturnsAsync(MockData.NullCategoryDetailDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.UpdateCategory(mockData);
+            var result = await categoryController.UpdateCategory(MockData.DummyCategoryDetailDto);
             var objectResult = result as BadRequestResult;
 
             //Assert
@@ -35,27 +31,18 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
         public async Task ReturnOkWhenUpdateSuccess()
         {
             //Arrange
-            var mockData = new CategoryDetailDto();
-            var mockReturnData = new CategoryDetailDto
-            {
-                Id = 1,
-                Name = "Dummy name",
-                DisplayName = "Dummy display name",
-                Description = "Dummy description"
-            };
-
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.UpdateCategory(mockData)).ReturnsAsync(mockReturnData);
+            mockCategoryService.Setup(s => s.UpdateCategory(MockData.DummyCategoryDetailDto)).ReturnsAsync(MockData.DummyCategoryDetailDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.UpdateCategory(mockData);
+            var result = await categoryController.UpdateCategory(MockData.DummyCategoryDetailDto);
             var objectResult = result as OkObjectResult;
 
             //Assert
             Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
-            Assert.Equal(mockReturnData, objectResult.Value);
+            Assert.Equal(MockData.DummyCategoryDetailDto, objectResult.Value);
         }
     }
 }

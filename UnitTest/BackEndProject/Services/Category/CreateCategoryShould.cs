@@ -2,8 +2,9 @@ using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using BackEnd.Services;
 using Moq;
-using BackEnd.Models.ViewModels;
 using Xunit;
+using AutoMapper;
+using UnitTest.Utils;
 
 namespace UnitTest.BackEndProject.Services.Category
 {
@@ -13,27 +14,15 @@ namespace UnitTest.BackEndProject.Services.Category
         public async Task ReturnNullWhenSaveResultIsFalse()
         {
             //Arrange
-            var category = new BackEnd.Models.Category
-            {
-                Name = "name",
-                DisplayName = "display name",
-                Description = "description"                
-            };
-
-            var createCategory = new CreateCategoryDto
-            {
-                Name = "name",
-                DisplayName = "display name",
-                Description = "description"
-            };
-
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.NewCategory(category)).ReturnsAsync(false);
+            mockCategoryRepository.Setup(r => r.NewCategory(MockData.DummyCategory)).ReturnsAsync(false);
+            
+            var mockAutoMapper = new Mock<IMapper>();
 
-            var categoryService = new CategoryService(mockCategoryRepository.Object);
+            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
 
             //Act
-            var result = await categoryService.CreateCategory(createCategory);
+            var result = await categoryService.CreateCategory(MockData.DummyCreateCategoryDto);
 
             //Assert
             Assert.Null(result);

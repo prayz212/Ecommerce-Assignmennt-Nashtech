@@ -21,10 +21,8 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
         public async Task ReturnBadRequestWhenPassingInvalidParams(int page, int size)
         {
             //Arrange
-            var mockData = new List<CategoryDto>();
-            
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.AdminGetCategories(page, size)).ReturnsAsync(mockData);
+            mockCategoryService.Setup(s => s.AdminGetCategories(page, size)).ReturnsAsync(MockData.EmptyListCategoryDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 

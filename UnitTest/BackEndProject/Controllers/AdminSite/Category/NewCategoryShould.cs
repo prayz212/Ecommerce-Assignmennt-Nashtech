@@ -15,22 +15,13 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
         public async Task ReturnBadRequestWhenCreateResultIsNull()
         {
             //Arrange
-            var mockData = new CreateCategoryDto
-            {
-                Name = "dummy name",
-                DisplayName = "dummy display name",
-                Description = "dummy description"
-            };
-
-            CategoryDetailDto expectedValue = null;
-
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.CreateCategory(mockData)).ReturnsAsync(expectedValue);
+            mockCategoryService.Setup(s => s.CreateCategory(MockData.DummyCreateCategoryDto)).ReturnsAsync(MockData.NullCategoryDetailDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.NewCategory(mockData);
+            var result = await categoryController.NewCategory(MockData.DummyCreateCategoryDto);
             var objectResult = result as BadRequestResult;
 
             //Assert
@@ -41,33 +32,18 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
         public async Task ReturnOkWhenCreateSuccess()
         {
             //Arrange
-            var mockData = new CreateCategoryDto
-            {
-                Name = "dummy name",
-                DisplayName = "dummy display name",
-                Description = "dummy description"
-            };
-
-            var expectedValue = new CategoryDetailDto
-            {
-                Id = 1,
-                Name = "dummy name",
-                DisplayName = "dummy display name",
-                Description = "dummy description"
-            };
-
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.CreateCategory(mockData)).ReturnsAsync(expectedValue);
+            mockCategoryService.Setup(s => s.CreateCategory(MockData.DummyCreateCategoryDto)).ReturnsAsync(MockData.DummyCategoryDetailDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.NewCategory(mockData);
-            var objectResult = result as OkObjectResult;
+            var result = await categoryController.NewCategory(MockData.DummyCreateCategoryDto);
+            var objectResult = result as CreatedAtActionResult;
 
             //Assert
-            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
-            Assert.Equal(expectedValue, objectResult.Value);
+            Assert.Equal(ConstantVariable.CREATED_STATUS_CODE, objectResult.StatusCode);
+            Assert.Equal(MockData.DummyCategoryDetailDto, objectResult.Value);
         }
     }
 }

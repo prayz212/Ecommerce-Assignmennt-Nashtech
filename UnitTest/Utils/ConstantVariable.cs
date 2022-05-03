@@ -6,6 +6,7 @@ namespace UnitTest.Utils
         public const int NOT_FOUND_STATUS_CODE = 404;
         public const int BAD_REQUEST_STATUS_CODE = 400;
         public const int OK_STATUS_CODE = 200;
+        public const int CREATED_STATUS_CODE = 201;
 
         //Url
         public const string CLIENT_NAME = "API_SERVER";

@@ -1,5 +1,4 @@
-﻿using BackEnd.Interfaces;
-using BackEnd.Repositories;
+﻿using BackEnd.Repositories;
 using BackEnd.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using FluentValidation.AspNetCore;
 using BackEnd.Validations;
+using System;
 
 namespace BackEnd
 {
@@ -36,6 +36,8 @@ namespace BackEnd
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "APIs", Version = "v1" });
             });
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddRepositoriesDependencyInjection();
             services.AddServicesDependencyInjection();

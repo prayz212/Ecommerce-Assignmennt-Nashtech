@@ -4,7 +4,6 @@ using BackEnd.Controllers.Admin;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using BackEnd.Models.ViewModels;
 using Xunit;
 using UnitTest.Utils;
 
@@ -35,10 +34,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
         {
             //Arrange
             int id = 10;
-            CategoryDetailDto mockData = null;
 
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.GetCategory(id)).ReturnsAsync(mockData);
+            mockCategoryService.Setup(s => s.GetCategory(id)).ReturnsAsync(MockData.NullCategoryDetailDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
@@ -55,16 +53,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
         {
             //Arrange
             int id = 1;
-            CategoryDetailDto mockData = new CategoryDetailDto
-            {
-                Id = new Random().Next(),
-                Name = "Dummy name",
-                DisplayName = "Dummy display name",
-                Description = "Dummy description"
-            };
 
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.GetCategory(id)).ReturnsAsync(mockData);
+            mockCategoryService.Setup(s => s.GetCategory(id)).ReturnsAsync(MockData.DummyCategoryDetailDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
@@ -74,7 +65,7 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
 
             //Assert
             Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
-            Assert.Equal(mockData, objectResult.Value);
+            Assert.Equal(MockData.DummyCategoryDetailDto, objectResult.Value);
         }
     }
 }

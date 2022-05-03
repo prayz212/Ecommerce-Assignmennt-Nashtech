@@ -5,6 +5,9 @@ using BackEnd.Services;
 using Moq;
 using BackEnd.Models.ViewModels;
 using Xunit;
+using AutoMapper;
+using UnitTest.Utils;
+using Newtonsoft.Json;
 
 namespace UnitTest.BackEndProject.Services.Category
 {
@@ -15,12 +18,13 @@ namespace UnitTest.BackEndProject.Services.Category
         {
             //Arrange
             int id = new Random().Next();
-            BackEnd.Models.Category mockData = null;
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategory(id)).ReturnsAsync(mockData);
+            mockCategoryRepository.Setup(r => r.GetCategory(id)).ReturnsAsync(MockData.NullCategory);
 
-            var categoryService = new CategoryService(mockCategoryRepository.Object);
+            var mockAutoMapper = new Mock<IMapper>();
+
+            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await categoryService.GetCategory(id);
@@ -34,37 +38,21 @@ namespace UnitTest.BackEndProject.Services.Category
         {
             //Arrange
             int id = new Random().Next();
-            var mockData = new BackEnd.Models.Category
-            {
-                Id = id,
-                Name = "name",
-                DisplayName = "display name",
-                Description = "description",
-                IsDeleted = false
-            };
-
-            var expectedValue = new CategoryDetailDto
-            {
-                Id = id,
-                Name = "name",
-                DisplayName = "display name",
-                Description = "description",
-            };
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategory(id)).ReturnsAsync(mockData);
+            mockCategoryRepository.Setup(r => r.GetCategory(id)).ReturnsAsync(MockData.DummyCategory);
 
-            var categoryService = new CategoryService(mockCategoryRepository.Object);
+            var mockAutoMapper = new Mock<IMapper>();
+            mockAutoMapper.Setup(m => m.Map<CategoryDetailDto>(MockData.DummyCategory)).Returns(MockData.DummyCategoryDetailDto);
+
+            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await categoryService.GetCategory(id);
 
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(expectedValue.Id, result.Id);
-            Assert.Equal(expectedValue.Name, result.Name);
-            Assert.Equal(expectedValue.DisplayName, result.DisplayName);
-            Assert.Equal(expectedValue.Description, result.Description);
+            Assert.True(string.Equals(JsonConvert.SerializeObject(MockData.DummyCategoryDetailDto), JsonConvert.SerializeObject(result)));
         }
     }
 }

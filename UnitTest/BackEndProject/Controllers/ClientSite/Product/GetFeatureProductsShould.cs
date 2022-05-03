@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Controllers.Client;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Shared.Clients;
 using UnitTest.Utils;
 using Xunit;
 
@@ -17,19 +13,9 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
         [Fact]
         public async Task ReturnOkWithValueWhenHavingData()
         {
-            //Arrange
-            var data = new ProductListReadDto()
-            {
-                Products = new List<ProductReadDto>()
-                {
-                    new ProductReadDto() { Id = 1, Name = "Product 1", Prices = 120000, AverageRate = 4.5, ThumbnailName = "Image 1", ThumbnailUri = "Uri image 1"}
-                },
-                CurrentPage = 1,
-                TotalPage = 1
-            };
-            
+            //Arrange            
             var mock = new Mock<IProductService>();
-            mock.Setup(s => s.GetFeatureProducts(1, 12)).ReturnsAsync(data);
+            mock.Setup(s => s.GetFeatureProducts(1, 12)).ReturnsAsync(MockData.DummyProductListReadDto);
 
             var productController = new ProductController(mock.Object);
 
@@ -39,22 +25,15 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
 
             //Assert
             Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
-            Assert.Equal(data, objectResult.Value);
+            Assert.Equal(MockData.DummyProductListReadDto, objectResult.Value);
         }
 
         [Fact]
         public async Task ReturnOkWithValueWhenUsingDefaultValue()
         {
-            //Arrange
-            var data = new ProductListReadDto()
-            {
-                Products = new List<ProductReadDto>(),
-                CurrentPage = 2,
-                TotalPage = 5
-            };
-            
+            //Arrange            
             var mock = new Mock<IProductService>();
-            mock.Setup(s => s.GetFeatureProducts(1, 6)).ReturnsAsync(data);
+            mock.Setup(s => s.GetFeatureProducts(1, 6)).ReturnsAsync(MockData.DummyProductListReadDto);
 
             var productController = new ProductController(mock.Object);
 
@@ -64,17 +43,15 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
 
             //Assert
             Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
-            Assert.Equal(data, objectResult.Value);
+            Assert.Equal(MockData.DummyProductListReadDto, objectResult.Value);
         }
 
         [Fact]
         public async Task ReturnBadRequestWhenHavingNullResult()
         {
             //Arrange
-            ProductListReadDto expectedValue = null;
-            
             var mock = new Mock<IProductService>();
-            mock.Setup(s => s.GetFeatureProducts(1, 8)).ReturnsAsync(expectedValue);
+            mock.Setup(s => s.GetFeatureProducts(1, 8)).ReturnsAsync(MockData.NullProductListReadDto);
 
             var productController = new ProductController(mock.Object);
 
