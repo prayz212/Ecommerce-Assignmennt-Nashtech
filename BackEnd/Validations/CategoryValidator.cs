@@ -1,5 +1,6 @@
 using FluentValidation;
 using BackEnd.Models.ViewModels;
+using BackEnd.Utils;
 
 namespace BackEnd.Validations
 {
@@ -7,15 +8,15 @@ namespace BackEnd.Validations
     {
         public CreateCategoryValidator() 
         {
-            RuleFor(c => c.name)
+            RuleFor(c => c.Name)
                 .NotEmpty().WithMessage("Name must not empty");
 
-            RuleFor(c => c.displayName)
+            RuleFor(c => c.DisplayName)
                 .NotEmpty().WithMessage("Display Name must not empty");
 
-            RuleFor(c => c.description)
+            RuleFor(c => c.Description)
                 .NotEmpty().WithMessage("Description must not empty")
-                .MinimumLength(10).WithMessage("Description must have greater than 10 letters");
+                .MinimumLength(ConstantVariable.MINIMUM_CATEGORY_DESCRIPTION_LENGTH).WithMessage("Description must have greater than 10 letters");
         }
     }
 
@@ -23,19 +24,19 @@ namespace BackEnd.Validations
     {
         public UpdateCategoryValidator() 
         {
-            RuleFor(c => c.id)
+            RuleFor(c => c.Id)
                 .NotNull().WithMessage("Id must not null")
-                .GreaterThan(0).WithMessage("Invalid category id");
+                .GreaterThan(ConstantVariable.MINIMUM_CATEGORY_ID).WithMessage("Invalid category id");
                 
-            RuleFor(c => c.name)
+            RuleFor(c => c.Name)
                 .NotEmpty().WithMessage("Name must not empty");
 
-            RuleFor(c => c.displayName)
+            RuleFor(c => c.DisplayName)
                 .NotEmpty().WithMessage("Display Name must not empty");
 
-            RuleFor(c => c.description)
+            RuleFor(c => c.Description)
                 .NotEmpty().WithMessage("Description must not empty")
-                .MinimumLength(10).WithMessage("Description must have greater than 10 letters");
+                .MinimumLength(ConstantVariable.MINIMUM_CATEGORY_DESCRIPTION_LENGTH).WithMessage("Description must have greater than 10 letters");
         }
     }
 }

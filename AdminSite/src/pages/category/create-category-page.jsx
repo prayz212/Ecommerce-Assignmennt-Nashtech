@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import CategoryForm from "../../components/form/category-form";
-import { CREATE_CATEGORY_FORM_TYPE } from "../../constants/variables";
+import { NAVIGATE_URL } from "../../constants/navigate-url";
+import { CREATE_FORM_TYPE } from "../../constants/variables";
 import categoryService from "../../services/modules/category-service";
 
 const CreateCategoryPage = () => {
@@ -10,7 +11,7 @@ const CreateCategoryPage = () => {
   const onSubmitForm = (formData) => {
     categoryService
       .createCategory(formData)
-      .then(() => navigate("/categories"));
+      .then(() => navigate(NAVIGATE_URL.CATEGORIES_LIST));
   }
 
   return (
@@ -22,7 +23,7 @@ const CreateCategoryPage = () => {
       </div>
 
       <CategoryForm
-        type={CREATE_CATEGORY_FORM_TYPE}
+        type={CREATE_FORM_TYPE}
         handleSubmitForm={onSubmitForm}
       />
     </>

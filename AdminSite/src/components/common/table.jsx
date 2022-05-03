@@ -11,7 +11,7 @@ const Table = ({ columns, data, onRowClick }) => {
         <tr>
           {columns.map((column, index) => {
             return (
-              <th key={index} scope="col" className="px-6 py-3">
+              <th key={index} scope="col" className="px-6 py-3 text-center">
                 {column}
               </th>
             );
@@ -29,8 +29,8 @@ const Table = ({ columns, data, onRowClick }) => {
             >
               {values.map((ele, index) => {
                 return (
-                  <td key={index} className="px-6 py-4 whitespace-normal">
-                    {ele}
+                  <td key={index} className="px-6 py-4 whitespace-normal text-center">
+                    {typeof ele === "boolean" ? (ele ? "Có" : "Không") : ele}
                   </td>
                 );
               })}

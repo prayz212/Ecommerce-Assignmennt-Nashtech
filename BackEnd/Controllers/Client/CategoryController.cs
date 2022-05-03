@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +16,7 @@ namespace BackEnd.Controllers.Client
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetAllCategory()
+    public async Task<IActionResult> GetAllCategories()
     {
       var categories = await _categoryService.GetCategories();
       return Ok(categories);

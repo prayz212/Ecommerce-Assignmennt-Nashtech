@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using BackEnd.Models.ViewModels;
 using Xunit;
+using UnitTest.Utils;
 
 namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
 {
-    public class GetAllCategoryShould
+    public class GetAllCategoriesShould
     {
         [Theory]
         [InlineData(0, 5)]
@@ -20,19 +21,17 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
         public async Task ReturnBadRequestWhenPassingInvalidParams(int page, int size)
         {
             //Arrange
-            var mockData = new List<CategoryDto>();
-            
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.AdminGetCategories(page, size)).ReturnsAsync(mockData);
+            mockCategoryService.Setup(s => s.AdminGetCategories(page, size)).ReturnsAsync(MockData.EmptyListCategoryDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.GetAllCategory(page, size);
+            var result = await categoryController.GetAllCategories(page, size);
             var objectResult = result as BadRequestResult;
 
             //Assert
-            Assert.Equal(400, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.BAD_REQUEST_STATUS_CODE, objectResult.StatusCode);
         }
 
         [Theory]
@@ -47,9 +46,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             {
                 var dummyElement = new CategoryDto
                 {
-                    id = new Random().Next(),
-                    name = "name" + item,
-                    displayName = "display name " + item
+                    Id = new Random().Next(),
+                    Name = "name" + item,
+                    DisplayName = "display name " + item
                 };
 
                 mockData.Add(dummyElement);
@@ -61,11 +60,11 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.GetAllCategory(page, size);
+            var result = await categoryController.GetAllCategories(page, size);
             var objectResult = result as OkObjectResult;
 
             //Assert
-            Assert.Equal(200, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
             Assert.Equal(mockData, objectResult.Value);
         }
 
@@ -79,9 +78,9 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             {
                 var dummyElement = new CategoryDto
                 {
-                    id = new Random().Next(),
-                    name = "name" + item,
-                    displayName = "display name " + item
+                    Id = new Random().Next(),
+                    Name = "name" + item,
+                    DisplayName = "display name " + item
                 };
 
                 mockData.Add(dummyElement);
@@ -93,11 +92,11 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.GetAllCategory();
+            var result = await categoryController.GetAllCategories();
             var objectResult = result as OkObjectResult;
 
             //Assert
-            Assert.Equal(200, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
             Assert.Equal(mockData, objectResult.Value);
         }
     }

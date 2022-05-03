@@ -15,13 +15,13 @@
             </div>
         </div>
         <div class="__product-center __container">
-            @foreach (ProductReadDto product in Model.products)
+            @foreach (ProductReadDto product in Model.Products)
             {
                 <div class="__product">
                     <div class="__product-header">
-                        <img src="@product.thumbnailUri" alt="@product.thumbnailName">
+                        <img src="@product.ThumbnailUri" alt="@product.ThumbnailName">
 
-                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
+                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.Id">
                             <ul class="icons">
                                 <span><i class='bx bxs-show show-icons'></i></span>
                             </ul>
@@ -29,22 +29,22 @@
 
                     </div>
                     <div class="__product-footer">
-                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.id">
-                            <h3 class="__break-word-dots">@product.name</h3>
+                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.Id">
+                            <h3 class="__break-word-dots">@product.Name</h3>
                         </a>
                         <div class="__rating">
-                            @for (int i = 0; i < product.averageRate; i++)
+                            @for (int i = 0; i < product.AverageRate; i++)
                             {
                                 <i class="bx bxs-star"></i>
                             }
 
-                            @for (int i = 0; i < 5 - product.averageRate; i++)
+                            @for (int i = 0; i < 5 - product.AverageRate; i++)
                             {
                                 <i class="bx bx-star"></i>
                             }
                         </div>
 
-                        <h4 class="__price">@(product.prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")))đ</h4>
+                        <h4 class="__price">@(product.Prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")))đ</h4>
                     </div>
                 </div>
             }

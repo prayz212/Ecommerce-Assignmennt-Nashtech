@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Controllers.Client;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Shared.Clients;
+using UnitTest.Utils;
 using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
@@ -17,45 +14,26 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
         public async Task ReturnOkWithValueWhenHavingData()
         {
             //Arrange
-            var mockData = new ProductDetailReadDto()
-            {
-                id = 5,
-                name = "Product 5",
-                description = "This is description of product 5",
-                averageRate = 4,
-                prices = 120000,
-                images = new List<ImageReadDto>()
-                {
-                    new ImageReadDto() { name = "image 1", uri = "uri 1" },
-                    new ImageReadDto() { name = "image 2", uri = "uri 2" },
-                }
-            };
-
-            var expectedStatusCode = 200;
-
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.GetProductDetailById(5)).ReturnsAsync(mockData);
+            mockProductService.Setup(s => s.GetProductDetailById(1)).ReturnsAsync(MockData.DummyProductDetailReadDto);
 
             var productController = new ProductController(mockProductService.Object);
 
             //Act
-            var result = await productController.GetProductDetailById(5);
+            var result = await productController.GetProductDetailById(1);
             var objectResult = result as OkObjectResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
-            Assert.Equal(mockData, objectResult.Value);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
+            Assert.Equal(MockData.DummyProductDetailReadDto, objectResult.Value);
         }
 
         [Fact]
         public async Task  ReturnNotFoundWhenNotHavingProduct()
         {
             //Arrange
-            ProductDetailReadDto mockData = null;
-            var expectedStatusCode = 404;
-
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.GetProductDetailById(100)).ReturnsAsync(mockData);
+            mockProductService.Setup(s => s.GetProductDetailById(100)).ReturnsAsync(MockData.NullProductDetailReadDto);
 
             var productController = new ProductController(mockProductService.Object);
 
@@ -64,7 +42,7 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
             var objectResult = result as NotFoundResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.NOT_FOUND_STATUS_CODE, objectResult.StatusCode);
         }
     }
 }

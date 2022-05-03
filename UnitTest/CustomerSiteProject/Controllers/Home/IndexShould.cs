@@ -41,9 +41,9 @@ namespace UnitTest.CustomerSiteProject.Controllers.Home
             //Arrange
             ProductListReadDto mockData = new ProductListReadDto()
             {
-                products = new List<ProductReadDto>() {},
-                currentPage = 1,
-                totalPage = 1
+                Products = new List<ProductReadDto>() {},
+                CurrentPage = 1,
+                TotalPage = 1
             };
 
             var size = 12;

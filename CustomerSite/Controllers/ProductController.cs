@@ -3,26 +3,24 @@ using CustomerSite.Interfaces;
 using CustomerSite.Models;
 using System.Threading.Tasks;
 using Shared.Clients;
+using CustomerSite.Utils;
 
 namespace CustomerSite.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
-        private const int DEFAULT_PAGE_NUMBER = 1;
-        private const int DEFAULT_SIZE_PER_PAGE = 9;
-        private const int NUMBER_OF_RELATIVE_PRODUCT = 4;
 
         public ProductController(IProductService productService)
         {
             _productService = productService;
         }
 
-        public async Task<IActionResult> Index(string category, int page = 1)
+        public async Task<IActionResult> Index(string category, int page = ConstantVariable.DEFAULT_PAGE_NUMBER)
         {
             if (category is null) { return RedirectToAction("Index", "Home"); }
 
-            ProductListReadDto data = await _productService.GetCategoryProductData(category, page, DEFAULT_SIZE_PER_PAGE);
+            ProductListReadDto data = await _productService.GetCategoryProductData(category, page, ConstantVariable.DEFAULT_SIZE_PER_PAGE);
 
             if (data is null)
             {
@@ -31,14 +29,14 @@ namespace CustomerSite.Controllers
 
             var vm = new ProductListViewModel
             {
-                products = data.products,
-                pagination = new PaginationViewModel
+                Products = data.Products,
+                Pagination = new PaginationViewModel
                 {
-                    totalPage = data.totalPage,
-                    currentPage = data.currentPage,
-                    category = category,
-                    controller = "Product",
-                    action = "Index"
+                    TotalPage = data.TotalPage,
+                    CurrentPage = data.CurrentPage,
+                    Category = category,
+                    Controller = "Product",
+                    Action = "Index"
                 }
             };
 
@@ -60,17 +58,17 @@ namespace CustomerSite.Controllers
 
             var vm = new ProductDetailViewModel()
             {
-                product = productDetail,
+                Product = productDetail,
             };
 
-            ViewData["Size"] = NUMBER_OF_RELATIVE_PRODUCT;
+            ViewData["Size"] = ConstantVariable.NUMBER_OF_RELATIVE_PRODUCTS;
             return View(vm);
         }
 
         [HttpPost]
         public async Task<IActionResult> Rating(ProductRatingWriteDto data)
         {
-            if (data is null || data.productID <= 0 || data.star <= 0)
+            if (data is null || data.ProductID <= 0 || data.Star <= 0)
                 return BadRequest();
 
             var result = await _productService.ProductRating(data);

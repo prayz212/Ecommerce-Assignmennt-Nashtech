@@ -19,7 +19,7 @@ namespace CustomerSite.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var categories = await _sharedService.GetCategoryData();
-            return View(categories);
+            return View("Navbar", categories);
         }
     }
 }

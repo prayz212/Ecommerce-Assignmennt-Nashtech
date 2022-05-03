@@ -66,13 +66,13 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
             //Arrange
             String category = "TraiCayDaLat";
             int page = 1;
-            int size = 9;
+            int size = 12;
 
             ProductListReadDto mockData = new ProductListReadDto()
             {
-                products = new List<ProductReadDto>(),
-                currentPage = 1,
-                totalPage = 1
+                Products = new List<ProductReadDto>(),
+                CurrentPage = 1,
+                TotalPage = 1
             };
 
             var mockProductService = new Mock<IProductService>();

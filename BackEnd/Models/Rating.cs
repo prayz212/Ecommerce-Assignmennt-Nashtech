@@ -16,9 +16,6 @@ namespace BackEnd.Models
         public int ProductID { get; set; }
         public Product product { get; set; }
 
-        // public int ReceiptID { get; set; }
-        // public Receipt receipt { get; set; }
-
         public bool IsDeleted { get; set; }
     }
 }

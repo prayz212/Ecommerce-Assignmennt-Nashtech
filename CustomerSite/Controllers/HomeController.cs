@@ -4,14 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using CustomerSite.Interfaces;
 using CustomerSite.Models;
 using Shared.Clients;
+using CustomerSite.Utils;
 
 namespace CustomerSite.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IProductService _productService;
-        private const int SHOW_ITEM_NUMBER = 12;
-        private const int SHOW_ITEM_PAGE = 1;
 
         public HomeController(IProductService productService)
         {
@@ -20,7 +19,7 @@ namespace CustomerSite.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ProductListReadDto data = await _productService.GetFeaturedProductData(SHOW_ITEM_PAGE, SHOW_ITEM_NUMBER);
+            ProductListReadDto data = await _productService.GetFeaturedProductData(ConstantVariable.DEFAULT_PAGE_NUMBER, ConstantVariable.DEFAULT_SIZE_PER_PAGE);
 
             if (data is null)
             {
@@ -29,7 +28,7 @@ namespace CustomerSite.Controllers
 
             var vm = new HomeIndexViewModel()
             {
-                products = data.products
+                Products = data.Products
             };
 
             return View(vm);

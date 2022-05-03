@@ -1,4 +1,4 @@
-import { isNull, isUndefined } from "lodash";
+import { isUndefined } from "lodash";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -43,7 +43,7 @@ const Breadscrum = ({ breadcrumbs }) => {
 
           return (
             <li key={name} className="inline-flex items-center">
-              {isCurrent == true ? (
+              {isCurrent ? (
                 <div className="flex items-center">
                   {icon}
                   <span className="ml-1 text-sm font-medium text-gray-400 md:ml-2 dark:text-gray-500">

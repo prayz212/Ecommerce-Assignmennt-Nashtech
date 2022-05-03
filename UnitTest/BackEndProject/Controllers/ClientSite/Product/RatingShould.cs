@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Controllers.Client;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Shared.Clients;
+using UnitTest.Utils;
 using Xunit;
 
 namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
@@ -17,48 +14,34 @@ namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
         public async Task ReturnBadRequestWhenRatingResultIsFalse ()
         {
             //Arrange
-            ProductRatingWriteDto mockData = new ProductRatingWriteDto()
-            {
-                productID = -1,
-                star = 4
-            };
-            var expectedStatusCode = 400;
-
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.ProductRating(mockData)).ReturnsAsync(false);
+            mockProductService.Setup(s => s.ProductRating(MockData.IncorrectDummyProductRating)).ReturnsAsync(false);
 
             var productController = new ProductController(mockProductService.Object);
 
             //Act
-            var result = await productController.Rating(mockData);
+            var result = await productController.Rating(MockData.IncorrectDummyProductRating);
             var objectResult = result as BadRequestResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.BAD_REQUEST_STATUS_CODE, objectResult.StatusCode);
         }
 
         [Fact]
         public async Task ReturnOkWithMessageWhenRatingResultIsTrue ()
         {
             //Arrange
-            ProductRatingWriteDto mockData = new ProductRatingWriteDto()
-            {
-                productID = 1,
-                star = 4
-            };
-            var expectedStatusCode = 200;
-
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.ProductRating(mockData)).ReturnsAsync(true);
+            mockProductService.Setup(s => s.ProductRating(MockData.CorrectDummyProductRating)).ReturnsAsync(true);
 
             var productController = new ProductController(mockProductService.Object);
 
             //Act
-            var result = await productController.Rating(mockData);
+            var result = await productController.Rating(MockData.CorrectDummyProductRating);
             var objectResult = result as OkResult;
 
             //Assert
-            Assert.Equal(expectedStatusCode, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
         }
     }
 }

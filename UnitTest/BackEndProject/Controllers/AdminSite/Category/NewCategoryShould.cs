@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using BackEnd.Models.ViewModels;
 using Xunit;
+using UnitTest.Utils;
 
 namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
 {
@@ -14,59 +15,35 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
         public async Task ReturnBadRequestWhenCreateResultIsNull()
         {
             //Arrange
-            var mockData = new CreateCategoryDto
-            {
-                name = "dummy name",
-                displayName = "dummy display name",
-                description = "dummy description"
-            };
-
-            CategoryDetailDto expectedValue = null;
-
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.CreateCategory(mockData)).ReturnsAsync(expectedValue);
+            mockCategoryService.Setup(s => s.CreateCategory(MockData.DummyCreateCategoryDto)).ReturnsAsync(MockData.NullCategoryDetailDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.NewCategory(mockData);
+            var result = await categoryController.NewCategory(MockData.DummyCreateCategoryDto);
             var objectResult = result as BadRequestResult;
 
             //Assert
-            Assert.Equal(400, objectResult.StatusCode);
+            Assert.Equal(ConstantVariable.BAD_REQUEST_STATUS_CODE, objectResult.StatusCode);
         }
 
         [Fact]
         public async Task ReturnOkWhenCreateSuccess()
         {
             //Arrange
-            var mockData = new CreateCategoryDto
-            {
-                name = "dummy name",
-                displayName = "dummy display name",
-                description = "dummy description"
-            };
-
-            var expectedValue = new CategoryDetailDto
-            {
-                id = 1,
-                name = "dummy name",
-                displayName = "dummy display name",
-                description = "dummy description"
-            };
-
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.CreateCategory(mockData)).ReturnsAsync(expectedValue);
+            mockCategoryService.Setup(s => s.CreateCategory(MockData.DummyCreateCategoryDto)).ReturnsAsync(MockData.DummyCategoryDetailDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
-            var result = await categoryController.NewCategory(mockData);
-            var objectResult = result as OkObjectResult;
+            var result = await categoryController.NewCategory(MockData.DummyCreateCategoryDto);
+            var objectResult = result as CreatedAtActionResult;
 
             //Assert
-            Assert.Equal(200, objectResult.StatusCode);
-            Assert.Equal(expectedValue, objectResult.Value);
+            Assert.Equal(ConstantVariable.CREATED_STATUS_CODE, objectResult.StatusCode);
+            Assert.Equal(MockData.DummyCategoryDetailDto, objectResult.Value);
         }
     }
 }

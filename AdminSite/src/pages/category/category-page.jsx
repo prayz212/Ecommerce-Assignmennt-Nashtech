@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import TopSection from "../../components/common/main-top-section";
 import Table from "../../components/common/table";
-import categoryService from "../../services/modules/category-service";
 import { useNavigate } from "react-router-dom";
 import { DetailDialog } from "../../components/common/dialog";
 import DetailCategory from "../../components/category/detail-category";
+import { categoryService } from "../../services/modules";
+import { NAVIGATE_URL } from "../../constants/navigate-url";
 
 const CategoryPage = () => {
   const [categories, setCategories] = useState([]);
@@ -15,17 +16,20 @@ const CategoryPage = () => {
   useEffect(() => {
     categoryService
       .getCategoryList()
-      // @ts-ignore
       .then((data) => setCategories(data));
   }, []);
 
   const onCreateNewButtonClick = () => {
-    navigate("/categories/create");
+    navigate(NAVIGATE_URL.CATEGORIES_CREATE);
   };
 
   const onTableRowClick = (id) => {
-    setOpenDialog(true);
-    categoryService.getCategoryDetail(id).then((data) => setDialogParam(data));
+    categoryService
+      .getCategoryDetail(id)
+      .then((data) => {
+        setOpenDialog(true);
+        setDialogParam(data)
+      });
   };
 
   const onDetailDialogClose = () => {
@@ -47,7 +51,7 @@ const CategoryPage = () => {
   };
 
   const onEditClick = (item) => {
-    navigate("/categories/edit", {state: {data: item}});
+    navigate(NAVIGATE_URL.CATEGORIES_EDIT, {state: {data: item}});
   };
 
   return (

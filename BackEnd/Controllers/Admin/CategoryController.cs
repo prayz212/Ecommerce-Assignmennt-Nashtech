@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using BackEnd.Models.ViewModels;
+using BackEnd.Utils;
 
 namespace BackEnd.Controllers.Admin
 {
@@ -10,8 +11,6 @@ namespace BackEnd.Controllers.Admin
     public class AdminCategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
-        private const int DEFAULT_PAGE_NUMBER = 1;
-        private const int DEFAULT_SIZE_PER_PAGE = 10;
 
         public AdminCategoryController(ICategoryService categoryService)
         {
@@ -19,7 +18,7 @@ namespace BackEnd.Controllers.Admin
         }
         
         [HttpGet]
-        public async Task<IActionResult> GetAllCategory([FromQuery] int page = DEFAULT_PAGE_NUMBER, [FromQuery] int size = DEFAULT_SIZE_PER_PAGE)
+        public async Task<IActionResult> GetAllCategories([FromQuery] int page = ConstantVariable.DEFAULT_CATEGORY_PAGE_NUMBER, [FromQuery] int size = ConstantVariable.DEFAULT_CATEGORY_SIZE_PER_PAGE)
         {
             if (page < 1 || size < 1) return BadRequest();
             var categories = await _categoryService.AdminGetCategories(page, size);
@@ -38,7 +37,13 @@ namespace BackEnd.Controllers.Admin
         public async Task<IActionResult> NewCategory(CreateCategoryDto data)
         {
             var result = await _categoryService.CreateCategory(data);
-            return result is null ? BadRequest() : Ok(result);
+            return result is null 
+                ? BadRequest() 
+                : CreatedAtAction(
+                    nameof(GetCategoryDetail), 
+                    new { id = result.Id },
+                    result
+                );
         }
 
         [HttpPut]

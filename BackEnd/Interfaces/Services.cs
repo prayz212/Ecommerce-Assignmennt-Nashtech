@@ -7,12 +7,14 @@ namespace BackEnd.Interfaces
 {
   public interface IProductService
   {
-    Task<ProductListReadDto> GetFeatureProduct(int page, int size);
-    Task<ProductListReadDto> GetProductByCategory(string category, int page, int size);
+    Task<ProductListReadDto> GetFeatureProducts(int page, int size);
+    Task<ProductListReadDto> GetProductsByCategory(string category, int page, int size);
     Task<ProductDetailReadDto> GetProductDetailById(int id);
-    Task<ProductListReadDto> GetAllProduct(int page, int size);
+    Task<ProductListReadDto> GetAllProducts(int page, int size);
     Task<IEnumerable<ProductReadDto>> GetRelativeProducts(int id, int size);
     Task<bool> ProductRating(ProductRatingWriteDto data);
+    Task<ProductListDto> AdminGetProducts(int page, int size);
+    Task<ProductDetailDto> AdminGetProductDetail(int id);
   }
 
   public interface ICategoryService

@@ -3,7 +3,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 
 export const DetailDialog = ({ isOpen, onClose, component }) => {
-
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog
@@ -44,7 +43,7 @@ export const DetailDialog = ({ isOpen, onClose, component }) => {
             leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
           >
             <div className="flex text-base text-left transform transition w-full md:inline-block md:max-w-2xl md:px-4 md:my-8 md:align-middle lg:max-w-4xl">
-              <div className="w-full relative flex items-center bg-white px-4 pt-14 pb-8 overflow-hidden shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+              <div className="rounded-md w-full relative flex items-center bg-white overflow-hidden">
                 <button
                   type="button"
                   className="absolute outline-none top-4 right-4 text-gray-400 hover:text-gray-500 sm:top-8 sm:right-6 md:top-6 md:right-6 lg:top-8 lg:right-8"
@@ -55,7 +54,7 @@ export const DetailDialog = ({ isOpen, onClose, component }) => {
                 </button>
 
                 <div className="w-full items-start">
-									{component}
+                  {component}
                 </div>
               </div>
             </div>

@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Clients;
+using BackEnd.Utils;
 
 namespace BackEnd.Controllers.Client
 {
@@ -10,9 +11,6 @@ namespace BackEnd.Controllers.Client
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private const int DEFAULT_PAGE_NUMBER = 1;
-        private const int DEFAULT_SIZE_PER_PAGE = 6;
-        private const int DEFAULT_SIZE_OF_RELATIVE_PRODUCT = 4;
 
         public ProductController(IProductService productService)
         {
@@ -20,9 +18,9 @@ namespace BackEnd.Controllers.Client
         }
 
         [HttpGet("features")]
-        public async Task<IActionResult> GetFeatureProducts([FromQuery] int page = DEFAULT_PAGE_NUMBER, [FromQuery] int size = DEFAULT_SIZE_PER_PAGE)
+        public async Task<IActionResult> GetFeatureProducts([FromQuery] int page = ConstantVariable.DEFAULT_PRODUCT_PAGE_NUMBER, [FromQuery] int size = ConstantVariable.DEFAULT_CUSTOMER_PRODUCT_SIZE_PER_PAGE)
         {
-            var products = await _productService.GetFeatureProduct(page, size);
+            var products = await _productService.GetFeatureProducts(page, size);
             if (products is null)
             {
                 return BadRequest();
@@ -32,9 +30,9 @@ namespace BackEnd.Controllers.Client
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProductByCategory([FromQuery] string category, [FromQuery] int page = DEFAULT_PAGE_NUMBER, [FromQuery] int size = DEFAULT_SIZE_PER_PAGE)
+        public async Task<IActionResult> GetProductsByCategory([FromQuery] string category, [FromQuery] int page = ConstantVariable.DEFAULT_PRODUCT_PAGE_NUMBER, [FromQuery] int size = ConstantVariable.DEFAULT_CUSTOMER_PRODUCT_SIZE_PER_PAGE)
         {
-            var products = await _productService.GetProductByCategory(category, page, size);
+            var products = await _productService.GetProductsByCategory(category, page, size);
             if (products is null)
             {
                 return BadRequest();
@@ -56,7 +54,7 @@ namespace BackEnd.Controllers.Client
         }
 
         [HttpGet("relative/{id}")]
-        public async Task<IActionResult> GetRelativeProducts(int id, int size = DEFAULT_SIZE_OF_RELATIVE_PRODUCT)
+        public async Task<IActionResult> GetRelativeProducts(int id, int size = ConstantVariable.DEFAULT_PRODUCT_SIZE_OF_RELATIVE_PRODUCT)
         {
             var products = await _productService.GetRelativeProducts(id, size);
             if (products is null)
