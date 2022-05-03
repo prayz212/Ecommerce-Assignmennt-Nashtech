@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
@@ -7,51 +6,54 @@ using Moq;
 using Xunit;
 using AutoMapper;
 using UnitTest.Utils;
-using Shared.Clients;
+using BackEnd.Models.ViewModels;
 
 namespace UnitTest.BackEndProject.Services.Product
 {
-    public class GetProductDetailByIdShould
+    public class AdminGetProductDetailShould
     {
         [Fact]
-        public async Task ReturnNullWhenProductIdInvalid()
+        public async Task ReturnNullWhenProductIsNull()
         {
             //Arrange
-            var productId = -1;
+            int id = 100;
 
             var mockProductRepository = new Mock<IProductRepository>();
+            mockProductRepository.Setup(r => r.GetProduct(id)).ReturnsAsync(MockData.NullProduct);
+
             var mockRatingRepository = new Mock<IRatingRepository>();
             var mockAutoMapper = new Mock<IMapper>();
             var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
-            
+
             //Act
-            var result = await productService.GetProductDetailById(productId);
-            
+            var actualResult = await productService.AdminGetProductDetail(id);
+
             //Assert
-            Assert.Null(result);
+            Assert.Null(actualResult);
         }
 
         [Fact]
-        public async Task ReturnValueWhenQuerySuccess()
+        public async Task ReturnProductWhenProductIsNotNull()
         {
             //Arrange
-            var productId = 1;
+            int id = 1;
 
             var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.GetProduct(productId)).ReturnsAsync(MockData.DummyProduct);
+            mockProductRepository.Setup(r => r.GetProduct(id)).ReturnsAsync(MockData.DummyProduct);
 
             var mockRatingRepository = new Mock<IRatingRepository>();
-
-            var mockAutoMapper = new Mock<IMapper>();            
-            mockAutoMapper.Setup(m => m.Map<ProductDetailReadDto>(MockData.DummyProduct)).Returns(MockData.DummyProductDetailReadDto);
+            
+            var mockAutoMapper = new Mock<IMapper>();
+            mockAutoMapper.Setup(m => m.Map<ProductDetailDto>(MockData.DummyProduct)).Returns(MockData.DummyProductDetailDto);
 
             var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
-            
+
             //Act
-            var result = await productService.GetProductDetailById(productId);
-            
+            var actualResult = await productService.AdminGetProductDetail(id);
+
             //Assert
-            Assert.True(string.Equals(JsonConvert.SerializeObject(MockData.DummyProductDetailReadDto), JsonConvert.SerializeObject(result)));
+            Assert.NotNull(actualResult);
+            Assert.Equal(JsonConvert.SerializeObject(MockData.DummyProductDetailDto), JsonConvert.SerializeObject(actualResult));
         }
     }
 }

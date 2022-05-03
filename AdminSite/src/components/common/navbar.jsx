@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { NAVIGATE_URL } from "../../constants/navigate-url";
 
 const Navbar = () => {
   const {pathname} = useLocation();
@@ -24,7 +25,7 @@ const Navbar = () => {
           <ul className="pt-2 pb-4 space-y-1 text-sm">
             <li className={`${pathname === '/' ? 'bg-gray-900' : ''} hover:bg-gray-700`}>
               <Link
-                to="/"
+                to={NAVIGATE_URL.DASHBORAD}
                 className="flex items-center p-2 space-x-3 rounded-md"
               >
                 <svg
@@ -39,7 +40,7 @@ const Navbar = () => {
             </li>
             <li className={`${pathname === '/categories' ? 'bg-gray-900' : ''} hover:bg-gray-700`}>
               <Link
-                to="/categories"
+                to={NAVIGATE_URL.CATEGORIES_LIST}
                 className="flex items-center p-2 space-x-3 rounded-md"
               >
                 <svg
@@ -55,7 +56,7 @@ const Navbar = () => {
             </li>
             <li className={`${pathname === '/products' ? 'bg-gray-900' : ''} hover:bg-gray-700`}>
               <Link
-                to="/products"
+                to={NAVIGATE_URL.PRODUCT_LIST}
                 className="flex items-center p-2 space-x-3 rounded-md"
               >
                 <svg
@@ -73,7 +74,7 @@ const Navbar = () => {
             </li>
             <li className={`${pathname === '/customers' ? 'bg-gray-900' : ''} hover:bg-gray-700`}>
               <Link
-                to="/customers"
+                to={NAVIGATE_URL.CUSTOMER_LIST}
                 className="flex items-center p-2 space-x-3 rounded-md"
               >
                 <svg
@@ -94,7 +95,6 @@ const Navbar = () => {
             <li className="hover:bg-gray-700">
               <a
                 rel="noopener noreferrer"
-                href="#"
                 className="flex items-center p-2 space-x-3 rounded-md"
               >
                 <svg

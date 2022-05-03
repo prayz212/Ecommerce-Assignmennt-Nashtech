@@ -411,3 +411,5 @@ ASALocalRun/
 /BackEnd/appsettings.*
 
 /AdminSite/.env
+
+.vscode/*

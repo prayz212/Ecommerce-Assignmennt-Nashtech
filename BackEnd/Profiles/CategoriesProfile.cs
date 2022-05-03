@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
 using BackEnd.Models;
 using BackEnd.Models.ViewModels;
 using AutoMapper;
+using Shared.Clients;
 
 namespace BackEnd.Profiles
 {
@@ -12,6 +11,7 @@ namespace BackEnd.Profiles
         {
             CreateMap<Category, CategoryDto>();
             CreateMap<Category, CategoryDetailDto>();
+            CreateMap<Category, CategoryReadDto>();
         }
     }
 }

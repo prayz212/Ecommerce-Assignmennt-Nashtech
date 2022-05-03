@@ -1,7 +1,8 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CategoryForm from "../../components/form/category-form";
-import { EDIT_CATEGORY_FORM_TYPE } from "../../constants/variables";
+import { NAVIGATE_URL } from "../../constants/navigate-url";
+import { EDIT_FORM_TYPE } from "../../constants/variables";
 import categoryService from "../../services/modules/category-service";
 
 const EditCategoryPage = () => {
@@ -13,7 +14,7 @@ const EditCategoryPage = () => {
 	const onSubmitForm = (formData) => {
 		categoryService
 			.updateCategory(formData)
-			.then(() => navigate("/categories"));
+			.then(() => navigate(NAVIGATE_URL.CATEGORIES_LIST));
 	};
 
   return (
@@ -24,7 +25,7 @@ const EditCategoryPage = () => {
         </div>
       </div>
 
-      <CategoryForm type={EDIT_CATEGORY_FORM_TYPE} handleSubmitForm={onSubmitForm} item={data} />
+      <CategoryForm type={EDIT_FORM_TYPE} handleSubmitForm={onSubmitForm} item={data} />
     </>
   );
 };

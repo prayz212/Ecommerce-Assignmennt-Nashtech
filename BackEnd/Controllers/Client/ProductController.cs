@@ -18,7 +18,7 @@ namespace BackEnd.Controllers.Client
         }
 
         [HttpGet("features")]
-        public async Task<IActionResult> GetFeatureProducts([FromQuery] int page = ConstantVariable.DEFAULT_PRODUCT_PAGE_NUMBER, [FromQuery] int size = ConstantVariable.DEFAULT_PRODUCT_SIZE_PER_PAGE)
+        public async Task<IActionResult> GetFeatureProducts([FromQuery] int page = ConstantVariable.DEFAULT_PRODUCT_PAGE_NUMBER, [FromQuery] int size = ConstantVariable.DEFAULT_CUSTOMER_PRODUCT_SIZE_PER_PAGE)
         {
             var products = await _productService.GetFeatureProducts(page, size);
             if (products is null)
@@ -30,7 +30,7 @@ namespace BackEnd.Controllers.Client
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProductsByCategory([FromQuery] string category, [FromQuery] int page = ConstantVariable.DEFAULT_PRODUCT_PAGE_NUMBER, [FromQuery] int size = ConstantVariable.DEFAULT_PRODUCT_SIZE_PER_PAGE)
+        public async Task<IActionResult> GetProductsByCategory([FromQuery] string category, [FromQuery] int page = ConstantVariable.DEFAULT_PRODUCT_PAGE_NUMBER, [FromQuery] int size = ConstantVariable.DEFAULT_CUSTOMER_PRODUCT_SIZE_PER_PAGE)
         {
             var products = await _productService.GetProductsByCategory(category, page, size);
             if (products is null)

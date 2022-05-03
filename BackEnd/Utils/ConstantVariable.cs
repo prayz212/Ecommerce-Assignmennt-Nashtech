@@ -10,7 +10,8 @@ namespace BackEnd.Utils
 
         //Product section
         public const int DEFAULT_PRODUCT_PAGE_NUMBER = 1;
-        public const int DEFAULT_PRODUCT_SIZE_PER_PAGE = 6;
+        public const int DEFAULT_CUSTOMER_PRODUCT_SIZE_PER_PAGE = 6;
+        public const int DEFAULT_ADMIN_PRODUCT_SIZE_PER_PAGE = 10;
         public const int DEFAULT_PRODUCT_SIZE_OF_RELATIVE_PRODUCT = 4;
         public const string DEFAULT_PRODUCT_CATEGORY = "TatCaSanPham";
     }

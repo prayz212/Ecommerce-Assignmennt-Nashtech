@@ -56,35 +56,22 @@ namespace BackEnd.Repositories
                 .ToListAsync();
         }
 
-        public async Task<ProductDetailReadDto> GetProductDetailById(int id)
+        public async Task<Product> GetProduct(int id)
         {
             return await _context.Products
-                .Where(p => p.Id == id)
-                .Select(p => new ProductDetailReadDto()
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                    Prices = p.Prices,
-                    AverageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    Images = p.Images.Select(i => new ImageReadDto() { Name = i.Name, Uri = i.Uri }).ToList<ImageReadDto>()
-                })
-                .FirstOrDefaultAsync();
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .Include(p => p.Ratings)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<IList<ProductReadDto>> GetAllProducts(int page, int size)
+        public async Task<IList<Product>> GetProducts(int page, int size)
         {
             var skip = (page - 1) * size;
             return await _context.Products
-                .Select(p => new ProductReadDto()
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Prices = p.Prices,
-                    AverageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    ThumbnailName = p.Images.FirstOrDefault().Name,
-                    ThumbnailUri = p.Images.FirstOrDefault().Uri
-                })
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .Include(p => p.Ratings)
                 .Skip(skip)
                 .Take(size)
                 .ToListAsync();
@@ -106,11 +93,6 @@ namespace BackEnd.Repositories
                 .OrderBy(p => Guid.NewGuid())
                 .Take(size)
                 .ToListAsync();
-        }
-
-        public async Task<Product> GetProductById(int id)
-        {
-            return await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<int> CountProductsByCategory(string category)

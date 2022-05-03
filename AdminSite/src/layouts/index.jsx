@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutRequest } from "../services/actions/auth-action";
 import LoadingPage from "../pages/loaders/loading-page";
 import Navbar from "../components/common/navbar";
-import Dashboard from "../pages/home/dashboard-page";
-import ProductPage from "../pages/product/product-page";
 import Breadscrum from "../components/common/breadcrumb";
 
 export const MasterLayout = ({ component, breadcrumbs, ...rest  }) => {

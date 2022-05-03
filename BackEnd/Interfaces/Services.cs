@@ -13,6 +13,8 @@ namespace BackEnd.Interfaces
     Task<ProductListReadDto> GetAllProducts(int page, int size);
     Task<IEnumerable<ProductReadDto>> GetRelativeProducts(int id, int size);
     Task<bool> ProductRating(ProductRatingWriteDto data);
+    Task<ProductListDto> AdminGetProducts(int page, int size);
+    Task<ProductDetailDto> AdminGetProductDetail(int id);
   }
 
   public interface ICategoryService

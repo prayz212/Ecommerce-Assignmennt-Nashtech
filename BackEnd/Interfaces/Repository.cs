@@ -9,10 +9,9 @@ namespace BackEnd.Interfaces
   {
     Task<IList<ProductReadDto>> GetFeatureProducts(int page, int size);
     Task<IList<ProductReadDto>> GetProductsByCategory(string category, int page, int size);
-    Task<ProductDetailReadDto> GetProductDetailById(int id);
-    Task<IList<ProductReadDto>> GetAllProducts(int page, int size);
+    Task<Product> GetProduct(int id);
+    Task<IList<Product>> GetProducts(int page, int size);
     Task<IList<ProductReadDto>> GetRelativeProducts(int categoryId, int productId, int size);
-    Task<Product> GetProductById(int id);
     Task<int> CountProductsByCategory(string category);
     Task<int> CountAllProducts();
     Task<int> CountFeatureProducts();

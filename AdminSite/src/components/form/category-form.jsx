@@ -1,5 +1,5 @@
 import React from "react";
-import { EDIT_CATEGORY_FORM_TYPE } from "../../constants/variables";
+import { EDIT_FORM_TYPE } from "../../constants/variables";
 import { useForm } from "react-hook-form";
 
 const CategoryForm = ({ type, handleSubmitForm, item = null }) => {
@@ -11,13 +11,15 @@ const CategoryForm = ({ type, handleSubmitForm, item = null }) => {
   return (
     <>
       <form className="mx-4 mt-6" onSubmit={handleSubmit(handleSubmitForm)}>
-        <input
-          id="id"
-          type="number"
-          hidden={true}
-          defaultValue={item ? item.id : 0}
-          {...register("id")}
-        />
+        {type === EDIT_FORM_TYPE && (
+          <input
+            id="id"
+            type="number"
+            hidden={true}
+            defaultValue={item ? item.id : 0}
+            {...register("id")}
+          />
+        )}
 
         <div className="relative z-0 w-full mb-6 group">
           <input
@@ -128,7 +130,7 @@ const CategoryForm = ({ type, handleSubmitForm, item = null }) => {
             type="submit"
             className="mr-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            {type === EDIT_CATEGORY_FORM_TYPE ? "Cập nhật" : "Tạo mới"}
+            {type === EDIT_FORM_TYPE ? "Cập nhật" : "Tạo mới"}
           </button>
         </div>
       </form>
