@@ -22,7 +22,7 @@ namespace CustomerSite.ViewComponents
             var categories = await _sharedService.GetCategoryData();
             ViewData["Current"] = currentCategory;
             
-            return View(categories);
+            return View("Categories", categories);
         }
     }
 }

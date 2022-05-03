@@ -17,7 +17,7 @@ namespace CustomerSite.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(int id, int size = ConstantVariable.NUMBER_OF_RELATIVE_PRODUCTS)
         {
             var products = await _productService.GetRelativeProductData(id, size);
-            return View(products);
+            return View("RelativeProducts", products);
         }
     }
 }
