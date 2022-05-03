@@ -405,8 +405,8 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
-/MVC/wwwroot/images/*
-/MVC/appsettings.*
+/CustomerSite/wwwroot/images/*
+/CustomerSite/appsettings.*
 
 /BackEnd/appsettings.*
 
