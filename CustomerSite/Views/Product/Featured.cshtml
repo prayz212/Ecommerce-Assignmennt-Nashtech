@@ -16,11 +16,6 @@
                         <div class="__product">
                             <div class="__product-header">
                                 <img src="@product.ThumbnailUri" alt="@product.ThumbnailName">
-                                
-                                @*@if ($p->discount)
-                                <img style="width: 7rem; height: 5rem; position: absolute; top: 1%; right: 2%" src="{{ asset('images/sales.png') }}" alt="discount">
-                                <span style="position: absolute; top: 6.5%; right: 9%; color: red; font-size: 1.4rem;">-{{$p->discount}}%</span>
-                                @endif*@
 
                                 <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.Id">
                                     <ul class="icons">
@@ -45,15 +40,6 @@
                                 }
 
                                 </div>
-
-                                @* @if ($p->discount)
-                                @php
-                                $discountPrice = $p->price - $p->price * ($p->discount/(float)100);
-                                @endphp
-                                <h4 class="__price">{{ number_format(round($discountPrice), 0, ",", ".") }}đ</h4>
-                                @else
-                                <h4 class="__price">{{ number_format($p->price, 0, ",", ".") }}đ</h4>
-                                @endif *@
 
                                 <h4 class="__price">@(product.Prices.ToString("#,###", System.Globalization.CultureInfo.GetCultureInfo("vi-VN")))đ</h4>
 

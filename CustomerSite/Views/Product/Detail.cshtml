@@ -51,13 +51,13 @@
             <form method="post" id="addToCartForm" asp-controller="Cart" asp-action="Add">
                 <input hidden value="@Model.Product.Id" name="id" />
 
-                <div style="display: flex;">
+                <div class="d-flex">
                     <div class="quantity buttons_added">
                         <input type="button" value="-" class="minus">
                         <input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
                         <input type="button" value="+" class="plus">
                     </div>
-                    <div style='height: 41px; align-self: center; color: #939191; font-size: 1.3rem; margin-left: 1.5rem;'>(Đơn vị: Combo / Kg)</div>
+                    <div class="__unit">(Đơn vị: Combo / Kg)</div>
                 </div>
 
                 <div class="__form">
@@ -108,7 +108,7 @@
         <div class="tab-pane fade show active p-3 __product-detail-content" id="detail" role="tabpanel" aria-labelledby="detail-tab">
             <div>@Model.Product.Description</div>
             <div>
-                <button id="rating-product" class="_btn" style="margin-bottom: 10px; background-color: #009432">Đánh giá sản phẩm</button>
+                <button id="rating-product" class="_btn __product-detail-rating">Đánh giá sản phẩm</button>
             </div>
         </div>
     </div>
