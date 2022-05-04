@@ -16,6 +16,12 @@ namespace UnitTest.Utils
             new CategoryDto { Id = 2, Name = "category 2", DisplayName = "display name" },
             new CategoryDto { Id = 3, Name = "category 3", DisplayName = "display name" },
         };
+        public static CategoryListDto DummyCategoryListDto = new CategoryListDto
+        {
+            Categories = DummyListCategoryDto,
+            CurrentPage = 1,
+            TotalPage = 1
+        };
         public static CategoryDetailDto NullCategoryDetailDto = null;
         public static CategoryDetailDto DummyCategoryDetailDto = new CategoryDetailDto
         {

@@ -48,5 +48,10 @@ namespace BackEnd.Repositories
             _context.Categories.Update(category);
             return await _context.SaveChangesAsync() >= 1;
         }
+
+        public async Task<int> CountAllCategories()
+        {
+            return await _context.Categories.CountAsync();
+        }
     }
 }

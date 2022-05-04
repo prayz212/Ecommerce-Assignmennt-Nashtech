@@ -22,8 +22,6 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
         {
             //Arrange
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.AdminGetCategories(page, size)).ReturnsAsync(MockData.EmptyListCategoryDto);
-
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
             //Act
@@ -34,28 +32,15 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
             Assert.Equal(ConstantVariable.BAD_REQUEST_STATUS_CODE, objectResult.StatusCode);
         }
 
-        [Theory]
-        [InlineData(1, 2)]
-        [InlineData(2, 3)]
-        public async Task ReturnCategoriesWhenSuccessful(int page, int size)
+        [Fact]
+        public async Task ReturnCategoriesWhenSuccessful()
         {
             //Arrange
-            var mockData = new List<CategoryDto>();
-            
-            for(int item = 0; item < size; item++)
-            {
-                var dummyElement = new CategoryDto
-                {
-                    Id = new Random().Next(),
-                    Name = "name" + item,
-                    DisplayName = "display name " + item
-                };
+            int page = 1;
+            int size = 10;
 
-                mockData.Add(dummyElement);
-            }
-            
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.AdminGetCategories(page, size)).ReturnsAsync(mockData);
+            mockCategoryService.Setup(s => s.AdminGetCategories(page, size)).ReturnsAsync(MockData.DummyCategoryListDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
@@ -65,29 +50,15 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
 
             //Assert
             Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
-            Assert.Equal(mockData, objectResult.Value);
+            Assert.Equal(MockData.DummyCategoryListDto, objectResult.Value);
         }
 
         [Fact]
         public async Task ReturnCategoriesWhenUsingDefaultParams()
         {
-            //Arrange
-            var mockData = new List<CategoryDto>();
-            
-            for(int item = 0; item < 10; item++)
-            {
-                var dummyElement = new CategoryDto
-                {
-                    Id = new Random().Next(),
-                    Name = "name" + item,
-                    DisplayName = "display name " + item
-                };
-
-                mockData.Add(dummyElement);
-            }
-            
+            //Arrange            
             var mockCategoryService = new Mock<ICategoryService>();
-            mockCategoryService.Setup(s => s.AdminGetCategories(1, 10)).ReturnsAsync(mockData);
+            mockCategoryService.Setup(s => s.AdminGetCategories(1, 10)).ReturnsAsync(MockData.DummyCategoryListDto);
 
             var categoryController = new AdminCategoryController(mockCategoryService.Object);
 
@@ -97,7 +68,7 @@ namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
 
             //Assert
             Assert.Equal(ConstantVariable.OK_STATUS_CODE, objectResult.StatusCode);
-            Assert.Equal(mockData, objectResult.Value);
+            Assert.Equal(MockData.DummyCategoryListDto, objectResult.Value);
         }
     }
 }

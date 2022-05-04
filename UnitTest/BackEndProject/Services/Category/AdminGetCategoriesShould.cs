@@ -13,26 +13,25 @@ namespace UnitTest.BackEndProject.Services.Category
 {
     public class AdminGetCategoriesShould
     {
-        [Fact]
-        public async Task ReturnEmptyListWhenNotHavingCategory()
+        [Theory]
+        [InlineData(3, 5)]
+        [InlineData(2, 10)]
+        public async Task ReturnNullWhenPassingInvalidParams(int page, int size)
         {
             //Arrange
-            int page = 1;
-            int size = 10;
+            int count = 10;
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.GetCategories(page, size)).ReturnsAsync(MockData.EmptyListCategory);
+            mockCategoryRepository.Setup(r => r.CountAllCategories()).ReturnsAsync(count);
 
             var mockAutoMapper = new Mock<IMapper>();
-            mockAutoMapper.Setup(m => m.Map<IEnumerable<CategoryDto>>(MockData.EmptyListCategory)).Returns(MockData.EmptyListCategoryDto);
-
             var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await categoryService.AdminGetCategories(page, size);
 
             //Assert
-            Assert.Empty(result);
+            Assert.Null(result);
         }
 
         [Fact]
@@ -43,6 +42,7 @@ namespace UnitTest.BackEndProject.Services.Category
             int size = 10;
 
             var mockCategoryRepository = new Mock<ICategoryRepository>();
+            mockCategoryRepository.Setup(r => r.CountAllCategories()).ReturnsAsync(MockData.DummyListCategory.Count);
             mockCategoryRepository.Setup(r => r.GetCategories(page, size)).ReturnsAsync(MockData.DummyListCategory);
 
             var mockAutoMapper = new Mock<IMapper>();
@@ -51,12 +51,11 @@ namespace UnitTest.BackEndProject.Services.Category
             var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
 
             //Act
-            var result = new List<CategoryDto>(await categoryService.AdminGetCategories(page, size));
+            var result = await categoryService.AdminGetCategories(page, size);
 
             //Assert
-            Assert.NotEmpty(result);
-            Assert.Equal(MockData.DummyListCategoryDto.Count, result.Count);
-            Assert.True(string.Equals(JsonConvert.SerializeObject(MockData.DummyListCategoryDto), JsonConvert.SerializeObject(result)));
+            Assert.NotNull(result);
+            Assert.True(string.Equals(JsonConvert.SerializeObject(MockData.DummyCategoryListDto), JsonConvert.SerializeObject(result)));
         }
     }
 }

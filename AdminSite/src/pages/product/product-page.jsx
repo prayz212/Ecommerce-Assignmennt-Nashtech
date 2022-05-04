@@ -3,7 +3,7 @@ import TopSection from "../../components/common/main-top-section";
 import Pagination from "../../components/common/pagination";
 import Table from "../../components/common/table";
 import { productService } from "../../services/modules";
-import { NUMBER_PRODUCT_PER_PAGE } from "../../constants/variables.js";
+import { NUMBER_RECORD_PER_PAGE } from "../../constants/variables.js";
 import { DetailDialog } from "../../components/common/dialog";
 import { DetailProduct } from "../../components/product/detail-product";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     productService
-      .getProductList(1, NUMBER_PRODUCT_PER_PAGE)
+      .getProductList(1, NUMBER_RECORD_PER_PAGE)
       .then(({ products, totalPage, currentPage }) => {
         setProducts(products);
         setTotalPage(totalPage);
@@ -42,7 +42,7 @@ const ProductPage = () => {
 
   const onPageNumberClick = (pageNumber) => {
     productService
-      .getProductList(pageNumber, NUMBER_PRODUCT_PER_PAGE)
+      .getProductList(pageNumber, NUMBER_RECORD_PER_PAGE)
       .then(({ products, totalPage, currentPage }) => {
         setProducts(products);
         setTotalPage(totalPage);

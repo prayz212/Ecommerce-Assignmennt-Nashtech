@@ -8,7 +8,7 @@ using Shared.Clients;
 
 namespace BackEnd.Services
 {
-    public class CategoryService : ICategoryService
+    public class CategoryService : BaseService, ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
@@ -19,11 +19,27 @@ namespace BackEnd.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CategoryDto>> AdminGetCategories(int page, int size)
+        public async Task<CategoryListDto> AdminGetCategories(int page, int size)
         {
-            var categories = await _categoryRepository.GetCategories(page, size);
-            var result = _mapper.Map<IEnumerable<CategoryDto>>(categories);
-            return result;
+            var count = await _categoryRepository.CountAllCategories();
+            var totalPage = this.GetTotalPage(count, size);
+
+            //first condition: total page = -1 mean GetTotalPage function occurred error
+            //second condition: count > 0 but total page less than passing page
+            if (totalPage == -1 || (totalPage > 0 && totalPage < page))
+            {
+                return null;
+            }
+
+            var rawCategories = await _categoryRepository.GetCategories(page, size);
+            var categories = _mapper.Map<IEnumerable<CategoryDto>>(rawCategories);
+
+            return new CategoryListDto
+            {
+                Categories = categories,
+                TotalPage = totalPage,
+                CurrentPage = totalPage > 0 ? page : 0,
+            };
         }
 
         public async Task<CategoryDetailDto> CreateCategory(CreateCategoryDto dto)

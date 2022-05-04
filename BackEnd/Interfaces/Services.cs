@@ -20,7 +20,7 @@ namespace BackEnd.Interfaces
   public interface ICategoryService
   {
     Task<IEnumerable<CategoryReadDto>> GetCategories();
-    Task<IEnumerable<CategoryDto>> AdminGetCategories(int page, int size);
+    Task<CategoryListDto> AdminGetCategories(int page, int size);
     Task<CategoryDetailDto> GetCategory(int id);
     Task<CategoryDetailDto> CreateCategory(CreateCategoryDto dto);
     Task<CategoryDetailDto> UpdateCategory(CategoryDetailDto dto);

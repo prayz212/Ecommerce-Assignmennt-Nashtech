@@ -1,17 +1,15 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BackEnd.Interfaces;
-using BackEnd.Models;
 using BackEnd.Models.ViewModels;
 using BackEnd.Utils;
 using Shared.Clients;
 
 namespace BackEnd.Services
 {
-    public class ProductService : IProductService
+    public class ProductService : BaseService, IProductService
     {
         private readonly IProductRepository _productRepository;
         private readonly IRatingRepository _ratingRepository;
@@ -137,12 +135,6 @@ namespace BackEnd.Services
             }
 
             return await _ratingRepository.CreateProductRating(data);
-        }
-
-        private int GetTotalPage(int count, int size)
-        {
-            if (count < 0 || size <= 0) return -1;
-            return count % size == 0 ? count / size : (count/ size) + 1;
         }
 
         public async Task<ProductListDto> AdminGetProducts(int page, int size)

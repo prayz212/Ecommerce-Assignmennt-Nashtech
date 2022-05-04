@@ -24,6 +24,7 @@ namespace BackEnd.Interfaces
     Task<bool> NewCategory(Category category);
     Task<bool> UpdateCategory(Category category);
     Task<Category> GetCategory(int id);
+    Task<int> CountAllCategories();
   }
 
   public interface IRatingRepository
