@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProductForm from "../../components/form/product-form";
 import { CLOUDINARY_CONFIG } from "../../config/cloudinary";
@@ -13,6 +13,12 @@ const EditProductPage = () => {
   // @ts-ignore
   const { data } = state;
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      setIsLoading(false);
+    }
+  }, []);
 
   const onSubmitForm = async (data, images) => {
     setIsLoading(true);
@@ -29,10 +35,9 @@ const EditProductPage = () => {
     const formData = { ...data };
     formData.images = imagesInfo;
 
-    productService.updateProduct(formData).then(() => {
-      setIsLoading(false);
-      navigate(NAVIGATE_URL.PRODUCT_LIST);
-    });
+    productService
+      .updateProduct(formData)
+      .then(() => navigate(NAVIGATE_URL.PRODUCT_LIST));
   };
 
   return isLoading ? (
