@@ -1,13 +1,13 @@
-import { lazy } from 'react';
-const DashboardPage = lazy(() => import('./home/dashboard-page.jsx'));
-const ProductPage = lazy(() => import('./product/product-page.jsx'));
-const UnAuthorizationPage = lazy(() => import('./errors/unauthorization-page.jsx'));
-const NotFoundPage = lazy(() => import('./errors/notfound-page.jsx'));
-const CategoryPage = lazy(() => import('./category/category-page.jsx'));
-const CreateCategoryPage = lazy(() => import('./category/create-category-page.jsx'));
-const EditCategoryPage = lazy(() => import('./category/edit-category-page.jsx'));
-const CustomerPage = lazy(() => import('./customer/customer-page.jsx'));
-const CreateProductPage = lazy(() => import('./product/create-product-page.jsx'));
+import DashboardPage from './home/dashboard-page.jsx';
+import ProductPage from './product/product-page.jsx';
+import UnAuthorizationPage from './errors/unauthorization-page.jsx';
+import NotFoundPage from './errors/notfound-page.jsx';
+import CategoryPage from './category/category-page.jsx';
+import CreateCategoryPage from './category/create-category-page.jsx';
+import EditCategoryPage from './category/edit-category-page.jsx';
+import CustomerPage from './customer/customer-page.jsx';
+import CreateProductPage from './product/create-product-page.jsx';
+import EditProductPage from './product/edit-product-page.jsx';
 
 export {
   DashboardPage,
@@ -18,5 +18,6 @@ export {
   CreateCategoryPage,
   EditCategoryPage,
   CustomerPage,
-  CreateProductPage
+  CreateProductPage,
+  EditProductPage,
 };

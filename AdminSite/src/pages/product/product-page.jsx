@@ -8,6 +8,7 @@ import { DetailDialog } from "../../components/common/dialog";
 import { DetailProduct } from "../../components/product/detail-product";
 import { useNavigate } from "react-router-dom";
 import { NAVIGATE_URL } from "../../constants/navigate-url.js";
+import _ from 'lodash';
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
@@ -28,6 +29,12 @@ const ProductPage = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (!_.isEmpty(dialogParam)) {
+      setOpenDialog(true);
+    }
+  }, [dialogParam]);
+
   const onCreateNewButtonClick = () => {
     console.log("create clicked");
     navigate(NAVIGATE_URL.PRODUCT_CREATE);
@@ -35,7 +42,6 @@ const ProductPage = () => {
 
   const onTableRowClick = (id) => {
     productService.getProductDetail(id).then((data) => {
-      setOpenDialog(true);
       setDialogParam(data);
     });
   };
@@ -61,7 +67,7 @@ const ProductPage = () => {
 
   return (
     <div className="flex h-full">
-      <div className="w-full flex flex-col relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="w-full flex flex-col relative shadow-md sm:rounded-lg">
         <TopSection
           titleText="Danh sách sản phẩm"
           buttonText="Tạo mới"

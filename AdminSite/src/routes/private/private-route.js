@@ -8,6 +8,7 @@ import {
   CreateCategoryPage,
   EditCategoryPage,
   CreateProductPage,
+  EditProductPage,
 } from "../../pages";
 
 const PRIVATE_DASHBOARD_ROUTE = {
@@ -78,7 +79,7 @@ const PRIVATE_PRODUCT_CREATE_ROUTE = {
 
 const PRIVATE_PRODUCT_EDIT_ROUTE = {
   path: NAVIGATE_URL.PRODUCT_EDIT,
-  component: <div>PRIVATE_PRODUCT_EDIT_ROUTE</div>,
+  component: <EditProductPage />,
   private: true,
   permission: [ADMIN_PERMISSION, STAFF_PERMISSION],
   breadcrumbs: [

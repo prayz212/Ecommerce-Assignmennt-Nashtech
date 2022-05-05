@@ -10,6 +10,7 @@ namespace BackEnd.Repositories
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
+            services.AddScoped<IImageRepository, ImageRepository>();
         }
     }
 }

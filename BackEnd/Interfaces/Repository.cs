@@ -12,6 +12,8 @@ namespace BackEnd.Interfaces
     Task<Product> GetProduct(int id);
     Task<IList<Product>> GetProducts(int page, int size);
     Task<IList<ProductReadDto>> GetRelativeProducts(int categoryId, int productId, int size);
+    Task<bool> NewProduct(Product product);
+    Task<bool> UpdateProduct(Product product);
     Task<int> CountProductsByCategory(string category);
     Task<int> CountAllProducts();
     Task<int> CountFeatureProducts();
@@ -30,5 +32,12 @@ namespace BackEnd.Interfaces
   public interface IRatingRepository
   {
     Task<bool> CreateProductRating(ProductRatingWriteDto data);
+  }
+
+  public interface IImageRepository
+  {
+    Task<bool> CreateImages(IEnumerable<Image> images);
+    Task<IEnumerable<Image>> GetImagesByProductId(int id);
+    Task<bool> DeleteImages(IEnumerable<Image> images);
   }
 }

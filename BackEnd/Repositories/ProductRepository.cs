@@ -95,6 +95,18 @@ namespace BackEnd.Repositories
                 .ToListAsync();
         }
 
+        public async Task<bool> NewProduct(Product product)
+        {
+            await _context.Products.AddAsync(product);
+            return await _context.SaveChangesAsync() == 1;
+        }
+
+        public async Task<bool> UpdateProduct(Product product)
+        {
+            _context.Products.Update(product);
+            return await _context.SaveChangesAsync() == 1;
+        }
+
         public async Task<int> CountProductsByCategory(string category)
         {
             return await _context.Products

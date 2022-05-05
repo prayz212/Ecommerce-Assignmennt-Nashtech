@@ -18,7 +18,7 @@ const CategoryPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    categoryService.getCategoryList(1, NUMBER_RECORD_PER_PAGE).then(({categories, totalPage, currentPage}) => {
+    categoryService.getCategories(1, NUMBER_RECORD_PER_PAGE).then(({categories, totalPage, currentPage}) => {
       setCategories(categories);
       setTotalPage(totalPage);
       setCurrentPage(currentPage);
@@ -56,7 +56,7 @@ const CategoryPage = () => {
 
   const onPageNumberClick = (pageNumber) => {
     categoryService
-      .getCategoryList(pageNumber, NUMBER_RECORD_PER_PAGE)
+      .getCategories(pageNumber, NUMBER_RECORD_PER_PAGE)
       .then(({ categories, totalPage, currentPage }) => {
         setCategories(categories);
         setTotalPage(totalPage);
@@ -69,8 +69,8 @@ const CategoryPage = () => {
   };
 
   return (
-    <div className="flex h-full overflow-hidden">
-      <div className="w-full flex flex-col relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="flex h-full">
+      <div className="w-full flex flex-col relative shadow-md sm:rounded-lg">
         <TopSection
           titleText="Danh sách thể loại"
           buttonText="Tạo mới"

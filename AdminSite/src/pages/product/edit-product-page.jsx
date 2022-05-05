@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ProductForm from "../../components/form/product-form";
 import { CLOUDINARY_CONFIG } from "../../config/cloudinary";
 import { NAVIGATE_URL } from "../../constants/navigate-url";
-import { CREATE_FORM_TYPE } from "../../constants/variables";
+import { EDIT_FORM_TYPE } from "../../constants/variables";
 import { cloudinaryService, productService } from "../../services/modules";
 import LoadingPage from "../loaders/loading-page";
 
-const CreateProductPage = () => {
+const EditProductPage = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  // @ts-ignore
+  const { data } = state;
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmitForm = async (data, images) => {
@@ -26,7 +29,7 @@ const CreateProductPage = () => {
     const formData = { ...data };
     formData.images = imagesInfo;
 
-    productService.createProduct(formData).then(() => {
+    productService.updateProduct(formData).then(() => {
       setIsLoading(false);
       navigate(NAVIGATE_URL.PRODUCT_LIST);
     });
@@ -37,14 +40,18 @@ const CreateProductPage = () => {
   ) : (
     <>
       <div className="p-6 pb-2 flex justify-center">
-        <div className="text-xl text-slate-100 font-bold">
-          Biểu mẫu tạo mới sản phẩm
+        <div className="text-xl text-slate-100 font-bold text-">
+          Biểu mẫu cập nhật sản phẩm
         </div>
       </div>
 
-      <ProductForm type={CREATE_FORM_TYPE} handleSubmitForm={onSubmitForm} />
+      <ProductForm
+        type={EDIT_FORM_TYPE}
+        handleSubmitForm={onSubmitForm}
+        item={data}
+      />
     </>
   );
 };
 
-export default CreateProductPage;
+export default EditProductPage;

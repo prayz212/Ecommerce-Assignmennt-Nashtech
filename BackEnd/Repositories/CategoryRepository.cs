@@ -40,13 +40,13 @@ namespace BackEnd.Repositories
         public async Task<bool> NewCategory(Category category)
         {
             await _context.Categories.AddAsync(category);
-            return await _context.SaveChangesAsync() >= 1;
+            return await _context.SaveChangesAsync() == 1;
         }
 
         public async Task<bool> UpdateCategory(Category category)
         {
             _context.Categories.Update(category);
-            return await _context.SaveChangesAsync() >= 1;
+            return await _context.SaveChangesAsync() == 1;
         }
 
         public async Task<int> CountAllCategories()

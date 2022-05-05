@@ -22,7 +22,27 @@ const getProductDetail = async (id) => {
     });
 };
 
+const createProduct = async (formData) => {
+  return axiosRequest
+    .post(UrlRequest.PRODUCT.CREATE_PRODUCT(), formData)
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw new Error(error);
+    });
+};
+
+const updateProduct = async (formData) => {
+  return axiosRequest
+    .put(UrlRequest.PRODUCT.UPDATE_PRODUCT(), formData)
+    .then(({ data }) => data)
+    .catch((error) => {
+      throw new Error(error);
+    });
+};
+
 export default {
   getProductList,
   getProductDetail,
+  createProduct,
+  updateProduct,
 };

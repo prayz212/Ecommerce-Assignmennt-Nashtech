@@ -18,6 +18,11 @@ namespace BackEnd.Models
     [StringLength(1000)]
     public string Uri { get; set; }
 
+    public string Format { get; set; }
+    public long Width { get; set; }
+    public long Height { get; set; }
+    public long Size { get; set; }
+
     public Product Product { get; set; }
     public int ProductId { get; set; }
 

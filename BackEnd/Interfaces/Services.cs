@@ -15,6 +15,8 @@ namespace BackEnd.Interfaces
     Task<bool> ProductRating(ProductRatingWriteDto data);
     Task<ProductListDto> AdminGetProducts(int page, int size);
     Task<ProductDetailDto> AdminGetProductDetail(int id);
+    Task<ProductDetailDto> CreateProduct(CreateProductDto dto);
+    Task<ProductDetailDto> UpdateProduct(UpdateProductDto dto);
   }
 
   public interface ICategoryService
