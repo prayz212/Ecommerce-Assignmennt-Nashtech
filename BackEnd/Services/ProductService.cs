@@ -75,7 +75,7 @@ namespace BackEnd.Services
 
             return new ProductListReadDto() 
             { 
-                Products = products,
+                Products = _mapper.Map<IEnumerable<ProductReadDto>>(products).ToList(),
                 TotalPage = totalPage,
                 CurrentPage = totalPage > 0 ? page : 0,
             };
@@ -241,5 +241,27 @@ namespace BackEnd.Services
                 ? await AdminGetProductDetail(product.Id)
                 : null;
         }
+
+        public async Task<bool> DeleteProduct(int id)
+        {
+            var product = await _productRepository.GetProduct(id);
+            if (product is null) return false;
+
+            var deleteResult = await _productRepository.DeleteProduct(product);
+
+            var images = await _imageRepository.GetImagesByProductId(id);
+            deleteResult = deleteResult && await _imageRepository.DeleteImages(images);
+
+            var ratings = await _ratingRepository.GetRatingsByProductId(id);
+            deleteResult = deleteResult && await _ratingRepository.DeleteRatings(ratings);
+
+            return deleteResult;
+        }
+
+        // public async Task<bool> DeleteProductsByCategory(Category category)
+        // {
+        //     var products = await _productRepository.GetProductsByCategory(category.Name);
+        //     var deleteResult = await _productRepository.DeleteProducts(products);
+        // }
     }
 }

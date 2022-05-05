@@ -40,9 +40,19 @@ const updateProduct = async (formData) => {
     });
 };
 
+const deleteProduct = async (id) => {
+  return axiosRequest
+    .delete(UrlRequest.PRODUCT.DELETE_PRODUCT(id))
+    .then(({status}) => status === 200)
+    .catch(error => {
+      throw new Error(error);
+    })
+};
+
 export default {
   getProductList,
   getProductDetail,
   createProduct,
   updateProduct,
+  deleteProduct
 };

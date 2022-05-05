@@ -177,6 +177,10 @@ const ProductForm = ({ type, handleSubmitForm, item = null }) => {
                   value: true,
                   message: "Giá tiền không được để trống",
                 },
+                min: {
+                  value: 1,
+                  message: "Giá tiền không hợp lệ",
+                },
                 valueAsNumber: true,
               })}
             />
@@ -188,7 +192,7 @@ const ProductForm = ({ type, handleSubmitForm, item = null }) => {
             </label>
             {errors.prices &&
               (errors.prices.type === "required" ||
-                "pattern" ||
+                "min" ||
                 "valueAsNumber") && (
                 <span
                   className="peer-focus:font-medium text-sm text-red-500"

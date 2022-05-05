@@ -37,22 +37,26 @@ namespace BackEnd.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IList<ProductReadDto>> GetProductsByCategory(string category, int page, int size)
+        public async Task<IEnumerable<Product>> GetProductsByCategory(string category, int page, int size)
         {
             var skip = (page - 1) * size;
             return await _context.Products
                 .Where(p => p.Category.Name == category)
-                .Select(p => new ProductReadDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Prices = p.Prices,
-                    AverageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    ThumbnailName = p.Images.FirstOrDefault().Name,
-                    ThumbnailUri = p.Images.FirstOrDefault().Uri
-                })
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .Include(p => p.Ratings)
                 .Skip(skip)
                 .Take(size)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsByCategory(string category)
+        {
+            return await _context.Products
+                .Where(p => p.Category.Name == category)
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .Include(p => p.Ratings)
                 .ToListAsync();
         }
 
@@ -105,6 +109,30 @@ namespace BackEnd.Repositories
         {
             _context.Products.Update(product);
             return await _context.SaveChangesAsync() == 1;
+        }
+
+        public async Task<bool> UpdateProducts(IEnumerable<Product> products)
+        {
+            _context.Products.UpdateRange(products);
+            return await _context.SaveChangesAsync() == products.Count();
+        }
+
+        public async Task<bool> DeleteProduct(Product product)
+        {
+            product.IsDeleted = true;
+            product.UpdatedDate = DateTime.Now;
+            return await this.UpdateProduct(product);
+        }
+
+        public async Task<bool> DeleteProducts(IEnumerable<Product> products)
+        {
+            products.ToList().ForEach(product => 
+            { 
+                product.IsDeleted = true;
+                product.UpdatedDate = DateTime.Now;
+            });
+
+            return await this.UpdateProducts(products);
         }
 
         public async Task<int> CountProductsByCategory(string category)

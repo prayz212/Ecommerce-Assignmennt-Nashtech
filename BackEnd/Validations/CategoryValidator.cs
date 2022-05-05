@@ -16,7 +16,7 @@ namespace BackEnd.Validations
 
             RuleFor(c => c.Description)
                 .NotEmpty().WithMessage("Description must not empty")
-                .MinimumLength(ConstantVariable.MINIMUM_CATEGORY_DESCRIPTION_LENGTH).WithMessage("Description must have greater than 10 letters");
+                .MinimumLength(ConstantVariable.MINIMUM_CATEGORY_DESCRIPTION_LENGTH).WithMessage($"Description must have greater than {ConstantVariable.MINIMUM_CATEGORY_DESCRIPTION_LENGTH} letters");
         }
     }
 

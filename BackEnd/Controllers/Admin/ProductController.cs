@@ -54,5 +54,13 @@ namespace BackEnd.Controllers.Admin
                 ? BadRequest()
                 : Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            if (id < 0) return BadRequest();
+            var result = await _productService.DeleteProduct(id);
+            return result ? Ok() : BadRequest();
+        }
     }
 }

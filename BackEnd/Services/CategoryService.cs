@@ -11,11 +11,13 @@ namespace BackEnd.Services
     public class CategoryService : BaseService, ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
-        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoryService(ICategoryRepository categoryRepository, IProductService productService, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
+            _productService = productService;
             _mapper = mapper;
         }
 
@@ -62,9 +64,10 @@ namespace BackEnd.Services
             var category = await _categoryRepository.GetCategory(id);
             if (category is null) return false;
 
-            category.IsDeleted = true;
+            var deleteResult = await _categoryRepository.DeleteCategory(category);
+            // deleteResult = deleteResult && await _productService.DeleteProductsByCategory(category);
 
-            return await _categoryRepository.UpdateCategory(category);
+            return deleteResult;
         }
 
         public async Task<IEnumerable<CategoryReadDto>> GetCategories()

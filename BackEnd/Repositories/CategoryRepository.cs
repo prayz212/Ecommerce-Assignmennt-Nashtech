@@ -49,6 +49,12 @@ namespace BackEnd.Repositories
             return await _context.SaveChangesAsync() == 1;
         }
 
+        public async Task<bool> DeleteCategory(Category category)
+        {
+            category.IsDeleted = true;
+            return await this.UpdateCategory(category);
+        }
+
         public async Task<int> CountAllCategories()
         {
             return await _context.Categories.CountAsync();

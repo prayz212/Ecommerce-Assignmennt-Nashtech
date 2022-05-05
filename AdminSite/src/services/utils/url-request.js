@@ -11,6 +11,7 @@ const GET_PRODUCT_LIST = (page = 1, size = 10) => `${BASE_URL}/products?page=${p
 const GET_PRODUCT_DETAIL = (id) => `${BASE_URL}/products/${id}`;
 const CREATE_PRODUCT = () => `${BASE_URL}/products`;
 const UPDATE_PRODUCT = () => `${BASE_URL}/products`;
+const DELETE_PRODUCT = (id) => `${BASE_URL}/products/${id}`;
 
 const UPLOAD_IMAGE = (cloudName) => `${BASE_CLOUDINARY_URL}/${cloudName}/auto/upload`;
 
@@ -28,6 +29,7 @@ export default {
         GET_PRODUCT_DETAIL,
         CREATE_PRODUCT,
         UPDATE_PRODUCT,
+        DELETE_PRODUCT,
     },
     CLOUDINARY: {
         UPLOAD_IMAGE,

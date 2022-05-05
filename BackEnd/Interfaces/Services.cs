@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BackEnd.Models;
 using BackEnd.Models.ViewModels;
 using Shared.Clients;
 
@@ -17,6 +18,8 @@ namespace BackEnd.Interfaces
     Task<ProductDetailDto> AdminGetProductDetail(int id);
     Task<ProductDetailDto> CreateProduct(CreateProductDto dto);
     Task<ProductDetailDto> UpdateProduct(UpdateProductDto dto);
+    Task<bool> DeleteProduct(int id);
+    // Task<bool> DeleteProductsByCategory(Category category);
   }
 
   public interface ICategoryService

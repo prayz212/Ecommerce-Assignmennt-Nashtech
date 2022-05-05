@@ -8,7 +8,7 @@ import { DetailDialog } from "../../components/common/dialog";
 import { DetailProduct } from "../../components/product/detail-product";
 import { useNavigate } from "react-router-dom";
 import { NAVIGATE_URL } from "../../constants/navigate-url.js";
-import _ from 'lodash';
+import _ from "lodash";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
@@ -57,12 +57,17 @@ const ProductPage = () => {
   };
 
   const onEditClick = (item) => {
-    console.log("editing product id: " + item.id);
-    navigate(NAVIGATE_URL.PRODUCT_EDIT, {state: {data: item}});
+    navigate(NAVIGATE_URL.PRODUCT_EDIT, { state: { data: item } });
   };
 
   const onDeleteClick = (id) => {
-    console.log("deleting product id: " + id);
+    productService.deleteProduct(id).then((result) => {
+      if (result) {
+        const newProducts = products.filter((product) => product.id !== id);
+        setProducts(newProducts);
+        setOpenDialog(false);
+      }
+    });
   };
 
   return (

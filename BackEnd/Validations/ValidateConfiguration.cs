@@ -10,6 +10,8 @@ namespace BackEnd.Validations
         {
             services.AddScoped<IValidator<CreateCategoryDto>, CreateCategoryValidator>();
             services.AddScoped<IValidator<CategoryDetailDto>, UpdateCategoryValidator>();
+            services.AddScoped<IValidator<CreateProductDto>, CreateProductValidator>();
+            services.AddScoped<IValidator<UpdateProductDto>, UpdateProductValidator>();
         }
     }
 }
