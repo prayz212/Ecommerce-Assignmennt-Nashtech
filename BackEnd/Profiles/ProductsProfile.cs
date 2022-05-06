@@ -44,7 +44,14 @@ namespace BackEnd.Profiles
             CreateMap<CreateProductDto, Product>()
                 .ForMember(des => des.Category, opts => opts.Ignore())
                 .ForMember(des => des.CategoryId,
-                    opts => opts.MapFrom(src => Int32.Parse(src.Category)))
+                    opts => opts.MapFrom(src => src.Category))
+                .ForMember(des => des.Images, opts => opts.Ignore())
+                .ForMember(des => des.Ratings, opts => opts.Ignore());
+
+            CreateMap<UpdateProductDto, Product>()
+                .ForMember(des => des.Category, opts => opts.Ignore())
+                .ForMember(des => des.CategoryId,
+                    opts => opts.MapFrom(src => src.Category))
                 .ForMember(des => des.Images, opts => opts.Ignore())
                 .ForMember(des => des.Ratings, opts => opts.Ignore());
         }

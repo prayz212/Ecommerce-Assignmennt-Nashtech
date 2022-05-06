@@ -12,6 +12,8 @@ namespace BackEnd.Profiles
             CreateMap<Category, CategoryDto>();
             CreateMap<Category, CategoryDetailDto>();
             CreateMap<Category, CategoryReadDto>();
+            CreateMap<CreateCategoryDto, Category>();
+            CreateMap<CategoryDetailDto, Category>();
         }
     }
 }

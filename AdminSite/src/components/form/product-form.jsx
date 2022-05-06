@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { EDIT_FORM_TYPE } from "../../constants/variables";
+import { CREATE_FORM_TYPE, EDIT_FORM_TYPE } from "../../constants/variables";
 import { categoryService } from "../../services/modules";
 import { Modal } from "../common/modal";
 import PreviewImageInput from "./preview-image-input";
@@ -63,7 +63,7 @@ const ProductForm = ({ type, handleSubmitForm, item = null }) => {
     if (type === EDIT_FORM_TYPE) {
       const index = item.images.indexOf(image);
       if (index < 0) return;
-    
+
       setDeletedImages([...deletedImages, item.images[index]]);
       item.images.splice(index, 1);
     }
@@ -71,11 +71,16 @@ const ProductForm = ({ type, handleSubmitForm, item = null }) => {
 
   const onSubmitForm = async (data) => {
     if (images.length == 0) {
-      setError("images", {
-        type: "required",
-        message: "Phải chọn tối thiểu 1 ảnh",
-      });
-      return;
+      if (
+        type === CREATE_FORM_TYPE ||
+        (type === EDIT_FORM_TYPE && item && item.images.length < 1)
+      ) {
+        setError("images", {
+          type: "required",
+          message: "Phải chọn tối thiểu 1 ảnh",
+        });
+        return;
+      }
     }
 
     if (type === EDIT_FORM_TYPE) {
@@ -237,7 +242,7 @@ const ProductForm = ({ type, handleSubmitForm, item = null }) => {
             <select
               id="category"
               className="appearance-none bg-gray-50 h-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              value={
+              defaultValue={
                 item && item.category
                   ? _.find(categories, { displayName: item.category }).id
                   : categories[0].displayName

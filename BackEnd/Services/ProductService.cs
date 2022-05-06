@@ -13,18 +13,12 @@ namespace BackEnd.Services
 {
     public class ProductService : BaseService, IProductService
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IRatingRepository _ratingRepository;
-        private readonly IImageRepository _imageRepository;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository, IRatingRepository ratingRepository, IImageRepository imageRepository, ICategoryRepository categoryRepository, IMapper mapper)
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _productRepository = productRepository;
-            _ratingRepository = ratingRepository;
-            _imageRepository = imageRepository;
-            _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -32,7 +26,7 @@ namespace BackEnd.Services
         {
             if (page <= 0 || size <= 0) return null;
             
-            var count = await _productRepository.CountFeatureProducts();
+            var count = await _unitOfWork.Products.CountAll(p => p.IsFeatured == true);
             var totalPage = this.GetTotalPage(count, size);
 
             //first condition: total page = -1 mean GetTotalPage function occurred error
@@ -42,7 +36,13 @@ namespace BackEnd.Services
                 return null;
             }
 
-            var products = await _productRepository.GetFeatureProducts(page, size);
+            var rawProducts = await _unitOfWork.Products.GetAll(
+                filter: p => p.IsFeatured == true, 
+                page: page, 
+                size: size, 
+                includes: "Images,Ratings"
+            );
+            var products = _mapper.Map<IEnumerable<ProductReadDto>>(rawProducts);
 
             return new ProductListReadDto()
             {
@@ -61,7 +61,7 @@ namespace BackEnd.Services
                 return await this.GetAllProducts(page, size);
             }
 
-            var count = await _productRepository.CountProductsByCategory(category);
+            var count = await _unitOfWork.Products.CountAll(p => p.Category.Name == category);
             var totalPage = this.GetTotalPage(count, size);
 
             //first condition: total page = -1 mean GetTotalPage function occurred error
@@ -71,11 +71,12 @@ namespace BackEnd.Services
                 return null;
             }
 
-            var products = await _productRepository.GetProductsByCategory(category, page, size);
+            var rawProducts = await _unitOfWork.Products.GetAll(filter: p => p.Category.Name == category, page: page, size: size, includes: "Images,Ratings,Category");
+            var products = _mapper.Map<IEnumerable<ProductReadDto>>(rawProducts);
 
             return new ProductListReadDto() 
             { 
-                Products = _mapper.Map<IEnumerable<ProductReadDto>>(products).ToList(),
+                Products = products,
                 TotalPage = totalPage,
                 CurrentPage = totalPage > 0 ? page : 0,
             };
@@ -85,7 +86,7 @@ namespace BackEnd.Services
         {
             if (id <= 0) return null;
 
-            var rawProduct = await _productRepository.GetProduct(id);
+            var rawProduct = await _unitOfWork.Products.GetById(id);
             return rawProduct is null
                 ? null
                 : _mapper.Map<ProductDetailReadDto>(rawProduct);
@@ -95,7 +96,7 @@ namespace BackEnd.Services
         {
             if (page <= 0 || size <= 0) return null;
 
-            var count = await _productRepository.CountAllProducts();
+            var count = await _unitOfWork.Products.CountAll();
             var totalPage = this.GetTotalPage(count, size);
 
             //first condition: total page = -1 mean GetTotalPage function occurred error
@@ -105,12 +106,12 @@ namespace BackEnd.Services
                 return null;
             }
 
-            var rawProducts = await _productRepository.GetProducts(page, size);
+            var rawProducts = await _unitOfWork.Products.GetAll(page: page, size: size, includes: "Images,Ratings,Category");
             var products = _mapper.Map<IEnumerable<ProductReadDto>>(rawProducts);
 
             return new ProductListReadDto()
             {
-                Products = products.ToList(),
+                Products = products,
                 TotalPage = totalPage,
                 CurrentPage = totalPage > 0 ? page : 0,
             };
@@ -120,32 +121,44 @@ namespace BackEnd.Services
         {
             if (id <= 0 || size <= 0) return null;
 
-            var product = await _productRepository.GetProduct(id);
+            var product = await _unitOfWork.Products.GetById(id);
             if (product is null) return null;
 
-            var products = await _productRepository.GetRelativeProducts(product.CategoryId, product.Id, size);
+            var rawProducts = await _unitOfWork.Products.GetAll(
+                filter: p => p.CategoryId == product.CategoryId && p.Id != product.Id, 
+                size: size,
+                orderBy: p => p.OrderBy(p => Guid.NewGuid()), 
+                includes: "Images,Ratings"
+            );
+            rawProducts = rawProducts.Take(size);
+
+            var products = _mapper.Map<IEnumerable<ProductReadDto>>(rawProducts);
             return products;
         }
 
         public async Task<bool> ProductRating(ProductRatingWriteDto data)
         {
-            if (data.ProductID <= 0 || data.Star <= 0)
+            if (data.ProductID <= 0 || data.Stars <= 0)
             {
                 return false;
             }
 
-            var product = await _productRepository.GetProduct(data.ProductID);
+            var product = await _unitOfWork.Products.GetById(data.ProductID);
             if (product is null)
             {
                 return false;
             }
 
-            return await _ratingRepository.CreateProductRating(data);
+            var rating = _mapper.Map<Rating>(data);
+            var saveResult = await _unitOfWork.Ratings.Add(rating);
+            await _unitOfWork.SaveChangeAsync();
+
+            return saveResult;
         }
 
         public async Task<ProductListDto> AdminGetProducts(int page, int size)
         {
-            var count = await _productRepository.CountAllProducts();
+            var count = await _unitOfWork.Products.CountAll();
             var totalPage = this.GetTotalPage(count, size);
 
             //first condition: total page = -1 mean GetTotalPage function occurred error
@@ -155,7 +168,7 @@ namespace BackEnd.Services
                 return null;
             }
 
-            var products = await _productRepository.GetProducts(page, size);
+            var products = await _unitOfWork.Products.GetAll(page: page, size: size, includes: "Category");
             var result = _mapper.Map<IEnumerable<ProductDto>>(products);
 
             return new ProductListDto
@@ -168,7 +181,7 @@ namespace BackEnd.Services
 
         public async Task<ProductDetailDto> AdminGetProductDetail(int id)
         {
-            var product = await _productRepository.GetProduct(id);
+            var product = await _unitOfWork.Products.GetById(id);
             return product is null
                 ? null
                 : _mapper.Map<ProductDetailDto>(product);
@@ -176,11 +189,14 @@ namespace BackEnd.Services
 
         public async Task<ProductDetailDto> CreateProduct(CreateProductDto dto)
         {
-            var category = await _categoryRepository.GetCategory(Int32.Parse(dto.Category));
+            var category = await _unitOfWork.Categories.GetById(dto.Category);
             if (category is null) return null;
 
             var newProduct = _mapper.Map<Product>(dto);
-            var saveProductResult = await _productRepository.NewProduct(newProduct);
+            var saveProductResult = await _unitOfWork.Products.Add(newProduct);
+
+            await _unitOfWork.SaveChangeAsync();
+            if (!saveProductResult) return null;
 
             var newImages = _mapper.Map<IEnumerable<ImageDto>, IEnumerable<Image>>(
                 dto.Images, 
@@ -192,7 +208,8 @@ namespace BackEnd.Services
                 })
             );
 
-            var saveImagesResult = await _imageRepository.CreateImages(newImages);
+            var saveImagesResult = await _unitOfWork.Images.AddRange(newImages);
+            await _unitOfWork.SaveChangeAsync();
 
             return saveProductResult && saveImagesResult
                 ? await AdminGetProductDetail(newProduct.Id)
@@ -201,67 +218,58 @@ namespace BackEnd.Services
 
         public async Task<ProductDetailDto> UpdateProduct(UpdateProductDto dto)
         {
-            var product = await _productRepository.GetProduct(dto.Id);
-            var category = await _categoryRepository.GetCategory(Int32.Parse(dto.Category));
-            if (product is null || category is null) return null;
+            var category = await _unitOfWork.Categories.GetById(dto.Category);
+            if (category is null) return null;
 
-            product.Name = dto.Name;
-            product.Description = dto.Description;
-            product.Prices = dto.Prices;
-            product.IsFeatured = dto.IsFeatured;
-            product.UpdatedDate = DateTime.Now;
-            product.CategoryId = Int32.Parse(dto.Category);
+            var updateProduct = _mapper.Map<Product>(dto);
+            var updateResult = await _unitOfWork.Products.Update(updateProduct);
 
-            var updateResult = await _productRepository.UpdateProduct(product);
-
+            //Save new images of product
             if (dto.Images.Count() > 0) {
-                //Save new images of product
                 var newImages = _mapper.Map<IEnumerable<ImageDto>, IEnumerable<Image>>(
                     dto.Images, 
                     opts => opts.AfterMap((src, des) => {
                         foreach(Image i in des)
                         {
-                            i.ProductId = product.Id;
+                            i.ProductId = updateProduct.Id;
                         }
                     })
                 );
 
-                updateResult = updateResult && await _imageRepository.CreateImages(newImages);
+                updateResult = updateResult && await _unitOfWork.Images.AddRange(newImages);
             }
 
             //Delete images of product
             if (dto.DeletedImages.Count() > 0) {
                 var deleteList = dto.DeletedImages.Select(delete => delete.Uri);
-                var images = await _imageRepository.GetImagesByProductId(product.Id);
+                var images = await _unitOfWork.Images.GetAll(filter: i => i.ProductId == updateProduct.Id);
                 var deletedImages = images.Where(image => deleteList.Contains(image.Uri)).ToList();
-                updateResult = updateResult && await _imageRepository.DeleteImages(deletedImages);
+
+                if (deletedImages.Count != deleteList.Count()) return null;
+                updateResult = updateResult && _unitOfWork.Images.DeleteRange(deletedImages);
             }
 
+            await _unitOfWork.SaveChangeAsync();
+
             return updateResult
-                ? await AdminGetProductDetail(product.Id)
+                ? await AdminGetProductDetail(updateProduct.Id)
                 : null;
         }
 
         public async Task<bool> DeleteProduct(int id)
         {
-            var product = await _productRepository.GetProduct(id);
+            var product = await _unitOfWork.Products.GetById(id);
             if (product is null) return false;
 
-            var deleteResult = await _productRepository.DeleteProduct(product);
+            var images = await _unitOfWork.Images.GetAll(filter: i => i.ProductId == id);
+            var ratings = await _unitOfWork.Ratings.GetAll(filter: r => r.ProductID == id);
 
-            var images = await _imageRepository.GetImagesByProductId(id);
-            deleteResult = deleteResult && await _imageRepository.DeleteImages(images);
+            var deleteResult = _unitOfWork.Products.Delete(product)
+                && _unitOfWork.Images.DeleteRange(images)
+                && _unitOfWork.Ratings.DeleteRange(ratings);
 
-            var ratings = await _ratingRepository.GetRatingsByProductId(id);
-            deleteResult = deleteResult && await _ratingRepository.DeleteRatings(ratings);
-
+            await _unitOfWork.SaveChangeAsync();
             return deleteResult;
         }
-
-        // public async Task<bool> DeleteProductsByCategory(Category category)
-        // {
-        //     var products = await _productRepository.GetProductsByCategory(category.Name);
-        //     var deleteResult = await _productRepository.DeleteProducts(products);
-        // }
     }
 }

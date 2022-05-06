@@ -33,14 +33,14 @@ namespace BackEnd.Models.ViewModels
         public string Name { get; set; }
         public string Description { get; set; }
         public int Prices { get; set; }
-        public string Category { get; set; }
+        public int Category { get; set; }
         public bool IsFeatured { get; set; }
         public IEnumerable<ImageDto> Images { get; set; }
     }
 
     public class UpdateProductDto : CreateProductDto
     {
-        public int Id { get; set; }        
+        public int Id { get; set; }
         public IEnumerable<ImageDto> DeletedImages { get; set; }
     }
 }

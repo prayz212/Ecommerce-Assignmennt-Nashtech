@@ -15,5 +15,8 @@ namespace BackEnd.Utils
         public const int DEFAULT_PRODUCT_SIZE_OF_RELATIVE_PRODUCT = 4;
         public const string DEFAULT_PRODUCT_CATEGORY = "TatCaSanPham";
         public const int MINIMUM_PRODUCT_DESCRIPTION_LENGTH = 50;
+
+        //Generic section
+        public const int DEFAULT_VALUE_NUMBER_TYPE = 0;
     }
 }

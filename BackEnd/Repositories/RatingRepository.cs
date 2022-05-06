@@ -1,44 +1,42 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using BackEnd.Models;
-using Microsoft.EntityFrameworkCore;
-using Shared.Clients;
+using Microsoft.Extensions.Logging;
 
 namespace BackEnd.Repositories
 {
-    public class RatingRepository : IRatingRepository
+    public class RatingRepository : GenericRepository<Rating>, IRatingRepository
     {
-        private readonly ApplicationDbContext _context;
+        public RatingRepository(ApplicationDbContext context, ILogger logger) : base(context, logger) {}
 
-        public RatingRepository(ApplicationDbContext context)
+        public override bool Delete(Rating rating)
         {
-            _context = context;
+            try
+            {
+                rating.IsDeleted = true;
+                return true;
+            } 
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"{typeof(RatingRepository)} Delete function error");
+                return false;
+            }
         }
 
-        public async Task<bool> CreateProductRating(ProductRatingWriteDto data)
+        public override bool DeleteRange(IEnumerable<Rating> ratings)
         {
-            await _context.Ratings.AddAsync(new Rating() {
-                ProductID = data.ProductID,
-                Stars = data.Star,
-            });
-
-            return await _context.SaveChangesAsync() == 1;
-        }
-
-        public async Task<IEnumerable<Rating>> GetRatingsByProductId(int id)
-        {
-            return await _context.Ratings
-                .Where(r => r.ProductID == id)
-                .ToListAsync();
-        }
-
-        public async Task<bool> DeleteRatings(IEnumerable<Rating> ratings)
-        {
-            ratings.ToList().ForEach(rating => rating.IsDeleted = true);
-            _context.Ratings.UpdateRange(ratings);
-            return await _context.SaveChangesAsync() == ratings.Count();
+            try
+            {
+                ratings.ToList().ForEach(rating => rating.IsDeleted = true);
+                return true;
+            } 
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"{typeof(RatingRepository)} DeleteRange function error");
+                return false;
+            }
         }
     }
 }

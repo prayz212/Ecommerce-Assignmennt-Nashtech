@@ -14,7 +14,7 @@
             <div class="m-5">
                 <section id="products">
                     <div class="__product-center">
-                        @if (Model.ProductList.Products.Count > 0)
+                        @if (Model.ProductList.Products.Count() > 0)
                         {
                             @foreach (ProductReadDto product in Model.ProductList.Products)
                             {

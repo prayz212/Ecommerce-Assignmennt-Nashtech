@@ -8,6 +8,7 @@ import { categoryService } from "../../services/modules";
 import { NAVIGATE_URL } from "../../constants/navigate-url";
 import Pagination from "../../components/common/pagination";
 import { NUMBER_RECORD_PER_PAGE } from "../../constants/variables";
+import LoadingPage from "../loaders/loading-page";
 
 const CategoryPage = () => {
   const [categories, setCategories] = useState([]);
@@ -16,13 +17,22 @@ const CategoryPage = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogParam, setDialogParam] = useState({});
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    categoryService.getCategories(1, NUMBER_RECORD_PER_PAGE).then(({categories, totalPage, currentPage}) => {
-      setCategories(categories);
-      setTotalPage(totalPage);
-      setCurrentPage(currentPage);
-    });
+    return () => {
+      setIsLoading(false);
+    };
+  }, []);
+
+  useEffect(() => {
+    categoryService
+      .getCategories(1, NUMBER_RECORD_PER_PAGE)
+      .then(({ categories, totalPage, currentPage }) => {
+        setCategories(categories);
+        setTotalPage(totalPage);
+        setCurrentPage(currentPage);
+      });
   }, []);
 
   const onCreateNewButtonClick = () => {
@@ -41,17 +51,21 @@ const CategoryPage = () => {
   };
 
   const onDeleteClick = (id) => {
-    categoryService.deleteCategory(id).then((result) => {
-      if (result) {
-        const newCategories = categories.filter(
-          (category) => category.id !== id
-        );
-        setCategories(newCategories);
-        setOpenDialog(false);
-      }
+    setOpenDialog(false);
+    setIsLoading(true);
 
-      return result;
-    });
+    categoryService
+      .deleteCategory(id)
+      .then((result) => {
+        if (result) {
+          const newCategories = categories.filter(
+            (category) => category.id !== id
+          );
+          setCategories(newCategories);
+        }
+        return result;
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const onPageNumberClick = (pageNumber) => {
@@ -68,7 +82,9 @@ const CategoryPage = () => {
     navigate(NAVIGATE_URL.CATEGORIES_EDIT, { state: { data: item } });
   };
 
-  return (
+  return isLoading ? (
+    <LoadingPage />
+  ) : (
     <div className="flex h-full">
       <div className="w-full flex flex-col relative shadow-md sm:rounded-lg">
         <TopSection
@@ -86,7 +102,7 @@ const CategoryPage = () => {
 
         {totalPage > 1 && (
           <div className="absolute bottom-0 right-0 mb-4">
-            <Pagination 
+            <Pagination
               total={totalPage}
               current={currentPage}
               onClick={onPageNumberClick}
