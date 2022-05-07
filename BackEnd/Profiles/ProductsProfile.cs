@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
+
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using BackEnd.Models;
 using BackEnd.Models.ViewModels;
@@ -35,11 +33,27 @@ namespace BackEnd.Profiles
                 .ForMember(des => des.AverageRate,
                     opts => opts.MapFrom(src => src.Ratings.FirstOrDefault() != null ? src.Ratings.Average(r => r.Stars) : 0))
                 .ForMember(des => des.Images,
-                    opts => opts.MapFrom(src => src.Images.Select(i => new ImageReadDto { Name = i.Name, Uri = i.Uri }).ToList<ImageReadDto>()))
+                    opts => opts.MapFrom(src => src.Images.Select(i => new ImageDto { Name = i.Name, Uri = i.Uri, Format = i.Format, Height = i.Height, Width = i.Width, Size = i.Size }).ToList<ImageDto>()))
+                .ForMember(des => des.Category,
+                    opts => opts.MapFrom(src => src.Category.DisplayName))
                 .ForMember(des => des.CreatedAt,
                     opts => opts.MapFrom(src => src.CreatedDate.ToString("dd/MM/yyyy")))
                 .ForMember(des => des.UpdatedAt,
                     opts => opts.MapFrom(src => src.UpdatedDate.ToString("dd/MM/yyyy")));
+
+            CreateMap<CreateProductDto, Product>()
+                .ForMember(des => des.Category, opts => opts.Ignore())
+                .ForMember(des => des.CategoryId,
+                    opts => opts.MapFrom(src => src.Category))
+                .ForMember(des => des.Images, opts => opts.Ignore())
+                .ForMember(des => des.Ratings, opts => opts.Ignore());
+
+            CreateMap<UpdateProductDto, Product>()
+                .ForMember(des => des.Category, opts => opts.Ignore())
+                .ForMember(des => des.CategoryId,
+                    opts => opts.MapFrom(src => src.Category))
+                .ForMember(des => des.Images, opts => opts.Ignore())
+                .ForMember(des => des.Ratings, opts => opts.Ignore());
         }
     }
 }

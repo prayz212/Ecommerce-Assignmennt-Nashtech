@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using BackEnd.Controllers.Admin;
 using BackEnd.Interfaces;
@@ -7,7 +6,7 @@ using Moq;
 using Xunit;
 using UnitTest.Utils;
 
-namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
+namespace UnitTest.BackEndProject.AdminSite.CategoryControllers
 {
     public class GetCategoryDetailShould
     {

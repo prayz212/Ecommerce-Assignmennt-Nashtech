@@ -7,7 +7,7 @@ namespace Shared.Clients
     public int Id { get; set; }
     public string Name { get; set; }
     public int Prices { get; set; }
-    public double AverageRate { get; set; }
+    public int AverageRate { get; set; }
     public string ThumbnailName { get; set; }
     public string ThumbnailUri { get; set; }
   }
@@ -18,13 +18,13 @@ namespace Shared.Clients
     public string Name { get; set; }
     public string Description { get; set; }
     public int Prices { get; set; }
-    public double AverageRate { get; set; }
-    public IList<ImageReadDto> Images { get; set; }
+    public int AverageRate { get; set; }
+    public IEnumerable<ImageReadDto> Images { get; set; }
   }
 
   public class ProductListReadDto
   {
-    public IList<ProductReadDto> Products { get; set; }
+    public IEnumerable<ProductReadDto> Products { get; set; }
     public int TotalPage { get; set; }
     public int CurrentPage { get; set; }
   }
@@ -32,6 +32,6 @@ namespace Shared.Clients
   public class ProductRatingWriteDto
   {
     public int ProductID { get; set; }
-    public int Star { get; set; }
+    public int Stars { get; set; }
   }
 }

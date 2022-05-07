@@ -1,33 +1,45 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using BackEnd.Models;
-using Shared.Clients;
+using BackEnd.Utils;
 
 namespace BackEnd.Interfaces
 {
-  public interface IProductRepository
+  public interface IProductRepository : IGenericRepository<Product>
   {
-    Task<IList<ProductReadDto>> GetFeatureProducts(int page, int size);
-    Task<IList<ProductReadDto>> GetProductsByCategory(string category, int page, int size);
-    Task<Product> GetProduct(int id);
-    Task<IList<Product>> GetProducts(int page, int size);
-    Task<IList<ProductReadDto>> GetRelativeProducts(int categoryId, int productId, int size);
-    Task<int> CountProductsByCategory(string category);
-    Task<int> CountAllProducts();
-    Task<int> CountFeatureProducts();
+    Task <Product> GetById(int id);
   }
 
-  public interface ICategoryRepository
+  public interface ICategoryRepository : IGenericRepository<Category>
   {
-    Task<IList<Category>> GetCategories(int page, int size);
-    Task<IList<Category>> GetCategories();
-    Task<bool> NewCategory(Category category);
-    Task<bool> UpdateCategory(Category category);
-    Task<Category> GetCategory(int id);
+    Task <Category> GetById(int id);
   }
 
-  public interface IRatingRepository
+  public interface IRatingRepository : IGenericRepository<Rating> {}
+
+  public interface IImageRepository : IGenericRepository<Image> {}
+
+  public interface IGenericRepository<T> where T : class
   {
-    Task<bool> CreateProductRating(ProductRatingWriteDto data);
+    Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> filter = null, int page = ConstantVariable.DEFAULT_VALUE_NUMBER_TYPE, int size = ConstantVariable.DEFAULT_VALUE_NUMBER_TYPE, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includes = "");
+    Task<T> GetBy(Expression<Func<T, bool>> predicate, string includes = "");
+    Task<bool> Add(T entity);
+    Task<bool> AddRange(IEnumerable<T> entites);
+    bool Delete(T entity);
+    bool DeleteRange(IEnumerable<T> entities);
+    Task<bool> Update(T entity);
+    Task<int> CountAll(Expression<Func<T, bool>> filter = null);
+  }
+
+  public interface IUnitOfWork
+  {
+    ICategoryRepository Categories { get; }
+    IProductRepository Products { get; }
+    IRatingRepository Ratings { get; }
+    IImageRepository Images { get; }
+    Task SaveChangeAsync();
   }
 }

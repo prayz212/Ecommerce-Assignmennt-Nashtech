@@ -1,35 +1,103 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { EDIT_FORM_TYPE } from "../../constants/variables";
+import { CREATE_FORM_TYPE, EDIT_FORM_TYPE } from "../../constants/variables";
 import { categoryService } from "../../services/modules";
+import { Modal } from "../common/modal";
+import PreviewImageInput from "./preview-image-input";
+import UploadImageInput from "./upload-image-input";
+import _ from "lodash";
 
 const ProductForm = ({ type, handleSubmitForm, item = null }) => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm();
 
   const [categories, setCategories] = useState([]);
+  const [images, setImages] = useState([]);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [deletedImages, setDeletedImages] = useState([]);
 
   useEffect(() => {
     categoryService
-      .getCategoryList()
+      .getAllCategories()
       .then((categories) => setCategories(categories));
   }, []);
 
-  return (
-    <form className="mx-4 mt-6" onSubmit={handleSubmit(handleSubmitForm)}>
-      {type === EDIT_FORM_TYPE && (
-        <input
-          id="id"
-          type="number"
-          hidden={true}
-          defaultValue={item ? item.id : 0}
-          {...register("id")}
-        />
-      )}
+  const onInputImageChange = (e) => {
+    const files = e.target.files;
 
+    if (files.length > 4) {
+      setIsOpenModal(true);
+      return;
+    }
+
+    setError("images", {
+      type: "required",
+      message: "",
+    });
+
+    //check if total images is greater than 4 or not
+    if (type === EDIT_FORM_TYPE) {
+      const newImages = [...item.images, ...Array.from(files)];
+
+      if (newImages.length > 4) {
+        setIsOpenModal(true);
+        return;
+      }
+    }
+
+    setImages([...Array.from(files)]);
+  };
+
+  const onChoosenImageDelete = (image) => {
+    const index = images.indexOf(image);
+    if (index > -1) {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      setImages(newImages);
+    }
+
+    if (type === EDIT_FORM_TYPE) {
+      const index = item.images.indexOf(image);
+      if (index < 0) return;
+
+      setDeletedImages([...deletedImages, item.images[index]]);
+      item.images.splice(index, 1);
+    }
+  };
+
+  const onSubmitForm = async (data) => {
+    if (images.length == 0) {
+      if (
+        type === CREATE_FORM_TYPE ||
+        (type === EDIT_FORM_TYPE && item && item.images.length < 1)
+      ) {
+        setError("images", {
+          type: "required",
+          message: "Phải chọn tối thiểu 1 ảnh",
+        });
+        return;
+      }
+    }
+
+    if (type === EDIT_FORM_TYPE) {
+      data.id = item.id;
+      data.deletedImages = deletedImages;
+    }
+    handleSubmitForm(data, images);
+  };
+
+  const onModalClose = () => {
+    setIsOpenModal(false);
+  };
+
+  return isOpenModal ? (
+    <Modal isOpen={isOpenModal} onClose={onModalClose} />
+  ) : (
+    <form className="mx-4 mt-6" onSubmit={handleSubmit(onSubmitForm)}>
       <div className="relative z-0 w-full mb-6 group">
         <input
           id="name"
@@ -101,18 +169,22 @@ const ProductForm = ({ type, handleSubmitForm, item = null }) => {
       </div>
 
       <div className="flex flex-row mb-4">
-        <div className="w-full sm:w-1/2">
+        <div className="w-full sm:w-1/3">
           <div className="relative z-0 w-full mb-6 group">
             <input
               type="number"
               name="prices"
               placeholder=" "
               defaultValue={item ? item.prices : ""}
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               {...register("prices", {
                 required: {
                   value: true,
                   message: "Giá tiền không được để trống",
+                },
+                min: {
+                  value: 1,
+                  message: "Giá tiền không hợp lệ",
                 },
                 valueAsNumber: true,
               })}
@@ -125,7 +197,7 @@ const ProductForm = ({ type, handleSubmitForm, item = null }) => {
             </label>
             {errors.prices &&
               (errors.prices.type === "required" ||
-                "pattern" ||
+                "min" ||
                 "valueAsNumber") && (
                 <span
                   className="peer-focus:font-medium text-sm text-red-500"
@@ -137,7 +209,7 @@ const ProductForm = ({ type, handleSubmitForm, item = null }) => {
           </div>
         </div>
 
-        <div className="w-full flex flex-row sm:w-1/2 pl-12">
+        <div className="w-full flex flex-row sm:w-1/3 pl-12">
           <label
             htmlFor="Toggle1"
             className="inline-flex items-center space-x-4 cursor-pointer dark:text-gray-100 mb-4"
@@ -150,6 +222,7 @@ const ProductForm = ({ type, handleSubmitForm, item = null }) => {
                 id="Toggle1"
                 type="checkbox"
                 className="hidden peer"
+                defaultChecked={(item && item.isFeatured) || false}
                 {...register("isFeatured")}
               />
               <div className="w-10 h-6 rounded-full shadow-inner dark:bg-gray-600 peer-checked:dark:bg-green-600"></div>
@@ -157,81 +230,71 @@ const ProductForm = ({ type, handleSubmitForm, item = null }) => {
             </span>
           </label>
         </div>
-      </div>
 
-      {categories && categories.length > 0 && (
-        <div className="flex flex-row w-full mb-6 group">
-          <label
-            htmlFor="categories"
-            className="w-40 text-sm text-gray-500 dark:text-gray-400 flex items-center"
-          >
-            Thể loại sản phẩm
-          </label>
-          <select
-            id="categories"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            {...register("categories", {
-              required: {
-                value: true,
-                message: "Thể loại không được để trống",
-              },
-            })}
-          >
-            {categories.map((category) => (
-              <option value={category.id}>{category.displayName}</option>
-            ))}
-          </select>
-          {errors.categories &&
-            (errors.categories.type === "required" || "validate") && (
-              <span
-                className="peer-focus:font-medium text-sm text-red-500"
-                role="alert"
-              >
-                {errors.categories.message}
-              </span>
-            )}
-        </div>
-      )}
-
-      <div className="flex items-center justify-center w-full mb-6">
-        <label
-          htmlFor="dropzone-file"
-          className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-        >
-          <div className="flex flex-col items-center justify-center pt-5 pb-6">
-            <svg
-              className="w-10 h-10 mb-3 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+        {categories && categories.length > 0 && (
+          <div className="flex flex-row w-full sm:w-1/3 mb-6 group items-center">
+            <label
+              htmlFor="category"
+              className="w-60 text-sm text-gray-500 dark:text-gray-400 flex items-center"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-              ></path>
-            </svg>
-            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-              <span className="font-semibold">Click to upload</span> or drag and
-              drop
-            </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              SVG, PNG, JPG or GIF (MAX. 800x400px)
-            </p>
+              Thể loại sản phẩm
+            </label>
+            <select
+              id="category"
+              className="appearance-none bg-gray-50 h-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              defaultValue={
+                item && item.category
+                  ? _.find(categories, { displayName: item.category }).id
+                  : categories[0].displayName
+              }
+              {...register("category", {
+                required: {
+                  value: true,
+                  message: "Thể loại không được để trống",
+                },
+              })}
+            >
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.displayName}
+                </option>
+              ))}
+            </select>
+            {errors.categories &&
+              (errors.categories.type === "required" || "validate") && (
+                <span
+                  className="peer-focus:font-medium text-sm text-red-500"
+                  role="alert"
+                >
+                  {errors.categories.message}
+                </span>
+              )}
           </div>
-          <input id="dropzone-file" type="file" className="hidden" />
-        </label>
+        )}
       </div>
 
-      <div className="flex justify-end">
-        <button
-          type="submit"
-          className="mr-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          {type === EDIT_FORM_TYPE ? "Cập nhật" : "Tạo mới"}
-        </button>
+      <UploadImageInput
+        {...register("images")}
+        errors={errors}
+        onInputChange={onInputImageChange}
+      />
+
+      <div className="flex">
+        <PreviewImageInput
+          images={
+            type === EDIT_FORM_TYPE ? [...images, ...item.images] : images
+          }
+          onImageDelete={onChoosenImageDelete}
+        />
+
+        <div className="flex items-start">
+          <button
+            type="submit"
+            className="mr-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            {type === EDIT_FORM_TYPE ? "Cập nhật" : "Tạo mới"}
+          </button>
+        </div>
       </div>
     </form>
   );

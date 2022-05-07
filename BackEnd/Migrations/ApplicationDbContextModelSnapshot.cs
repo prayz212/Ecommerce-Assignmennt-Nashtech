@@ -19,7 +19,7 @@ namespace BackEnd.Migrations
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("APIs.Models.Category", b =>
+            modelBuilder.Entity("BackEnd.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,12 +51,18 @@ namespace BackEnd.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("APIs.Models.Image", b =>
+            modelBuilder.Entity("BackEnd.Models.Image", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Format")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Height")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -71,10 +77,16 @@ namespace BackEnd.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Uri")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<long>("Width")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -83,7 +95,7 @@ namespace BackEnd.Migrations
                     b.ToTable("Image");
                 });
 
-            modelBuilder.Entity("APIs.Models.Product", b =>
+            modelBuilder.Entity("BackEnd.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -131,7 +143,7 @@ namespace BackEnd.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("APIs.Models.Rating", b =>
+            modelBuilder.Entity("BackEnd.Models.Rating", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -156,9 +168,9 @@ namespace BackEnd.Migrations
                     b.ToTable("Rating");
                 });
 
-            modelBuilder.Entity("APIs.Models.Image", b =>
+            modelBuilder.Entity("BackEnd.Models.Image", b =>
                 {
-                    b.HasOne("APIs.Models.Product", "Product")
+                    b.HasOne("BackEnd.Models.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -167,10 +179,10 @@ namespace BackEnd.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("APIs.Models.Product", b =>
+            modelBuilder.Entity("BackEnd.Models.Product", b =>
                 {
-                    b.HasOne("APIs.Models.Category", "Category")
-                        .WithMany("Product")
+                    b.HasOne("BackEnd.Models.Category", "Category")
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -178,9 +190,9 @@ namespace BackEnd.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("APIs.Models.Rating", b =>
+            modelBuilder.Entity("BackEnd.Models.Rating", b =>
                 {
-                    b.HasOne("APIs.Models.Product", "product")
+                    b.HasOne("BackEnd.Models.Product", "product")
                         .WithMany("Ratings")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -189,12 +201,12 @@ namespace BackEnd.Migrations
                     b.Navigation("product");
                 });
 
-            modelBuilder.Entity("APIs.Models.Category", b =>
+            modelBuilder.Entity("BackEnd.Models.Category", b =>
                 {
-                    b.Navigation("Product");
+                    b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("APIs.Models.Product", b =>
+            modelBuilder.Entity("BackEnd.Models.Product", b =>
                 {
                     b.Navigation("Images");
 

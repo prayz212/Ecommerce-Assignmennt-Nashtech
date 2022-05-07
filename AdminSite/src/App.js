@@ -7,9 +7,7 @@ import LoadingPage from "./pages/loaders/loading-page";
 function App() {
   return (
     <div className="App">
-      <Suspense fallback={<LoadingPage />}>
-        <AppRoute routes={routes} />
-      </Suspense>
+      <AppRoute routes={routes} />
     </div>
   );
 }

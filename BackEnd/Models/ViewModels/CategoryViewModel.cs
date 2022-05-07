@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace BackEnd.Models.ViewModels
 {
     public class CategoryDto
@@ -17,5 +19,11 @@ namespace BackEnd.Models.ViewModels
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
+    }
+
+    public class CategoryListDto {
+        public IEnumerable<CategoryDto> Categories { get; set; }
+        public int TotalPage { get; set; }
+        public int CurrentPage { get; set; }
     }
 }

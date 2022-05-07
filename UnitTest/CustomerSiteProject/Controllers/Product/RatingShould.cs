@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CustomerSite.Controllers;
 using CustomerSite.Interfaces;
@@ -21,7 +20,7 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
             var data = new ProductRatingWriteDto
             {
                 ProductID = id,
-                Star = star
+                Stars = star
             };
 
             var mockProductService = new Mock<IProductService>();
@@ -42,7 +41,7 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
             ProductRatingWriteDto mockData = new ProductRatingWriteDto
             {
                 ProductID = 1,
-                Star = 5
+                Stars = 5
             };
 
             var expectedValue = true;

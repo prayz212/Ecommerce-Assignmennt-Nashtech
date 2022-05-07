@@ -3,11 +3,12 @@ import TopSection from "../../components/common/main-top-section";
 import Pagination from "../../components/common/pagination";
 import Table from "../../components/common/table";
 import { productService } from "../../services/modules";
-import { NUMBER_PRODUCT_PER_PAGE } from "../../constants/variables.js";
+import { NUMBER_RECORD_PER_PAGE } from "../../constants/variables.js";
 import { DetailDialog } from "../../components/common/dialog";
 import { DetailProduct } from "../../components/product/detail-product";
 import { useNavigate } from "react-router-dom";
 import { NAVIGATE_URL } from "../../constants/navigate-url.js";
+import _ from "lodash";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
@@ -20,13 +21,19 @@ const ProductPage = () => {
 
   useEffect(() => {
     productService
-      .getProductList(1, NUMBER_PRODUCT_PER_PAGE)
+      .getProductList(1, NUMBER_RECORD_PER_PAGE)
       .then(({ products, totalPage, currentPage }) => {
         setProducts(products);
         setTotalPage(totalPage);
         setCurrentPage(currentPage);
       });
   }, []);
+
+  useEffect(() => {
+    if (!_.isEmpty(dialogParam)) {
+      setOpenDialog(true);
+    }
+  }, [dialogParam]);
 
   const onCreateNewButtonClick = () => {
     console.log("create clicked");
@@ -35,14 +42,13 @@ const ProductPage = () => {
 
   const onTableRowClick = (id) => {
     productService.getProductDetail(id).then((data) => {
-      setOpenDialog(true);
       setDialogParam(data);
     });
   };
 
   const onPageNumberClick = (pageNumber) => {
     productService
-      .getProductList(pageNumber, NUMBER_PRODUCT_PER_PAGE)
+      .getProductList(pageNumber, NUMBER_RECORD_PER_PAGE)
       .then(({ products, totalPage, currentPage }) => {
         setProducts(products);
         setTotalPage(totalPage);
@@ -51,17 +57,22 @@ const ProductPage = () => {
   };
 
   const onEditClick = (item) => {
-    console.log("editing product id: " + item.id);
-    navigate(NAVIGATE_URL.PRODUCT_EDIT, {state: {data: item}});
+    navigate(NAVIGATE_URL.PRODUCT_EDIT, { state: { data: item } });
   };
 
   const onDeleteClick = (id) => {
-    console.log("deleting product id: " + id);
+    productService.deleteProduct(id).then((result) => {
+      if (result) {
+        const newProducts = products.filter((product) => product.id !== id);
+        setProducts(newProducts);
+        setOpenDialog(false);
+      }
+    });
   };
 
   return (
     <div className="flex h-full">
-      <div className="w-full flex flex-col relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="w-full flex flex-col relative shadow-md sm:rounded-lg">
         <TopSection
           titleText="Danh sách sản phẩm"
           buttonText="Tạo mới"

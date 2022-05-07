@@ -1,52 +1,63 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using BackEnd.Models;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BackEnd.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
     {
-        private readonly ApplicationDbContext _context;
+        public CategoryRepository(ApplicationDbContext context, ILogger logger) : base(context, logger) {}
 
-        public CategoryRepository(ApplicationDbContext context)
+        public async Task<Category> GetById(int id)
         {
-            _context = context;
+            try
+            {
+                return await base.GetBy(c => c.Id == id);
+            } 
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"{typeof(CategoryRepository)} GetById function error");
+                return null;
+            }
         }
 
-        public async Task<IList<Category>> GetCategories()
+        public override bool Delete(Category category)
         {
-            return await _context.Categories
-                .ToListAsync();
+            try
+            {
+                category.IsDeleted = true;
+                return true;
+            } 
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"{typeof(CategoryRepository)} Delete function error");
+                return false;
+            }
         }
 
-        public async Task<IList<Category>> GetCategories(int page, int size)
+        public override async Task<bool> Update(Category category)
         {
-            var skip = (page - 1) * size;
-            return await _context.Categories
-                .Skip(skip)
-                .Take(size)
-                .ToListAsync();
-        }
+            try
+            {
+                var exist = await GetById(category.Id);
+                if (exist is null)
+                {
+                    category.Id = 0;
+                    return await base.Add(category);
+                }
 
-        public async Task<Category> GetCategory(int id)
-        {
-            return await _context.Categories
-                .FirstOrDefaultAsync(c => c.Id == id);
-        }
-
-        public async Task<bool> NewCategory(Category category)
-        {
-            await _context.Categories.AddAsync(category);
-            return await _context.SaveChangesAsync() >= 1;
-        }
-
-        public async Task<bool> UpdateCategory(Category category)
-        {
-            _context.Categories.Update(category);
-            return await _context.SaveChangesAsync() >= 1;
+                exist.Name = category.Name;
+                exist.DisplayName = category.DisplayName;
+                exist.Description = category.Description;
+                return true;
+            } 
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"{typeof(CategoryRepository)} Update function error");
+                return false;
+            }
         }
     }
 }

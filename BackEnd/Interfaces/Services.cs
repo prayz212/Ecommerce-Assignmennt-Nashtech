@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BackEnd.Models;
 using BackEnd.Models.ViewModels;
 using Shared.Clients;
 
@@ -15,12 +16,15 @@ namespace BackEnd.Interfaces
     Task<bool> ProductRating(ProductRatingWriteDto data);
     Task<ProductListDto> AdminGetProducts(int page, int size);
     Task<ProductDetailDto> AdminGetProductDetail(int id);
+    Task<ProductDetailDto> CreateProduct(CreateProductDto dto);
+    Task<ProductDetailDto> UpdateProduct(UpdateProductDto dto);
+    Task<bool> DeleteProduct(int id);
   }
 
   public interface ICategoryService
   {
     Task<IEnumerable<CategoryReadDto>> GetCategories();
-    Task<IEnumerable<CategoryDto>> AdminGetCategories(int page, int size);
+    Task<CategoryListDto> AdminGetCategories(int page, int size);
     Task<CategoryDetailDto> GetCategory(int id);
     Task<CategoryDetailDto> CreateCategory(CreateCategoryDto dto);
     Task<CategoryDetailDto> UpdateCategory(CategoryDetailDto dto);

@@ -42,7 +42,7 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             var productService = new ProductService(mockHttpClientFactory.Object);
 
             //Act
-            var result = await productService.ProductRating(new ProductRatingWriteDto { ProductID = 1, Star = 5 });
+            var result = await productService.ProductRating(new ProductRatingWriteDto { ProductID = 1, Stars = 5 });
 
             //Assert
             Assert.True(result);
@@ -77,7 +77,7 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             var productService = new ProductService(mockHttpClientFactory.Object);
 
             //Act
-            var result = await productService.ProductRating(new ProductRatingWriteDto { ProductID = 1, Star = 5 });
+            var result = await productService.ProductRating(new ProductRatingWriteDto { ProductID = 1, Stars = 5 });
 
             //Assert
             Assert.False(result);

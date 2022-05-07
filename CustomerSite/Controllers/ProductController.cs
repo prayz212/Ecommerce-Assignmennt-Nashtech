@@ -68,7 +68,7 @@ namespace CustomerSite.Controllers
         [HttpPost]
         public async Task<IActionResult> Rating(ProductRatingWriteDto data)
         {
-            if (data is null || data.ProductID <= 0 || data.Star <= 0)
+            if (data is null || data.ProductID <= 0 || data.Stars <= 0)
                 return BadRequest();
 
             var result = await _productService.ProductRating(data);

@@ -12,7 +12,7 @@ const CreateCategoryPage = () => {
     categoryService
       .createCategory(formData)
       .then(() => navigate(NAVIGATE_URL.CATEGORIES_LIST));
-  }
+  };
 
   return (
     <>

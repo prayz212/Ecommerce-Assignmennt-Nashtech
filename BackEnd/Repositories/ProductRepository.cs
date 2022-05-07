@@ -4,114 +4,80 @@ using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using BackEnd.Models;
-using Microsoft.EntityFrameworkCore;
-using Shared.Clients;
+using Microsoft.Extensions.Logging;
 
 namespace BackEnd.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
-        private readonly ApplicationDbContext _context;
+        public ProductRepository(ApplicationDbContext context, ILogger logger) : base(context, logger) {}
 
-        public ProductRepository(ApplicationDbContext context)
+        public async Task<Product> GetById(int id)
         {
-            _context = context;
+            try
+            {
+                return await base.GetBy(p => p.Id == id, includes: "Category,Images,Ratings");
+            } 
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"{typeof(ProductRepository)} GetById function error");
+                return null;
+            }
         }
 
-        public async Task<IList<ProductReadDto>> GetFeatureProducts(int page, int size)
+        public override async Task<bool> Update(Product product)
         {
-            var skip = (page - 1) * size;
-            return await _context.Products
-                .Where(p => p.IsFeatured == true)
-                .Select(p => new ProductReadDto
+            try
+            {
+                var exist = await GetById(product.Id);
+                if (exist is null)
                 {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Prices = p.Prices,
-                    AverageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    ThumbnailName = p.Images.FirstOrDefault().Name,
-                    ThumbnailUri = p.Images.FirstOrDefault().Uri
-                })
-                .Skip(skip)
-                .Take(size)
-                .ToListAsync();
+                    product.Id = 0;
+                    return await base.Add(product);
+                }
+
+                exist.Name = product.Name;
+                exist.Description = product.Description;
+                exist.Prices = product.Prices;
+                exist.IsFeatured = product.IsFeatured;
+                exist.UpdatedDate = DateTime.Now;
+                exist.CategoryId = product.CategoryId;
+
+                return true;
+            } 
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"{typeof(ProductRepository)} Update function error");
+                return false;
+            }
         }
 
-        public async Task<IList<ProductReadDto>> GetProductsByCategory(string category, int page, int size)
+        public override bool Delete(Product product)
         {
-            var skip = (page - 1) * size;
-            return await _context.Products
-                .Where(p => p.Category.Name == category)
-                .Select(p => new ProductReadDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Prices = p.Prices,
-                    AverageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    ThumbnailName = p.Images.FirstOrDefault().Name,
-                    ThumbnailUri = p.Images.FirstOrDefault().Uri
-                })
-                .Skip(skip)
-                .Take(size)
-                .ToListAsync();
+            try
+            {
+                product.IsDeleted = true;
+                return true;
+            } 
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"{typeof(ProductRepository)} Delete function error");
+                return false;
+            }
         }
 
-        public async Task<Product> GetProduct(int id)
+        public override bool DeleteRange(IEnumerable<Product> products)
         {
-            return await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Images)
-                .Include(p => p.Ratings)
-                .FirstOrDefaultAsync(p => p.Id == id);
-        }
-
-        public async Task<IList<Product>> GetProducts(int page, int size)
-        {
-            var skip = (page - 1) * size;
-            return await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Images)
-                .Include(p => p.Ratings)
-                .Skip(skip)
-                .Take(size)
-                .ToListAsync();
-        }
-
-        public async Task<IList<ProductReadDto>> GetRelativeProducts(int currentCategoryId, int currentProductId, int size)
-        {
-            return await _context.Products
-                .Where(p => p.CategoryId == currentCategoryId && p.Id != currentProductId)
-                .Select(p => new ProductReadDto()
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Prices = p.Prices,
-                    AverageRate = p.Ratings.FirstOrDefault() != null ? p.Ratings.Average(r => r.Stars) : 0,
-                    ThumbnailName = p.Images.FirstOrDefault().Name,
-                    ThumbnailUri = p.Images.FirstOrDefault().Uri
-                })
-                .OrderBy(p => Guid.NewGuid())
-                .Take(size)
-                .ToListAsync();
-        }
-
-        public async Task<int> CountProductsByCategory(string category)
-        {
-            return await _context.Products
-                .Where(p => p.Category.Name == category)
-                .CountAsync();
-        }
-
-        public Task<int> CountAllProducts()
-        {
-            return _context.Products.CountAsync();
-        }
-
-        public Task<int> CountFeatureProducts()
-        {
-            return _context.Products
-                .Where(p => p.IsFeatured == true)
-                .CountAsync();
+            try
+            {
+                products.ToList().ForEach(product => product.IsDeleted = true);
+                return true;
+            } 
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"{typeof(ProductRepository)} Delete function error");
+                return false;
+            }
         }
     }
 }

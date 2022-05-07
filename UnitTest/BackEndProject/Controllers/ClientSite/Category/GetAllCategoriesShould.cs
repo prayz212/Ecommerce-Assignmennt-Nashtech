@@ -10,7 +10,7 @@ using Shared.Clients;
 using UnitTest.Utils;
 using Xunit;
 
-namespace UnitTest.BackEndProject.Controllers.ClientSite.Category
+namespace UnitTest.BackEndProject.ClientSite.CategoryControllers
 {
     public class GetAllCategoriesShould
     {

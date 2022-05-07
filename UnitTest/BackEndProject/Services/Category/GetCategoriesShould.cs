@@ -7,9 +7,8 @@ using Shared.Clients;
 using Xunit;
 using AutoMapper;
 using UnitTest.Utils;
-using Newtonsoft.Json;
 
-namespace UnitTest.BackEndProject.Services.Category
+namespace UnitTest.BackEndProject.CategoryServices
 {
     public class GetCategoriesShould
     {
@@ -17,37 +16,36 @@ namespace UnitTest.BackEndProject.Services.Category
         public async Task ReturnCategoriesWhenHavingData()
         {
             //Arrange
-            var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(c => c.GetCategories()).ReturnsAsync(MockData.DummyListCategory);
+            var mockRepository = new Mock<IUnitOfWork>();
+            mockRepository.Setup(c => c.Categories.GetAll(null, 0, 0, null, "")).ReturnsAsync(MockData.DummyListCategory);
 
             var mockAutoMapper = new Mock<IMapper>();
             mockAutoMapper.Setup(m => m.Map<IEnumerable<CategoryReadDto>>(MockData.DummyListCategory)).Returns(MockData.DummyListCategoryReadDto);
 
-            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
+            var categoryService = new CategoryService(mockRepository.Object, mockAutoMapper.Object);
             
             //Act
-            var actualResult = new List<CategoryReadDto>(await categoryService.GetCategories());
+            var actualResult = await categoryService.GetCategories();
 
             //Assert
             Assert.NotEmpty(actualResult);
-            Assert.Equal(MockData.DummyListCategoryReadDto.Count, actualResult.Count);
-            Assert.True(string.Equals(JsonConvert.SerializeObject(MockData.DummyListCategoryReadDto), JsonConvert.SerializeObject(actualResult)));
+            Assert.Equal(MockData.DummyListCategoryReadDto, actualResult);
         }
 
         [Fact]
         public async Task ReturnEmptyListWhenCategoriesIsEmpty()
         {
             //Arrange
-            var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(c => c.GetCategories()).ReturnsAsync(MockData.EmptyListCategory);
+            var mockRepository = new Mock<IUnitOfWork>();
+            mockRepository.Setup(c => c.Categories.GetAll(null, 0, 0, null, "")).ReturnsAsync(MockData.EmptyListCategory);
 
             var mockAutoMapper = new Mock<IMapper>();
             mockAutoMapper.Setup(m => m.Map<IEnumerable<CategoryReadDto>>(MockData.EmptyListCategory)).Returns(MockData.EmptyListCategoryReadDto);
 
-            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
+            var categoryService = new CategoryService(mockRepository.Object, mockAutoMapper.Object);
             
             //Act
-            IList<CategoryReadDto> actualResult = new List<CategoryReadDto>(await categoryService.GetCategories());
+            var actualResult = await categoryService.GetCategories();
 
             //Assert
             Assert.Empty(actualResult);

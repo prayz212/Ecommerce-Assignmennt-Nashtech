@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
+using BackEnd.Models.ViewModels;
 using BackEnd.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,36 @@ namespace BackEnd.Controllers.Admin
             if (id <= 0) return BadRequest();
             var product = await _productService.AdminGetProductDetail(id);
             return product is null ? NotFound() : Ok(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NewProduct(CreateProductDto data)
+        {
+            var result = await _productService.CreateProduct(data);
+            return result is null
+                ? BadRequest()
+                : CreatedAtAction(
+                    nameof(GetProductDetail),
+                    new { id = result.Id },
+                    result
+                );
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct(UpdateProductDto data)
+        {
+            var result = await _productService.UpdateProduct(data);
+            return result is null
+                ? BadRequest()
+                : Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            if (id < 0) return BadRequest();
+            var result = await _productService.DeleteProduct(id);
+            return result ? Ok() : BadRequest();
         }
     }
 }

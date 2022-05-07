@@ -2,9 +2,18 @@ import axiosRequest from "../../config/http-request";
 import UrlRequest from "../utils/url-request";
 
 
-const getCategoryList = async (page, size) => {
+const getCategories = async (page, size) => {
 	return axiosRequest
 		.get(UrlRequest.CATEGORY.GET_CATEGORY_LIST(page, size))
+		.then(({data}) => data)
+		.catch(error => {
+			throw new Error(error);
+		});
+};
+
+const getAllCategories = async () => {
+	return axiosRequest
+		.get(UrlRequest.CATEGORY.GET_ALL_CATEGORIES())
 		.then(({data}) => data)
 		.catch(error => {
 			throw new Error(error);
@@ -48,7 +57,8 @@ const createCategory = async (category) => {
 };
 
 export default {
-	getCategoryList,
+	getCategories,
+	getAllCategories,
 	getCategoryDetail,
 	deleteCategory,
 	updateCategory,

@@ -57,7 +57,7 @@ $(document).ready(function () {
 
         var formData = {
             productId,
-            star: ratingValue
+            stars: ratingValue
         };
 
         $.ajax({
