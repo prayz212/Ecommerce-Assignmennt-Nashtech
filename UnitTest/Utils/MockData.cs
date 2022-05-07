@@ -9,7 +9,6 @@ namespace UnitTest.Utils
     public static class MockData
     {
         //Category
-        public static IList<CategoryDto> EmptyListCategoryDto = new List<CategoryDto>();
         public static IList<CategoryDto> DummyListCategoryDto = new List<CategoryDto>
         {
             new CategoryDto { Id = 1, Name = "category 1", DisplayName = "display name" },
@@ -60,9 +59,6 @@ namespace UnitTest.Utils
             new CategoryReadDto { Id = 3, Name = "category 3", DisplayName = "display name", Description = "description" },
         };
 
-
-
-
         //Product
         public static IList<ProductReadDto> DummyListProductReadDto = new List<ProductReadDto>
         {
@@ -95,12 +91,12 @@ namespace UnitTest.Utils
         public static ProductRatingWriteDto IncorrectDummyProductRating = new ProductRatingWriteDto
         {
             ProductID = -1,
-            Star = 4
+            Stars = 4
         };
         public static ProductRatingWriteDto CorrectDummyProductRating = new ProductRatingWriteDto
         {
             ProductID = 1,
-            Star = 4
+            Stars = 4
         };
         public static IList<ProductDto> DummyListProductDto = new List<ProductDto>
         {
@@ -126,7 +122,11 @@ namespace UnitTest.Utils
             AverageRate = 5,
             IsFeatured = true,
             Category = "dummy display name",
-            Images = DummyProductDetailReadDto.Images,
+            Images = new List<ImageDto>
+            {
+                new ImageDto { Name = "image 1", Uri = "uri 1", Format = "jpg", Size = 1024, Height = 540, Width = 540 },
+                new ImageDto { Name = "image 2", Uri = "uri 2", Format = "jpg", Size = 1024, Height = 540, Width = 540 },
+            },
             CreatedAt = DateTime.Now.ToString("dd/MM/yyyy"),
             UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy")
         };
@@ -157,6 +157,53 @@ namespace UnitTest.Utils
             new Product { Id = 2, Name = "product 2", Prices = 120000, Category = DummyCategory, IsFeatured = true },
             new Product { Id = 3, Name = "product 3", Prices = 120000, Category = DummyCategory, IsFeatured = true },
             new Product { Id = 4, Name = "product 4", Prices = 120000, Category = DummyCategory, IsFeatured = true },
+        };
+        public static CreateProductDto DummyCreateProductDto = new CreateProductDto
+        {
+            Name = "product 1",
+            Description = "description of product 1",
+            Category = DummyCategory.Id,
+            Images = DummyProductDetailDto.Images,
+            IsFeatured = true,
+            Prices = 120000,
+        };
+        public static UpdateProductDto DummyUpdateProductDto = new UpdateProductDto
+        {
+            Id = 1,
+            Name = "product 1",
+            Description = "description of product 1",
+            Category = DummyCategory.Id,
+            Images = new List<ImageDto>(),
+            IsFeatured = true,
+            Prices = 120000,
+            DeletedImages = DummyProductDetailDto.Images,
+        };
+
+        //Images
+        public static IList<Image> DummyListImage = new List<Image>
+        {
+            new Image { Id = 1, Name = "image 1", Uri = "uri 1", Format = "jpg", Size = 1024, Height = 540, Width = 540, ProductId = 1 },
+            new Image { Id = 2, Name = "image 2", Uri = "uri 2", Format = "jpg", Size = 1024, Height = 540, Width = 540, ProductId = 1 },
+            new Image { Id = 3, Name = "image 3", Uri = "uri 3", Format = "jpg", Size = 1024, Height = 540, Width = 540, ProductId = 1 },
+            new Image { Id = 4, Name = "image 4", Uri = "uri 4", Format = "jpg", Size = 1024, Height = 540, Width = 540, ProductId = 1 },
+            new Image { Id = 5, Name = "image 5", Uri = "uri 5", Format = "jpg", Size = 1024, Height = 540, Width = 540, ProductId = 1 },
+        };
+
+        //Ratings
+        public static IList<Rating> DummyListRating = new List<Rating>
+        {
+            new Rating { Id = 1, ProductID = 1, Stars = 5},
+            new Rating { Id = 2, ProductID = 1, Stars = 5},
+            new Rating { Id = 3, ProductID = 1, Stars = 5},
+            new Rating { Id = 4, ProductID = 1, Stars = 5},
+            new Rating { Id = 5, ProductID = 1, Stars = 5},
+        };
+
+        public static Rating DummyRating = new Rating 
+        { 
+            Id = 1, 
+            ProductID = 1, 
+            Stars = 5
         };
     }
 }

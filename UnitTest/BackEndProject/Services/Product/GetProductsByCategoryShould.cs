@@ -1,13 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using BackEnd.Interfaces;
 using BackEnd.Services;
 using Moq;
+using Shared.Clients;
 using UnitTest.Utils;
 using Xunit;
 
-namespace UnitTest.BackEndProject.Services.Product
+namespace UnitTest.BackEndProject.ProductServices
 {
     public class GetProductsByCategoryShould
     {
@@ -18,10 +20,9 @@ namespace UnitTest.BackEndProject.Services.Product
         public async Task ReturnNullWhenPassingInvalidParams(string category, int page, int size)
         {
             //Arrange
-            var mockProductRepository = new Mock<IProductRepository>();
-            var mockRatingRepository = new Mock<IRatingRepository>();
+            var mockRepository = new Mock<IUnitOfWork>();
             var mockAutoMapper = new Mock<IMapper>();
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
+            var productService = new ProductService(mockRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await productService.GetProductsByCategory(category, page, size);
@@ -38,13 +39,14 @@ namespace UnitTest.BackEndProject.Services.Product
             int page = 1;
             int size = 8;
 
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.CountProductsByCategory(category)).ReturnsAsync(MockData.DummyListProductReadDto.Count);
-            mockProductRepository.Setup(r => r.GetProductsByCategory(category, page, size)).ReturnsAsync(MockData.DummyListProductReadDto);
+            var mockRepository = new Mock<IUnitOfWork>();
+            mockRepository.Setup(r => r.Products.CountAll(p => p.Category.Name == category)).ReturnsAsync(MockData.DummyListProduct.Count);
+            mockRepository.Setup(r => r.Products.GetAll(p => p.Category.Name == category, page, size, null, "Images,Ratings,Category")).ReturnsAsync(MockData.DummyListProduct);
 
-            var mockRatingRepository = new Mock<IRatingRepository>();
             var mockAutoMapper = new Mock<IMapper>();
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
+            mockAutoMapper.Setup(m => m.Map<IEnumerable<ProductReadDto>>(MockData.DummyListProduct)).Returns(MockData.DummyListProductReadDto);
+
+            var productService = new ProductService(mockRepository.Object, mockAutoMapper.Object);
             
             //Act
             var result = await productService.GetProductsByCategory(category, page, size);

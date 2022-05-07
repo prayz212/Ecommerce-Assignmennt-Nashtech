@@ -5,8 +5,11 @@ using Moq;
 using Xunit;
 using AutoMapper;
 using UnitTest.Utils;
+using BackEnd.Models;
+using Newtonsoft.Json;
+using BackEnd.Models.ViewModels;
 
-namespace UnitTest.BackEndProject.Services.Category
+namespace UnitTest.BackEndProject.CategoryServices
 {
     public class CreateCategoryShould
     {
@@ -14,18 +17,37 @@ namespace UnitTest.BackEndProject.Services.Category
         public async Task ReturnNullWhenSaveResultIsFalse()
         {
             //Arrange
-            var mockCategoryRepository = new Mock<ICategoryRepository>();
-            mockCategoryRepository.Setup(r => r.NewCategory(MockData.DummyCategory)).ReturnsAsync(false);
+            var mockRepository = new Mock<IUnitOfWork>();
+            mockRepository.Setup(r => r.Categories.Add(MockData.DummyCategory)).ReturnsAsync(false);
             
             var mockAutoMapper = new Mock<IMapper>();
-
-            var categoryService = new CategoryService(mockCategoryRepository.Object, mockAutoMapper.Object);
+            var categoryService = new CategoryService(mockRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await categoryService.CreateCategory(MockData.DummyCreateCategoryDto);
 
             //Assert
             Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task ReturnValueWhenSaveResultIsTrue()
+        {
+            //Arrange
+            var mockAutoMapper = new Mock<IMapper>();
+            mockAutoMapper.Setup(m => m.Map<Category>(MockData.DummyCreateCategoryDto)).Returns(MockData.DummyCategory);
+            mockAutoMapper.Setup(m => m.Map<CategoryDetailDto>(MockData.DummyCategory)).Returns(MockData.DummyCategoryDetailDto);
+
+            var mockRepository = new Mock<IUnitOfWork>();
+            mockRepository.Setup(r => r.Categories.Add(MockData.DummyCategory)).ReturnsAsync(true);
+            
+            var categoryService = new CategoryService(mockRepository.Object, mockAutoMapper.Object);
+
+            //Act
+            var result = await categoryService.CreateCategory(MockData.DummyCreateCategoryDto);
+
+            //Assert
+            Assert.Equal(MockData.DummyCategoryDetailDto, result);
         }
     }
 }

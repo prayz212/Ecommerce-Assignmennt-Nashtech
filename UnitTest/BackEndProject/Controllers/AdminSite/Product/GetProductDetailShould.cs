@@ -6,7 +6,7 @@ using Moq;
 using UnitTest.Utils;
 using Xunit;
 
-namespace UnitTest.BackEndProject.Controllers.AdminSite.Product
+namespace UnitTest.BackEndProject.AdminSite.ProductControllers
 {
     public class GetProductDetailShould
     {

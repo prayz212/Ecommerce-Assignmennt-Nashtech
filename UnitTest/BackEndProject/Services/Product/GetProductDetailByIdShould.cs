@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using BackEnd.Services;
@@ -9,23 +7,23 @@ using AutoMapper;
 using UnitTest.Utils;
 using Shared.Clients;
 
-namespace UnitTest.BackEndProject.Services.Product
+namespace UnitTest.BackEndProject.ProductServices
 {
     public class GetProductDetailByIdShould
     {
-        [Fact]
-        public async Task ReturnNullWhenProductIdInvalid()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(-5)]
+        public async Task ReturnNullWhenProductIdInvalid(int id)
         {
             //Arrange
-            var productId = -1;
-
-            var mockProductRepository = new Mock<IProductRepository>();
-            var mockRatingRepository = new Mock<IRatingRepository>();
+            var mockRepository = new Mock<IUnitOfWork>();
             var mockAutoMapper = new Mock<IMapper>();
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
+            var productService = new ProductService(mockRepository.Object, mockAutoMapper.Object);
             
             //Act
-            var result = await productService.GetProductDetailById(productId);
+            var result = await productService.GetProductDetailById(id);
             
             //Assert
             Assert.Null(result);
@@ -37,21 +35,19 @@ namespace UnitTest.BackEndProject.Services.Product
             //Arrange
             var productId = 1;
 
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.GetProduct(productId)).ReturnsAsync(MockData.DummyProduct);
-
-            var mockRatingRepository = new Mock<IRatingRepository>();
+            var mockRepository = new Mock<IUnitOfWork>();
+            mockRepository.Setup(r => r.Products.GetById(productId)).ReturnsAsync(MockData.DummyProduct);
 
             var mockAutoMapper = new Mock<IMapper>();            
             mockAutoMapper.Setup(m => m.Map<ProductDetailReadDto>(MockData.DummyProduct)).Returns(MockData.DummyProductDetailReadDto);
 
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
+            var productService = new ProductService(mockRepository.Object, mockAutoMapper.Object);
             
             //Act
             var result = await productService.GetProductDetailById(productId);
             
             //Assert
-            Assert.True(string.Equals(JsonConvert.SerializeObject(MockData.DummyProductDetailReadDto), JsonConvert.SerializeObject(result)));
+            Assert.Equal(MockData.DummyProductDetailReadDto, result);
         }
     }
 }

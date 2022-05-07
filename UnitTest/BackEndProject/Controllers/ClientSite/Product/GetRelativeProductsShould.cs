@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Controllers.Client;
 using BackEnd.Interfaces;
@@ -10,7 +8,7 @@ using Shared.Clients;
 using UnitTest.Utils;
 using Xunit;
 
-namespace UnitTest.BackEndProject.Controllers.ClientSite.Product
+namespace UnitTest.BackEndProject.ClientSite.ProductControllers
 {
     public class GetRelativeProductsShould
     {

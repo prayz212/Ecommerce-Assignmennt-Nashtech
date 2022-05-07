@@ -9,6 +9,7 @@ using System.Net;
 using CustomerSite.Services;
 using Shared.Clients;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UnitTest.CustomerSiteProject.Services.Product
 {
@@ -59,7 +60,7 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             ProductListReadDto result = await productService.GetCategoryProductData("category", 1, 9);
 
             //Assert
-            Assert.Equal(expectedValues.Count, result.Products.Count);
+            Assert.Equal(expectedValues.Count, result.Products.Count());
             Assert.Equal(1, result.TotalPage);
             Assert.Equal(1, result.CurrentPage);
         }

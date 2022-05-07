@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackEnd.Controllers.Admin;
 using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using BackEnd.Models.ViewModels;
 using Xunit;
 using UnitTest.Utils;
 
-namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
+namespace UnitTest.BackEndProject.AdminSite.CategoryControllers
 {
     public class GetAllCategoriesShould
     {

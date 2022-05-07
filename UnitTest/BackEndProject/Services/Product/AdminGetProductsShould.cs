@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using BackEnd.Models.ViewModels;
@@ -9,7 +8,7 @@ using Xunit;
 using AutoMapper;
 using UnitTest.Utils;
 
-namespace UnitTest.BackEndProject.Services.Product
+namespace UnitTest.BackEndProject.ProductServices
 {
     public class AdminGetProductsShould
     {
@@ -21,12 +20,11 @@ namespace UnitTest.BackEndProject.Services.Product
             //Arrange
             int count = 10;
 
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.CountAllProducts()).ReturnsAsync(count);
+            var mockRepository = new Mock<IUnitOfWork>();
+            mockRepository.Setup(r => r.Products.CountAll(null)).ReturnsAsync(count);
 
-            var mockRatingRepository = new Mock<IRatingRepository>();
             var mockAutoMapper = new Mock<IMapper>();
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
+            var productService = new ProductService(mockRepository.Object, mockAutoMapper.Object);
 
             //Act
             var actualResult = await productService.AdminGetProducts(page, size);
@@ -42,22 +40,22 @@ namespace UnitTest.BackEndProject.Services.Product
             int page = 1;
             int size = 6;
 
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.CountAllProducts()).ReturnsAsync(MockData.DummyListProduct.Count);
-            mockProductRepository.Setup(r => r.GetProducts(page, size)).ReturnsAsync(MockData.DummyListProduct);
-
-            var mockRatingRepository = new Mock<IRatingRepository>();
+            var mockRepository = new Mock<IUnitOfWork>();
+            mockRepository.Setup(r => r.Products.CountAll(null)).ReturnsAsync(MockData.DummyListProduct.Count);
+            mockRepository.Setup(r => r.Products.GetAll(null, page, size, null, "Category")).ReturnsAsync(MockData.DummyListProduct);
 
             var mockAutoMapper = new Mock<IMapper>();
             mockAutoMapper.Setup(m => m.Map<IEnumerable<ProductDto>>(MockData.DummyListProduct)).Returns(MockData.DummyListProductDto);
 
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
+            var productService = new ProductService(mockRepository.Object, mockAutoMapper.Object);
 
             //Act
             var actualResult = await productService.AdminGetProducts(page, size);
 
             //Assert
-            Assert.Equal(JsonConvert.SerializeObject(MockData.DummyProductListDto), JsonConvert.SerializeObject(actualResult));
+            Assert.Equal(MockData.DummyProductListDto.TotalPage, actualResult.TotalPage);
+            Assert.Equal(MockData.DummyProductListDto.CurrentPage, actualResult.CurrentPage);
+            Assert.Equal(MockData.DummyProductListDto.Products, actualResult.Products);
         }
     }
 }

@@ -9,6 +9,7 @@ using Moq;
 using Moq.Protected;
 using Shared.Clients;
 using Xunit;
+using System.Linq;
 
 namespace UnitTest.CustomerSiteProject.Services.Product
 {
@@ -59,7 +60,7 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             ProductListReadDto result = await productService.GetFeaturedProductData(1, 9);
 
             //Assert
-            Assert.Equal(expectedValues.Count, result.Products.Count);
+            Assert.Equal(expectedValues.Count, result.Products.Count());
             Assert.Equal(1, result.TotalPage);
             Assert.Equal(1, result.CurrentPage);
         }

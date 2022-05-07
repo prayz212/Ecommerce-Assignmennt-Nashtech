@@ -71,7 +71,12 @@ namespace BackEnd.Services
                 return null;
             }
 
-            var rawProducts = await _unitOfWork.Products.GetAll(filter: p => p.Category.Name == category, page: page, size: size, includes: "Images,Ratings,Category");
+            var rawProducts = await _unitOfWork.Products.GetAll(
+                filter: p => p.Category.Name == category, 
+                page: page, 
+                size: size, 
+                includes: "Images,Ratings,Category"
+            );
             var products = _mapper.Map<IEnumerable<ProductReadDto>>(rawProducts);
 
             return new ProductListReadDto() 
@@ -125,8 +130,7 @@ namespace BackEnd.Services
             if (product is null) return null;
 
             var rawProducts = await _unitOfWork.Products.GetAll(
-                filter: p => p.CategoryId == product.CategoryId && p.Id != product.Id, 
-                size: size,
+                filter: p => p.CategoryId == product.CategoryId && p.Id != product.Id,
                 orderBy: p => p.OrderBy(p => Guid.NewGuid()), 
                 includes: "Images,Ratings"
             );

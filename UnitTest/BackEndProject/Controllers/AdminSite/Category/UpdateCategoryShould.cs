@@ -6,7 +6,7 @@ using Moq;
 using Xunit;
 using UnitTest.Utils;
 
-namespace UnitTest.BackEndProject.Controllers.AdminSite.Category
+namespace UnitTest.BackEndProject.AdminSite.CategoryControllers
 {
     public class UpdateCategoryShould
     {

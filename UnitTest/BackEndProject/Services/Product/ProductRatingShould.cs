@@ -1,13 +1,14 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using BackEnd.Interfaces;
+using BackEnd.Models;
 using BackEnd.Services;
 using Moq;
 using Shared.Clients;
 using UnitTest.Utils;
 using Xunit;
 
-namespace UnitTest.BackEndProject.Services.Product
+namespace UnitTest.BackEndProject.ProductServices
 {
     public class ProductRatingShould
     {
@@ -15,10 +16,9 @@ namespace UnitTest.BackEndProject.Services.Product
         public async Task ReturnFalseWhenProductIdInvalid()
         {
             //Arrange
-            var mockProductRepository = new Mock<IProductRepository>();
-            var mockRatingRepository = new Mock<IRatingRepository>();
+            var mockRepository = new Mock<IUnitOfWork>();
             var mockAutoMapper = new Mock<IMapper>();
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
+            var productService = new ProductService(mockRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await productService.ProductRating(MockData.IncorrectDummyProductRating);
@@ -34,13 +34,12 @@ namespace UnitTest.BackEndProject.Services.Product
             var data = new ProductRatingWriteDto()
             {
                 ProductID = 1,
-                Star = 0
+                Stars = 0
             };
 
-            var mockProductRepository = new Mock<IProductRepository>();
-            var mockRatingRepository = new Mock<IRatingRepository>();
+            var mockRepository = new Mock<IUnitOfWork>();
             var mockAutoMapper = new Mock<IMapper>();
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
+            var productService = new ProductService(mockRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await productService.ProductRating(data);
@@ -53,12 +52,11 @@ namespace UnitTest.BackEndProject.Services.Product
         public async Task ReturnFalseWhenProductNotFound()
         {
             //Arrange
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.GetProduct(MockData.CorrectDummyProductRating.ProductID)).ReturnsAsync(MockData.NullProduct);
-            
-            var mockRatingRepository = new Mock<IRatingRepository>();
+            var mockRepository = new Mock<IUnitOfWork>();
+            mockRepository.Setup(r => r.Products.GetById(MockData.CorrectDummyProductRating.ProductID)).ReturnsAsync(MockData.NullProduct);
+
             var mockAutoMapper = new Mock<IMapper>();
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
+            var productService = new ProductService(mockRepository.Object, mockAutoMapper.Object);
 
             //Act
             var result = await productService.ProductRating(MockData.CorrectDummyProductRating);
@@ -71,15 +69,15 @@ namespace UnitTest.BackEndProject.Services.Product
         public async Task ReturnTrueWhenCreatedRating()
         {
             //Arrange
-            var mockProductRepository = new Mock<IProductRepository>();
-            mockProductRepository.Setup(r => r.GetProduct(MockData.CorrectDummyProductRating.ProductID)).ReturnsAsync(MockData.DummyProduct);
-            
-            var mockRatingRepository = new Mock<IRatingRepository>();
-            mockRatingRepository.Setup(r => r.CreateProductRating(MockData.CorrectDummyProductRating)).ReturnsAsync(true);
+            var mockRepository = new Mock<IUnitOfWork>();
+            mockRepository.Setup(r => r.Products.GetById(MockData.CorrectDummyProductRating.ProductID)).ReturnsAsync(MockData.DummyProduct);
+            mockRepository.Setup(r => r.Ratings.Add(MockData.DummyRating)).ReturnsAsync(true);
             
             var mockAutoMapper = new Mock<IMapper>();
-            var productService = new ProductService(mockProductRepository.Object, mockRatingRepository.Object, mockAutoMapper.Object);
+            mockAutoMapper.Setup(m => m.Map<Rating>(MockData.CorrectDummyProductRating)).Returns(MockData.DummyRating);
 
+            var productService = new ProductService(mockRepository.Object, mockAutoMapper.Object);
+            
             //Act
             var result = await productService.ProductRating(MockData.CorrectDummyProductRating);
 
