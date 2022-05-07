@@ -19,7 +19,6 @@ namespace BackEnd.Interfaces
     Task<ProductDetailDto> CreateProduct(CreateProductDto dto);
     Task<ProductDetailDto> UpdateProduct(UpdateProductDto dto);
     Task<bool> DeleteProduct(int id);
-    // Task<bool> DeleteProductsByCategory(Category category);
   }
 
   public interface ICategoryService

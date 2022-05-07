@@ -22,7 +22,10 @@ const CreateCategoryPage = () => {
         </div>
       </div>
 
-      <CategoryForm type={CREATE_FORM_TYPE} handleSubmitForm={onSubmitForm} />
+      <CategoryForm
+        type={CREATE_FORM_TYPE}
+        handleSubmitForm={onSubmitForm}
+      />
     </>
   );
 };

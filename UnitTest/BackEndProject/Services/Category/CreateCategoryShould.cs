@@ -6,7 +6,6 @@ using Xunit;
 using AutoMapper;
 using UnitTest.Utils;
 using BackEnd.Models;
-using Newtonsoft.Json;
 using BackEnd.Models.ViewModels;
 
 namespace UnitTest.BackEndProject.CategoryServices

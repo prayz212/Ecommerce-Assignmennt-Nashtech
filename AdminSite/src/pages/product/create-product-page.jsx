@@ -47,7 +47,10 @@ const CreateProductPage = () => {
         </div>
       </div>
 
-      <ProductForm type={CREATE_FORM_TYPE} handleSubmitForm={onSubmitForm} />
+      <ProductForm
+        type={CREATE_FORM_TYPE}
+        handleSubmitForm={onSubmitForm}
+      />
     </>
   );
 };

@@ -40,10 +40,12 @@ const CategoryPage = () => {
   };
 
   const onTableRowClick = (id) => {
-    categoryService.getCategoryDetail(id).then((data) => {
-      setOpenDialog(true);
-      setDialogParam(data);
-    });
+    categoryService
+      .getCategoryDetail(id)
+      .then((data) => {
+        setOpenDialog(true);
+        setDialogParam(data)
+      });
   };
 
   const onDetailDialogClose = () => {
@@ -79,7 +81,7 @@ const CategoryPage = () => {
   };
 
   const onEditClick = (item) => {
-    navigate(NAVIGATE_URL.CATEGORIES_EDIT, { state: { data: item } });
+    navigate(NAVIGATE_URL.CATEGORIES_EDIT, {state: {data: item}});
   };
 
   return isLoading ? (
