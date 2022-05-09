@@ -45,7 +45,7 @@ namespace UnitTest.BackEndProject.CategoryServices
             mockRepository.Setup(r => r.Categories.GetById(id)).ReturnsAsync(MockData.DummyCategory);
             mockRepository.Setup(r => r.Products.GetAll(p => p.CategoryId == id, 0, 0, null, "")).ReturnsAsync(MockData.DummyListProduct);
             mockRepository.Setup(r => r.Images.GetAll(i => productIds.Contains(i.ProductId), 0, 0, null, "")).ReturnsAsync(MockData.DummyListImage);
-            mockRepository.Setup(r => r.Ratings.GetAll(r => productIds.Contains(r.ProductID), 0, 0, null, "")).ReturnsAsync(MockData.DummyListRating);
+            mockRepository.Setup(r => r.Ratings.GetAll(r => productIds.Contains(r.ProductId), 0, 0, null, "")).ReturnsAsync(MockData.DummyListRating);
             
             mockRepository.Setup(r => r.Categories.Delete(MockData.DummyCategory)).Returns(false);
             mockRepository.Setup(r => r.Products.DeleteRange(MockData.DummyListProduct)).Returns(true);

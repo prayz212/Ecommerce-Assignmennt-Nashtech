@@ -1596,7 +1596,6 @@ th:last-child {
 ._form-container span {
   font-weight: bold;
   padding: 0 5px;
-  /* color: var(--text-color); */
   cursor: pointer;
   width: 100px;
   display: inline-block;
@@ -1607,29 +1606,19 @@ th:last-child {
   padding: 0 20px;
   position: absolute;
   top: 70px;
-  transition: transform 1s;
-}
-
-#_LoginForm {
   right: 0px;
-}
-
-#_RegForm {
-  right: -300px;
 }
 
 ._form-btn {
   display: inline-block;
 }
 
-#_Indicator {
-  width: 100px;
+._indicator {
+  width: 160px;
   border: none;
   background: #243a6f;
-  height: 3px;
+  height: 2px!important;
   margin-top: 8px;
-  transform: translateX(0px);
-  transition: transform 1s;
 }
 
 ._form-input {
@@ -1640,6 +1629,35 @@ th:last-child {
   border: 1px solid #ccc;
   border-radius: 20px;
   font-size: 15px;
+}
+
+.field-validation-error {
+  height: 0px;
+  margin-bottom: 18px;
+}
+
+.field-validation-error span {
+  font-size: small;
+  font-weight: 300;
+  width: unset;
+  padding: unset;
+  cursor: unset;
+  position: unset;
+  transform: unset;
+  position: relative;
+  top: -10px;
+}
+
+#UserName-error {
+  right: 10px;
+}
+
+#Password-error {
+  right: 21px;
+}
+
+#Login-error {
+  right: 0;
 }
 
 input[name='validDate'] {
@@ -1673,8 +1691,7 @@ form ._btn {
   margin: 10px 0;
 }
 
-._form-container li,
-.__error-msg {
+._form-container li {
   font-size: small;
   font-weight: 200;
   color: red;
@@ -1691,7 +1708,7 @@ form ._btn {
 }
 
 ._form-container ._form-btn ._form-title,
-._form-container ._form-btn _form-title-indicator {
+._form-container ._form-btn ._form-title-indicator {
   width: fit-content;
 }
 
@@ -1824,14 +1841,6 @@ form ._btn {
   border: 1px solid #ccc;
   border-radius: 20px;
   font-size: 15px;
-}
-
-.__form-validation li {
-  font-size: medium;
-  font-weight: 300;
-  color: red;
-  text-align: start;
-  list-style: inside !important;
 }
 
 .__break-word-dots {

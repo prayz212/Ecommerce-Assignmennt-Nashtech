@@ -74,8 +74,20 @@ $(document).ready(function () {
                     $(stars[i]).removeClass('__hover');
                 }
             },
-            error: function() {
-                showToast("fail", "Rất tiếc đã xảy ra lỗi. Xin vui lòng thử lại sau.");
+            error: function({status}) {
+                if (status == 401) {
+                    showToast("fail", "Cần đăng nhập để thực hiện chức năng này.");
+                    
+                    const baseUrl = window.location.origin;
+                    const redirectUrl = $('.__popup-rating').attr('data-redirect');
+                    const returnUrl = window.location.pathname;
+                    const fullUrl = `${baseUrl}/${redirectUrl}?returnUrl=${returnUrl}`;
+
+                    setTimeout(() => {
+                        window.location.replace(fullUrl); 
+                    }, 2500);
+                }
+                else showToast("fail", "Rất tiếc đã xảy ra lỗi. Xin vui lòng thử lại sau.");
             }
         });
     });

@@ -3,9 +3,11 @@ using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using BackEnd.Models.ViewModels;
 using BackEnd.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackEnd.Controllers.Admin
 {
+    [Authorize(Roles = UserRoles.ADMIN)]
     [ApiController]
     [Route("api/admin/categories")]
     public class AdminCategoryController : ControllerBase

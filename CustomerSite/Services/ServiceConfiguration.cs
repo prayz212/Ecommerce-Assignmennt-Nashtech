@@ -9,6 +9,7 @@ namespace CustomerSite.Services
         {
             services.AddScoped<ISharedService, SharedService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IAccountService, AccountService>();
         }   
     }
 }

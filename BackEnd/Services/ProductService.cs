@@ -140,20 +140,23 @@ namespace BackEnd.Services
             return products;
         }
 
-        public async Task<bool> ProductRating(ProductRatingWriteDto data)
+        public async Task<bool> ProductRating(ProductRatingWriteDto data, string userId)
         {
-            if (data.ProductID <= 0 || data.Stars <= 0)
+            if (data.ProductId <= 0 || data.Stars <= 0)
             {
                 return false;
             }
 
-            var product = await _unitOfWork.Products.GetById(data.ProductID);
+            var product = await _unitOfWork.Products.GetById(data.ProductId);
             if (product is null)
             {
                 return false;
             }
 
-            var rating = _mapper.Map<Rating>(data);
+            var rating = _mapper.Map<ProductRatingWriteDto, Rating>(
+                data,
+                opts => opts.AfterMap((src, des) => des.UserId = userId)
+            );
             var saveResult = await _unitOfWork.Ratings.Add(rating);
             await _unitOfWork.SaveChangeAsync();
 
@@ -266,7 +269,7 @@ namespace BackEnd.Services
             if (product is null) return false;
 
             var images = await _unitOfWork.Images.GetAll(filter: i => i.ProductId == id);
-            var ratings = await _unitOfWork.Ratings.GetAll(filter: r => r.ProductID == id);
+            var ratings = await _unitOfWork.Ratings.GetAll(filter: r => r.ProductId == id);
 
             var deleteResult = _unitOfWork.Products.Delete(product)
                 && _unitOfWork.Images.DeleteRange(images)

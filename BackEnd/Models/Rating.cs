@@ -13,8 +13,11 @@ namespace BackEnd.Models
         [Range(1, 5)]
         public int Stars { get; set; }
 
-        public int ProductID { get; set; }
-        public Product product { get; set; }
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
+
+        public string UserId { get; set;}
+        public ApplicationUser User { get; set; }
 
         public bool IsDeleted { get; set; }
     }

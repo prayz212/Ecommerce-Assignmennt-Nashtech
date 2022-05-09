@@ -2,10 +2,12 @@ using System.Threading.Tasks;
 using BackEnd.Interfaces;
 using BackEnd.Models.ViewModels;
 using BackEnd.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers.Admin
 {
+    [Authorize(Roles = UserRoles.ADMIN)]
     [ApiController]
     [Route("api/admin/products")]
     public class AdminProductController : ControllerBase

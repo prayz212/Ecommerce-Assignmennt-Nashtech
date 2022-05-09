@@ -62,7 +62,7 @@ namespace BackEnd.Services
             var deleteProducts = await _unitOfWork.Products.GetAll(filter: p => p.CategoryId == id);
             var deleteProductIds = deleteProducts.Select(p => p.Id);
             var deleteImages = await _unitOfWork.Images.GetAll(i => deleteProductIds.Contains(i.ProductId));
-            var deleteRatings = await _unitOfWork.Ratings.GetAll(r => deleteProductIds.Contains(r.ProductID));
+            var deleteRatings = await _unitOfWork.Ratings.GetAll(r => deleteProductIds.Contains(r.ProductId));
 
             var deleteResult = _unitOfWork.Categories.Delete(category) 
                 && _unitOfWork.Products.DeleteRange(deleteProducts)

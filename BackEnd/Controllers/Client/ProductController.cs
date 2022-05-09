@@ -3,6 +3,7 @@ using BackEnd.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Clients;
 using BackEnd.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackEnd.Controllers.Client
 {
@@ -65,10 +66,11 @@ namespace BackEnd.Controllers.Client
             return Ok(products);
         }
 
+        [Authorize(Roles = UserRoles.CLIENT)]
         [HttpPost("rating")]
         public async Task<IActionResult> Rating(ProductRatingWriteDto data)
         {
-            var result = await _productService.ProductRating(data);
+            var result = await _productService.ProductRating(data, User.Identity.Name);
             return result 
                 ? Ok()
                 : BadRequest();

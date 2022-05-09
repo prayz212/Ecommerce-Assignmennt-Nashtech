@@ -38,7 +38,7 @@ namespace UnitTest.BackEndProject.ProductServices
             var mockRepository = new Mock<IUnitOfWork>();
             mockRepository.Setup(r => r.Products.GetById(id)).ReturnsAsync(MockData.DummyProduct);
             mockRepository.Setup(r => r.Images.GetAll(i => i.ProductId == id, 0, 0, null, "")).ReturnsAsync(MockData.DummyListImage);
-            mockRepository.Setup(r => r.Ratings.GetAll(r => r.ProductID == id, 0, 0, null, "")).ReturnsAsync(MockData.DummyListRating);
+            mockRepository.Setup(r => r.Ratings.GetAll(r => r.ProductId == id, 0, 0, null, "")).ReturnsAsync(MockData.DummyListRating);
 
             mockRepository.Setup(r => r.Products.Delete(MockData.DummyProduct)).Returns(false);
             mockRepository.Setup(r => r.Images.DeleteRange(MockData.DummyListImage)).Returns(true);
@@ -63,7 +63,7 @@ namespace UnitTest.BackEndProject.ProductServices
             var mockRepository = new Mock<IUnitOfWork>();
             mockRepository.Setup(r => r.Products.GetById(id)).ReturnsAsync(MockData.DummyProduct);
             mockRepository.Setup(r => r.Images.GetAll(i => i.ProductId == id, 0, 0, null, "")).ReturnsAsync(MockData.DummyListImage);
-            mockRepository.Setup(r => r.Ratings.GetAll(r => r.ProductID == id, 0, 0, null, "")).ReturnsAsync(MockData.DummyListRating);
+            mockRepository.Setup(r => r.Ratings.GetAll(r => r.ProductId == id, 0, 0, null, "")).ReturnsAsync(MockData.DummyListRating);
 
             mockRepository.Setup(r => r.Products.Delete(MockData.DummyProduct)).Returns(true);
             mockRepository.Setup(r => r.Images.DeleteRange(MockData.DummyListImage)).Returns(true);

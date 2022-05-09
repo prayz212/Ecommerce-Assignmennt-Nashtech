@@ -6,10 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using FluentValidation.AspNetCore;
 using BackEnd.Validations;
 using System;
+using BackEnd.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using BackEnd.Utils;
 
 namespace BackEnd
 {
@@ -29,13 +32,26 @@ namespace BackEnd
                 Configuration.GetConnectionString("ApplicationDbConnect")
             ));
 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication(opts =>
+            {
+                opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(opts => opts.JwtBearerOptionsConfig(
+                Configuration["JWT:ValidAudience"], 
+                Configuration["JWT:ValidIssuer"],
+                Configuration["JWT:Secret"]
+            ));
+
             services.AddCors();
 
             services.AddControllers().AddFluentValidation();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "APIs", Version = "v1" });
-            });
+            services.AddSwaggerGen(c => c.SwaggerGenOptionsConfig());
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -64,6 +80,7 @@ namespace BackEnd
                 .SetIsOriginAllowed(origin => true)
                 .AllowCredentials());
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

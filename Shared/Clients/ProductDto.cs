@@ -31,7 +31,7 @@ namespace Shared.Clients
 
   public class ProductRatingWriteDto
   {
-    public int ProductID { get; set; }
+    public int ProductId { get; set; }
     public int Stars { get; set; }
   }
 }

@@ -2,6 +2,10 @@
 @using Shared.Clients
 @model List<CategoryReadDto>
 
+@{
+    var isLoggedIn = User.Identity.IsAuthenticated;
+}
+
 <nav class="__nav __nav-shadow">
     <div class="__navigation __container">
         <div class="__logo">
@@ -39,24 +43,26 @@
                 </li>
 
                 <li class="__nav-item">
-                    <a class="__nav-link " asp-controller="Account" asp-action="Index">Tài khoản</a>
-                </li>
-
-                <li class="__nav-item">
                     <a class="__nav-link" asp-controller="Home" asp-action="About">Giới thiệu</a>
                 </li>
+
+                @if (!isLoggedIn)
+                {
+                    <li class="__nav-item">
+                        <a class="__nav-link " asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                    </li>
+                }
 
                 <li class="__nav-item">
                     <a class="__nav-link icon" asp-controller="Cart" asp-action="Index"><i class="bx bx-shopping-bag"></i></a>
                 </li>
 
-                @*@if (isLoggedIn)
+                @if (isLoggedIn)
                 {
-
-                  < li class="__nav-item">
-                      <a class="__nav-link icon" asp-controller="Account" asp-action="Logout"><i class="bx bx-log-out"></i></a>
+                    <li class="__nav-item">
+                        <a class="__nav-link icon" asp-controller="Account" asp-action="Logout"><i class="bx bx-log-out"></i></a>
                     </li>
-                }*@
+                }
             </ul>
         </div>
 

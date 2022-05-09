@@ -146,7 +146,7 @@ namespace UnitTest.Utils
             Prices = 120000,
             Ratings = new List<Rating>
             {
-                new Rating { Id = 1, ProductID = 1, Stars = 5 },
+                new Rating { Id = 1, ProductId = 1, Stars = 5 },
             },
             CreatedDate = DateTime.Now,
             UpdatedDate = DateTime.Now
@@ -192,17 +192,17 @@ namespace UnitTest.Utils
         //Ratings
         public static IList<Rating> DummyListRating = new List<Rating>
         {
-            new Rating { Id = 1, ProductID = 1, Stars = 5},
-            new Rating { Id = 2, ProductID = 1, Stars = 5},
-            new Rating { Id = 3, ProductID = 1, Stars = 5},
-            new Rating { Id = 4, ProductID = 1, Stars = 5},
-            new Rating { Id = 5, ProductID = 1, Stars = 5},
+            new Rating { Id = 1, ProductId = 1, Stars = 5},
+            new Rating { Id = 2, ProductId = 1, Stars = 5},
+            new Rating { Id = 3, ProductId = 1, Stars = 5},
+            new Rating { Id = 4, ProductId = 1, Stars = 5},
+            new Rating { Id = 5, ProductId = 1, Stars = 5},
         };
 
         public static Rating DummyRating = new Rating 
         { 
             Id = 1, 
-            ProductID = 1, 
+            ProductId = 1, 
             Stars = 5
         };
     }

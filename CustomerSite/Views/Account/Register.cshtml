@@ -1,0 +1,33 @@
+
+@{
+    ViewData["Title"] = "Đăng ký";
+    Layout = "~/Views/Shared/_AuthenticateLayout.cshtml";
+}
+
+@* @model Clothing_Store.Models.AccountViewModel *@
+
+<!-- --------------------- register form section -----------------  -->
+<div class="_form-container" style="height: 425px">
+    <div class="_form-btn">
+        <span class="_form-title">Thông tin tài khoản</span>
+        <hr class="_indicator">
+
+        <form method="post" asp-action="Register">
+
+            <input  class="_form-input" type="text" placeholder="Tên tài khoản">
+
+            <input  class="_form-input" type="email" placeholder="Email">
+
+            <input  class="_form-input" type="password" placeholder="Mật khẩu">
+
+            <input  class="_form-input" type="password" placeholder="Xác nhận mật khẩu">
+
+            <button type="submit" class="_btn">Đăng ký</button>
+
+            <a asp-action="Login">Đã có tài khoản? Đăng nhập ngay</a>
+
+            @* <div id="error-msg-reg" class="__error-msg">@ViewBag.RegisterErrorMsg</div>
+            <div asp-validation-summary="All" class="text-danger"></div> *@
+        </form>
+    </div>
+</div>
