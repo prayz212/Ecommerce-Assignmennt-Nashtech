@@ -9,7 +9,7 @@ namespace CustomerSite.Validations
         public static void AddValidatesDependencyInjection(this IServiceCollection services)
         {
             services.AddScoped<IValidator<LoginDto>, LoginValidator>();
-            // services.AddScoped<IValidator<ClientRegisterDto>, ClientRegisterValidator>();
+            services.AddScoped<IValidator<ClientRegisterDto>, ClientRegisterValidator>();
         }
     }
 }

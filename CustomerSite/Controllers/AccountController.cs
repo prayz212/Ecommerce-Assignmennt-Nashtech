@@ -24,6 +24,12 @@ namespace Namespace
             if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "Home");
 
             if (!string.IsNullOrEmpty(returnUrl)) ViewBag.ReturnUrl = returnUrl;
+
+            if (TempData["RegisterSuccess"] != null)
+            {
+                ViewBag.RegisterSuccessMsg = TempData["RegisterSuccess"].ToString();
+            }
+            
             return View();
         }
 
@@ -53,10 +59,25 @@ namespace Namespace
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "Home");
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(ClientRegisterDto dto)
+        {
+            var result = await _accountService.Register(dto);
+            if (!result)
+            {
+                ViewBag.RegisterErrorMsg = "Tài khoản đã tồn tại";
+                return View();
+            }
+
+            TempData["RegisterSuccess"] = "Đăng ký thành công";
+            return RedirectToAction("Login");
         }
 
         public async Task<IActionResult> Logout()

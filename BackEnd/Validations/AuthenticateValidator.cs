@@ -15,7 +15,8 @@ namespace BackEnd.Validations
                 .EmailAddress().WithMessage("Invalid email address");
 
             RuleFor(r => r.Password)
-                .NotEmpty().WithMessage("Password must not empty");
+                .NotEmpty().WithMessage("Password must not empty")
+                .MinimumLength(8).WithMessage("Password mus have at least 8 characters");
         }
     }
 
@@ -27,7 +28,8 @@ namespace BackEnd.Validations
                 .NotEmpty().WithMessage("Username must not empty");
 
             RuleFor(r => r.Password)
-                .NotEmpty().WithMessage("Password must not empty");
+                .NotEmpty().WithMessage("Password must not empty")
+                .MinimumLength(8).WithMessage("Password mus have at least 8 characters");
         }
     }
 }

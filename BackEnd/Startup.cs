@@ -32,7 +32,16 @@ namespace BackEnd
                 Configuration.GetConnectionString("ApplicationDbConnect")
             ));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(
+                opts => opts.Password = new PasswordOptions
+                {
+                    RequireDigit = false,
+                    RequiredLength = 8,
+                    RequireLowercase = false,
+                    RequireUppercase = false,
+                    RequireNonAlphanumeric = false
+                }
+            )
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

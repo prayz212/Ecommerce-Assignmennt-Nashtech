@@ -9,6 +9,7 @@ namespace Shared.Clients
     public class ClientRegisterDto : LoginDto
     {
         public string Email { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 
     // public class AdminRegisterDto : LoginDto

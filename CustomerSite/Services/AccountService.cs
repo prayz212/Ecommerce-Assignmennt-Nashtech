@@ -34,9 +34,16 @@ namespace CustomerSite.Services
             }
         }
 
-        public Task<bool> Register(ClientRegisterDto dto)
+        public async Task<bool> Register(ClientRegisterDto dto)
         {
-            throw new NotImplementedException();
+            using(var client = _clientFactory.CreateClient(ConstantVariable.CLIENT_NAME))
+            {
+                string jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dto);
+                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(UrlRequest.GET_URL_REGISTER(), content);
+                return response.IsSuccessStatusCode;
+            }
         }
     }
 }

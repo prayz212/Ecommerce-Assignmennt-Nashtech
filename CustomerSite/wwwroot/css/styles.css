@@ -1636,7 +1636,8 @@ th:last-child {
   margin-bottom: 18px;
 }
 
-.field-validation-error span {
+.field-validation-error span,
+.field-validation-valid span {
   font-size: small;
   font-weight: 300;
   width: unset;
@@ -1654,6 +1655,14 @@ th:last-child {
 
 #Password-error {
   right: 21px;
+}
+
+#ConfirmPassword-error {
+  right: -6px;
+}
+
+#Email-error {
+  right: 34px;
 }
 
 #Login-error {

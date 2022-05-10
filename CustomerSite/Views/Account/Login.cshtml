@@ -33,6 +33,13 @@
 
             <button type="submit" class="_btn">Đăng nhập</button>
 
+            @if (ViewBag.RegisterSuccessMsg != null)
+            {
+                <div class="field-validation-valid text-success">
+                    <span>@ViewBag.RegisterSuccessMsg</span>
+                </div>
+            }
+
             <a asp-action="Register">Chưa có tài khoản? Đăng ký ngay</a>
         </form>
     </div>
