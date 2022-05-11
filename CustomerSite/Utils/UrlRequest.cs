@@ -8,7 +8,7 @@ namespace CustomerSite.Utils
         public static string GET_URL_RELATIVE_PRODUCTS(int id, int size) => $"client/products/relative/{id}?size={size}";
         public static string GET_URL_RATING_PRODUCT() => "client/products/rating";
         public static string GET_URL_CATEGORIES() => "client/categories";
-        public static string GET_URL_LOGIN() => "authenticate/login";
+        public static string GET_URL_LOGIN() => "authenticate/login/client";
         public static string GET_URL_REGISTER() => "authenticate/register/client";
     }
 }

@@ -30,12 +30,15 @@ namespace BackEnd.Services
             _configuration = configuration;
         }
         
-        public async Task<TokenDto> Login(LoginDto login)
+        public async Task<TokenDto> Login(LoginDto login, string loginRole)
         {
             var user = await _userManager.FindByNameAsync(login.UserName);
             if (user is not null && await _userManager.CheckPasswordAsync(user, login.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
+                var isAuthorize = userRoles.Contains(loginRole);
+                if (!isAuthorize) return null;
+
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Id),

@@ -21,39 +21,39 @@ export const loginFail = (error) => {
   }
 }
 
-export const refreshTokenRequest = (token) => {
-  return {
-    type: actionTypes.AUTH_REFRESH_TOKEN_REQUEST,
-    payload: token
-  }
-}
+// export const refreshTokenRequest = (token) => {
+//   return {
+//     type: actionTypes.AUTH_REFRESH_TOKEN_REQUEST,
+//     payload: token
+//   }
+// }
 
-export const refreshTokenSuccess = (newToken) => {
-  return {
-    type: actionTypes.AUTH_REFRESH_TOKEN_SUCCESS,
-    payload: newToken
-  }
-}
+// export const refreshTokenSuccess = (newToken) => {
+//   return {
+//     type: actionTypes.AUTH_REFRESH_TOKEN_SUCCESS,
+//     payload: newToken
+//   }
+// }
 
-export const resetAuthError = () => {
-  return {
-    type: actionTypes.AUTH_RESET_ERROR
-  }
-}
+// export const resetAuthError = () => {
+//   return {
+//     type: actionTypes.AUTH_RESET_ERROR
+//   }
+// }
 
-export const registerRequest = (formData) => {
-  return {
-    type: actionTypes.AUTH_REGISTER_REQUEST,
-    payload: formData,
-  };
-}
+// export const registerRequest = (formData) => {
+//   return {
+//     type: actionTypes.AUTH_REGISTER_REQUEST,
+//     payload: formData,
+//   };
+// }
 
-export const registerSuccess = (tokenData) => {
-  return {
-    type: actionTypes.AUTH_REGISTER_SUCCESS,
-    payload: tokenData,
-  };
-}
+// export const registerSuccess = (tokenData) => {
+//   return {
+//     type: actionTypes.AUTH_REGISTER_SUCCESS,
+//     payload: tokenData,
+//   };
+// }
 
 export const registerFail = (error) => {
   return {

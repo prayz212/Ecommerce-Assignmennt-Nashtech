@@ -15,7 +15,6 @@ const AppRoute = ({ routes }) => {
               element={
                 <PrivateRoutes
                   component={route.component}
-                  requirePermission={route.permission}
                   breadcrumbs={route.breadcrumbs}
                 />
               }

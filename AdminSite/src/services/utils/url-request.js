@@ -1,19 +1,21 @@
-import { BASE_URL, BASE_CLOUDINARY_URL } from "../../constants/http";
+import { BASE_API_URL, BASE_URL, BASE_CLOUDINARY_URL } from "../../constants/http";
 
-const GET_CATEGORY_LIST = (page = 1, size= 10) => `${BASE_URL}/categories?page=${page}&size=${size}`;
-const GET_ALL_CATEGORIES = () => `https://localhost:4546/api/client/categories`;
-const GET_CATEGORY_DETAIL = (id) => `${BASE_URL}/categories/${id}`;
-const DELETE_CATEGORY = (id) => `${BASE_URL}/categories/${id}`;
-const UPDATE_CATEGORY = () => `${BASE_URL}/categories`;
-const CREATE_CATEGORY = () => `${BASE_URL}/categories`;
+const GET_CATEGORY_LIST = (page = 1, size= 10) => `${BASE_API_URL}/categories?page=${page}&size=${size}`;
+const GET_ALL_CATEGORIES = () => `${BASE_URL}/client/categories`;
+const GET_CATEGORY_DETAIL = (id) => `${BASE_API_URL}/categories/${id}`;
+const DELETE_CATEGORY = (id) => `${BASE_API_URL}/categories/${id}`;
+const UPDATE_CATEGORY = () => `${BASE_API_URL}/categories`;
+const CREATE_CATEGORY = () => `${BASE_API_URL}/categories`;
 
-const GET_PRODUCT_LIST = (page = 1, size = 10) => `${BASE_URL}/products?page=${page}&size=${size}`;
-const GET_PRODUCT_DETAIL = (id) => `${BASE_URL}/products/${id}`;
-const CREATE_PRODUCT = () => `${BASE_URL}/products`;
-const UPDATE_PRODUCT = () => `${BASE_URL}/products`;
-const DELETE_PRODUCT = (id) => `${BASE_URL}/products/${id}`;
+const GET_PRODUCT_LIST = (page = 1, size = 10) => `${BASE_API_URL}/products?page=${page}&size=${size}`;
+const GET_PRODUCT_DETAIL = (id) => `${BASE_API_URL}/products/${id}`;
+const CREATE_PRODUCT = () => `${BASE_API_URL}/products`;
+const UPDATE_PRODUCT = () => `${BASE_API_URL}/products`;
+const DELETE_PRODUCT = (id) => `${BASE_API_URL}/products/${id}`;
 
 const UPLOAD_IMAGE = (cloudName) => `${BASE_CLOUDINARY_URL}/${cloudName}/auto/upload`;
+
+const SIGN_IN = () => `${BASE_URL}/authenticate/login/admin`;
 
 export default {
     CATEGORY: {
@@ -33,5 +35,8 @@ export default {
     },
     CLOUDINARY: {
         UPLOAD_IMAGE,
+    },
+    AUTHENTICATE: {
+        SIGN_IN,
     }
 }

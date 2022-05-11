@@ -33,7 +33,7 @@ namespace BackEnd.Interfaces
 
   public interface IAuthenticateService
   {
-    Task<TokenDto> Login(LoginDto login);
+    Task<TokenDto> Login(LoginDto login, string role);
     Task<bool> ClientRegister(ClientRegisterDto register);
     // Task<bool> AdminRegister(AdminRegisterDto register);
   }

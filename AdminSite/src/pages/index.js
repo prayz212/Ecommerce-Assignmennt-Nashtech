@@ -8,6 +8,7 @@ import EditCategoryPage from './category/edit-category-page.jsx';
 import CustomerPage from './customer/customer-page.jsx';
 import CreateProductPage from './product/create-product-page.jsx';
 import EditProductPage from './product/edit-product-page.jsx';
+import SignInPage from './auth/sign-in-page.jsx';
 
 export {
   DashboardPage,
@@ -20,4 +21,5 @@ export {
   CustomerPage,
   CreateProductPage,
   EditProductPage,
+  SignInPage,
 };

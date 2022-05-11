@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using BackEnd.Interfaces;
+using BackEnd.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Clients;
 
@@ -17,10 +18,17 @@ namespace BackEnd.Controllers
             _authenticateService = authenticateService;
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDto dto)
+        [HttpPost("login/client")]
+        public async Task<IActionResult> ClientLogin(LoginDto dto)
         {
-            var result = await _authenticateService.Login(dto);
+            var result = await _authenticateService.Login(dto, UserRoles.CLIENT);
+            return result is null ? BadRequest() : Ok(result);
+        }
+
+        [HttpPost("login/admin")]
+        public async Task<IActionResult> AdminLogin(LoginDto dto)
+        {
+            var result = await _authenticateService.Login(dto, UserRoles.ADMIN);
             return result is null ? BadRequest() : Ok(result);
         }
 
