@@ -35,10 +35,10 @@ namespace BackEnd.Services
             var user = await _userManager.FindByNameAsync(login.UserName);
             if (user is not null && await _userManager.CheckPasswordAsync(user, login.Password))
             {
-                var userRoles = await _userManager.GetRolesAsync(user);
-                var isAuthorize = userRoles.Contains(loginRole);
+                var isAuthorize = await _userManager.IsInRoleAsync(user, loginRole);
                 if (!isAuthorize) return null;
 
+                var userRoles = await _userManager.GetRolesAsync(user);
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Id),
@@ -67,23 +67,6 @@ namespace BackEnd.Services
             
             return result.Succeeded;
         }
-
-        // public async Task<bool> AdminRegister(AdminRegisterDto register)
-        // {
-        //     var exist = await _userManager.FindByNameAsync(register.UserName);
-        //     if (exist is not null) return false;
-
-        //     var newUser = _mapper.Map<ApplicationUser>(register);
-        //     var result = await _userManager.CreateAsync(newUser, register.Password);
-        //     if (result.Succeeded) await this.AddNewUserToRoleAsync(newUser, UserRoles.ADMIN);
-
-        //     var newAdmin = _mapper.Map<AdminRegisterDto, Admin>(
-        //         register,
-        //         opts => opts.AfterMap((src, des) => des.AccountId = newUser.Id
-        //     ));
-            
-        //     return result.Succeeded;
-        // }
 
         private async Task AddNewUserToRoleAsync(ApplicationUser user, string role)
         {

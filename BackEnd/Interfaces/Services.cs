@@ -35,6 +35,10 @@ namespace BackEnd.Interfaces
   {
     Task<TokenDto> Login(LoginDto login, string role);
     Task<bool> ClientRegister(ClientRegisterDto register);
-    // Task<bool> AdminRegister(AdminRegisterDto register);
+  }
+
+  public interface IAccountService
+  {
+    Task<AccountListDto> GetAccounts(int page, int size);
   }
 }

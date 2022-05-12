@@ -3,6 +3,7 @@ import systemService from './system-service';
 import categoryService from './category-service';
 import productService from './product-service';
 import cloudinaryService from './cloudinary-service';
+import accountService from './account-service';
 
 export {
   authService,
@@ -10,4 +11,5 @@ export {
   categoryService,
   productService,
   cloudinaryService,
+  accountService,
 };

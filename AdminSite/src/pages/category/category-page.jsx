@@ -7,7 +7,7 @@ import DetailCategory from "../../components/category/detail-category";
 import { categoryService } from "../../services/modules";
 import { NAVIGATE_URL } from "../../constants/navigate-url";
 import Pagination from "../../components/common/pagination";
-import { NUMBER_RECORD_PER_PAGE } from "../../constants/variables";
+import { DEFAULT_PAGE_NUMBER, NUMBER_RECORD_PER_PAGE } from "../../constants/variables";
 import LoadingPage from "../loaders/loading-page";
 
 const CategoryPage = () => {
@@ -27,7 +27,7 @@ const CategoryPage = () => {
 
   useEffect(() => {
     categoryService
-      .getCategories(1, NUMBER_RECORD_PER_PAGE)
+      .getCategories(DEFAULT_PAGE_NUMBER, NUMBER_RECORD_PER_PAGE)
       .then(({ categories, totalPage, currentPage }) => {
         setCategories(categories);
         setTotalPage(totalPage);

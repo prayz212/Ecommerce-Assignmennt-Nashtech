@@ -1,6 +1,6 @@
 import React from "react";
 
-const Table = ({ columns, data, onRowClick }) => {
+const Table = ({ columns, data, onRowClick = null }) => {
   if (!columns || columns.length <= 0 || !data || data.length <= 0) {
     return <></>;
   }
