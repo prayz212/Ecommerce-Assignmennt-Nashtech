@@ -24,12 +24,15 @@ const Table = ({ columns, data, onRowClick = null }) => {
           return (
             <tr
               key={index}
-              onClick={() => onRowClick(item.id)}
+              onClick={() => onRowClick && onRowClick(item.id)}
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
               {values.map((ele, index) => {
                 return (
-                  <td key={index} className="px-6 py-4 whitespace-normal text-center">
+                  <td
+                    key={index}
+                    className="px-6 py-4 whitespace-normal text-center"
+                  >
                     {typeof ele === "boolean" ? (ele ? "Có" : "Không") : ele}
                   </td>
                 );

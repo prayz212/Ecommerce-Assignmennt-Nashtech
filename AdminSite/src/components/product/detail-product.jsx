@@ -1,3 +1,4 @@
+import CheckboxConfirm from "../common/checkbox-confirm";
 import ImageSlider from "../common/image-slider";
 
 export const DetailProduct = ({ item, onEditClick, onDeleteClick }) => {
@@ -106,23 +107,11 @@ export const DetailProduct = ({ item, onEditClick, onDeleteClick }) => {
           )}
         </div>
 
-        <div className="flex justify-end px-4 py-3 sm:px-6">
-          <button
-            type="button"
-            onClick={() => onEditClick(item)}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-0 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-4 my-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Chỉnh sửa
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onDeleteClick(item.id)}
-            className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-0 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 my-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-          >
-            Xoá
-          </button>
-        </div>
+        <CheckboxConfirm
+          item={item}
+          onDelete={onDeleteClick}
+          onEdit={onEditClick}
+        />
       </div>
     )
   );

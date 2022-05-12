@@ -17,7 +17,7 @@ const CustomerPage = () => {
 
   useEffect(() => {
     accountService
-      .getClients(DEFAULT_PAGE_NUMBER, 3)
+      .getClients(DEFAULT_PAGE_NUMBER, NUMBER_RECORD_PER_PAGE)
       .then(({ accounts, totalPage, currentPage }) => {
         setData({
           clients: accounts,
@@ -29,7 +29,7 @@ const CustomerPage = () => {
 
   const onPageNumberClick = (pageNumber) => {
     accountService
-      .getClients(pageNumber, 3)
+      .getClients(pageNumber, NUMBER_RECORD_PER_PAGE)
       .then(({ accounts, totalPage, currentPage }) => {
         setData({
           clients: accounts,
