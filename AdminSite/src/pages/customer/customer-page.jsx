@@ -9,29 +9,33 @@ import {
 import { accountService } from "../../services/modules";
 
 const CustomerPage = () => {
-  const [clients, setClients] = useState([]);
-  const [totalPage, setTotalPage] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [data, setData] = useState({
+    clients: [],
+    totalPage: 0,
+    currentPage: 0,
+  });
 
   useEffect(() => {
     accountService
-      .getClients(DEFAULT_PAGE_NUMBER, NUMBER_RECORD_PER_PAGE)
+      .getClients(DEFAULT_PAGE_NUMBER, 3)
       .then(({ accounts, totalPage, currentPage }) => {
-        setClients(accounts);
-        setTotalPage(totalPage);
-        setCurrentPage(currentPage);
+        setData({
+          clients: accounts,
+          totalPage,
+          currentPage,
+        });
       });
   }, []);
 
   const onPageNumberClick = (pageNumber) => {
-    console.log('page click');
-    console.log(pageNumber);
     accountService
-      .getClients(pageNumber, NUMBER_RECORD_PER_PAGE)
+      .getClients(pageNumber, 3)
       .then(({ accounts, totalPage, currentPage }) => {
-        setClients(accounts);
-        setTotalPage(totalPage);
-        setCurrentPage(currentPage);
+        setData({
+          clients: accounts,
+          totalPage,
+          currentPage,
+        });
       });
   };
 
@@ -46,15 +50,15 @@ const CustomerPage = () => {
         <div className="flex-1 mb-16 border border-solid border-slate-700">
           <Table
             columns={["Mã tài khoản", "Tên tài khoản", "Email"]}
-            data={clients}
+            data={data.clients}
           />
         </div>
 
-        {totalPage > 1 && (
+        {data.totalPage > 1 && (
           <div className="absolute bottom-0 right-0 mb-4">
             <Pagination
-              total={totalPage}
-              current={currentPage}
+              total={data.totalPage}
+              current={data.currentPage}
               onClick={onPageNumberClick}
             />
           </div>

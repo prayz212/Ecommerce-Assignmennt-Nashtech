@@ -11,9 +11,7 @@ import { NAVIGATE_URL } from "../../constants/navigate-url.js";
 import _ from "lodash";
 
 const ProductPage = () => {
-  const [products, setProducts] = useState([]);
-  const [totalPage, setTotalPage] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [data, setData] = useState({ products: [], totalPage: 0, currentPage: 0 });
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogParam, setDialogParam] = useState({});
 
@@ -22,10 +20,8 @@ const ProductPage = () => {
   useEffect(() => {
     productService
       .getProductList(DEFAULT_PAGE_NUMBER, NUMBER_RECORD_PER_PAGE)
-      .then(({ products, totalPage, currentPage }) => {
-        setProducts(products);
-        setTotalPage(totalPage);
-        setCurrentPage(currentPage);
+      .then((response) => {
+        setData(response);
       });
   }, []);
 
@@ -36,7 +32,6 @@ const ProductPage = () => {
   }, [dialogParam]);
 
   const onCreateNewButtonClick = () => {
-    console.log("create clicked");
     navigate(NAVIGATE_URL.PRODUCT_CREATE);
   };
 
@@ -49,10 +44,8 @@ const ProductPage = () => {
   const onPageNumberClick = (pageNumber) => {
     productService
       .getProductList(pageNumber, NUMBER_RECORD_PER_PAGE)
-      .then(({ products, totalPage, currentPage }) => {
-        setProducts(products);
-        setTotalPage(totalPage);
-        setCurrentPage(currentPage);
+      .then((response) => {
+        setData(response);
       });
   };
 
@@ -63,8 +56,8 @@ const ProductPage = () => {
   const onDeleteClick = (id) => {
     productService.deleteProduct(id).then((result) => {
       if (result) {
-        const newProducts = products.filter((product) => product.id !== id);
-        setProducts(newProducts);
+        const newProducts = data.products.filter((product) => product.id !== id);
+        setData({...data, products: newProducts});
         setOpenDialog(false);
       }
     });
@@ -87,16 +80,16 @@ const ProductPage = () => {
               "Đặc trưng",
               "Thể loại",
             ]}
-            data={products}
+            data={data.products}
             onRowClick={onTableRowClick}
           />
         </div>
 
-        {totalPage > 1 && (
+        {data.totalPage > 1 && (
           <div className="absolute bottom-0 right-0 mb-4">
             <Pagination
-              total={totalPage}
-              current={currentPage}
+              total={data.totalPage}
+              current={data.currentPage}
               onClick={onPageNumberClick}
             />
           </div>
