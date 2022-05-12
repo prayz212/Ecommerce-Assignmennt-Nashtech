@@ -18,7 +18,7 @@ const CheckboxConfirm = ({ item, onDelete, onEdit }) => {
   };
 
   const onCheckboxChecked = () => {
-    setIsChecked(true);
+    setIsChecked(!isChecked);
   };
 
   const renderDeleteConfirmMessage = (isVisible, isFocus) => {
