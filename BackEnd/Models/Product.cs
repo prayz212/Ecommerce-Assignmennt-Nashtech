@@ -18,7 +18,7 @@ namespace BackEnd.Models
     public string Name { get; set; }
     
     [Required]
-    [StringLength(255)]
+    [StringLength(10000)]
     public string Description { get; set; }
     
     [Required]

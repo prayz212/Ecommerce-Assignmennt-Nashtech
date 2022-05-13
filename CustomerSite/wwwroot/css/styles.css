@@ -1603,6 +1603,7 @@ th:last-child {
 
 ._form-container form {
   max-width: 300px;
+  width: 100%;
   padding: 0 20px;
   position: absolute;
   top: 70px;
