@@ -22,6 +22,11 @@ namespace BackEnd.Interfaces
 
   public interface IImageRepository : IGenericRepository<Image> {}
 
+  public interface IAdminRepository : IGenericRepository<Admin> 
+  {
+    Task<Admin> GetByAccountId(string accountId);
+  }
+
   public interface IGenericRepository<T> where T : class
   {
     Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> filter = null, int page = ConstantVariable.DEFAULT_VALUE_NUMBER_TYPE, int size = ConstantVariable.DEFAULT_VALUE_NUMBER_TYPE, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includes = "");
@@ -40,6 +45,7 @@ namespace BackEnd.Interfaces
     IProductRepository Products { get; }
     IRatingRepository Ratings { get; }
     IImageRepository Images { get; }
+    IAdminRepository Admins { get; }
     Task SaveChangeAsync();
   }
 }

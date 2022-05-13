@@ -25,5 +25,13 @@ namespace BackEnd.Controllers.Admin
             var clients = await _accountService.GetAccounts(page, size);
             return Ok(clients);
         }
+
+        [HttpGet("info")]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            var userId = User.Identity.Name;
+            var user = await _accountService.GetAccountInfo(userId);
+            return user is null ? NotFound() : Ok(user);
+        }
     }
 }

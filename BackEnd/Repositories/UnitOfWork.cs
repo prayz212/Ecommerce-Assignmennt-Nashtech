@@ -14,6 +14,7 @@ namespace BackEnd.Repositories
         public IProductRepository Products { get; private set; }
         public IRatingRepository Ratings { get; private set; }
         public IImageRepository Images { get; private set; }
+        public IAdminRepository Admins { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context, ILoggerFactory loggerFactory)
         {
@@ -28,6 +29,7 @@ namespace BackEnd.Repositories
             Products = new ProductRepository(context, _logger);
             Ratings = new RatingRepository(context, _logger);
             Images = new ImageRepository(context, _logger);
+            Admins = new AdminRepository(context, _logger);
         }
 
         public void Dispose()

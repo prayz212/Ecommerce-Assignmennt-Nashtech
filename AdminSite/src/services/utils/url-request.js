@@ -19,6 +19,7 @@ const UPLOAD_IMAGE = (cloudName) => `${BASE_CLOUDINARY_URL}/${cloudName}/auto/up
 const SIGN_IN = () => `${BASE_URL}/authenticate/login/admin`;
 
 const GET_CLIENT_LIST = (page = DEFAULT_PAGE_NUMBER, size = NUMBER_RECORD_PER_PAGE) => `${BASE_API_URL}/accounts/clients?page=${page}&size=${size}`;
+const GET_USER_INFO = () => `${BASE_API_URL}/accounts/info`;
 
 export default {
     CATEGORY: {
@@ -44,5 +45,6 @@ export default {
     },
     CLIENTS: {
         GET_CLIENT_LIST,
+        GET_USER_INFO,
     }
 }

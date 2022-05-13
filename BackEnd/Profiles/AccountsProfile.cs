@@ -11,6 +11,8 @@ namespace BackEnd.Profiles
             CreateMap<ApplicationUser, AccountDto>()
                 .ForMember(des => des.Username,
                     opts => opts.MapFrom(src => src.UserName));
+
+            CreateMap<Admin, AdminDetailDto>();
         }
     }
 }

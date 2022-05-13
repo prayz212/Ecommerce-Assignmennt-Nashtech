@@ -15,11 +15,13 @@ namespace BackEnd.Services
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AccountService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper)
+        public AccountService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -44,6 +46,14 @@ namespace BackEnd.Services
                 TotalPage = totalPage,
                 CurrentPage = totalPage > 0 ? page : 0
             };
+        }
+
+        public async Task<AdminDetailDto> GetAccountInfo(string id)
+        {
+            var info = await _unitOfWork.Admins.GetByAccountId(id);
+            return info is null
+                ? null
+                : _mapper.Map<AdminDetailDto>(info);
         }
     }
 }

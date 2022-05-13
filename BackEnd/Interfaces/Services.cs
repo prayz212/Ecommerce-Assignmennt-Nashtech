@@ -40,5 +40,6 @@ namespace BackEnd.Interfaces
   public interface IAccountService
   {
     Task<AccountListDto> GetAccounts(int page, int size);
+    Task<AdminDetailDto> GetAccountInfo(string accountId);
   }
 }

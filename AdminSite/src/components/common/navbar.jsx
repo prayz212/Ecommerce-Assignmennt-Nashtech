@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { NAVIGATE_URL } from "../../constants/navigate-url";
 
-const Navbar = ({ onSignOut }) => {
+const Navbar = ({ onSignOut, userInfo }) => {
   const { pathname } = useLocation();
 
   return (
@@ -15,9 +15,9 @@ const Navbar = ({ onSignOut }) => {
             className="w-12 h-12 rounded-full dark:bg-coolGray-500"
           />
           <div>
-            <h2 className="text-lg font-semibold">Leroy Jenkins</h2>
+            <h2 className="text-lg font-semibold">{userInfo.fullname}</h2>
             <span className="flex items-center space-x-1 text-xs text-coolGray-400">
-              System admin
+              EID: {userInfo.employeeId}
             </span>
           </div>
         </div>

@@ -10,6 +10,16 @@ const getClients = async (page, size) => {
     });
 };
 
+const getUserInfo = async () => {
+  return axiosRequest
+    .get(urlRequest.CLIENTS.GET_USER_INFO())
+    .then(({data}) => data)
+    .catch(error => {
+      throw new Error(error);
+    })
+}
+
 export default {
   getClients,
+  getUserInfo,
 };

@@ -14,4 +14,10 @@ namespace BackEnd.Models.ViewModels
         public int TotalPage { get; set; }
         public int CurrentPage { get; set; }
     }
+
+    public class AdminDetailDto
+    {
+        public int EmployeeId { get; set; }
+        public string Fullname { get; set; }
+    }
 }
