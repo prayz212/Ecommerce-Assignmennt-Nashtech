@@ -90,14 +90,15 @@ namespace UnitTest.Utils
         public static ProductDetailReadDto NullProductDetailReadDto = null;
         public static ProductRatingWriteDto IncorrectDummyProductRating = new ProductRatingWriteDto
         {
-            ProductID = -1,
+            ProductId = -1,
             Stars = 4
         };
         public static ProductRatingWriteDto CorrectDummyProductRating = new ProductRatingWriteDto
         {
-            ProductID = 1,
+            ProductId = 1,
             Stars = 4
         };
+        public static string DummyUserId = "4dd938bd-f547-4bf6-abdd-2570cb3c3677";
         public static IList<ProductDto> DummyListProductDto = new List<ProductDto>
         {
             new ProductDto { Id = 1, Name = "product 1", Category = "dummy display name", IsFeatured = true, Prices = 120000 },
@@ -203,7 +204,8 @@ namespace UnitTest.Utils
         { 
             Id = 1, 
             ProductId = 1, 
-            Stars = 5
+            Stars = 5,
+            UserId = DummyUserId,
         };
     }
 }

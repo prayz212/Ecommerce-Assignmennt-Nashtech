@@ -6,6 +6,7 @@ using Moq;
 using UnitTest.Utils;
 using Xunit;
 
+//This unit test is failed due to researching the way to mock user identity value
 namespace UnitTest.BackEndProject.ClientSite.ProductControllers
 {
     public class RatingShould
@@ -15,7 +16,7 @@ namespace UnitTest.BackEndProject.ClientSite.ProductControllers
         {
             //Arrange
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.ProductRating(MockData.IncorrectDummyProductRating)).ReturnsAsync(false);
+            mockProductService.Setup(s => s.ProductRating(MockData.IncorrectDummyProductRating, MockData.DummyUserId)).ReturnsAsync(false);
 
             var productController = new ProductController(mockProductService.Object);
 
@@ -32,7 +33,7 @@ namespace UnitTest.BackEndProject.ClientSite.ProductControllers
         {
             //Arrange
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.ProductRating(MockData.CorrectDummyProductRating)).ReturnsAsync(true);
+            mockProductService.Setup(s => s.ProductRating(MockData.CorrectDummyProductRating, MockData.DummyUserId)).ReturnsAsync(true);
 
             var productController = new ProductController(mockProductService.Object);
 

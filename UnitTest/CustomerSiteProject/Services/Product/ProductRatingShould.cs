@@ -8,13 +8,15 @@ using Moq;
 using Moq.Protected;
 using Shared.Clients;
 using Xunit;
+using Microsoft.AspNetCore.Http;
 
+//This unit test is failed because researching how to mock user identity value in HttpContextAccessor
 namespace UnitTest.CustomerSiteProject.Services.Product
 {
     public class ProductRatingShould
     {
         [Fact]
-        public async Task ReturnTrueWhenResponseIsSuccess()
+        public async Task ReturnOkWhenResponseIsSuccess()
         {
             //Arrange
             var response = new HttpResponseMessage
@@ -39,17 +41,19 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
-            var productService = new ProductService(mockHttpClientFactory.Object);
+            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+
+            var productService = new ProductService(mockHttpClientFactory.Object, mockHttpContextAccessor.Object);
 
             //Act
-            var result = await productService.ProductRating(new ProductRatingWriteDto { ProductID = 1, Stars = 5 });
+            var result = await productService.ProductRating(new ProductRatingWriteDto { ProductId = 1, Stars = 5 });
 
             //Assert
-            Assert.True(result);
+            Assert.Equal(CustomerSite.Utils.PostResponse.OK, result);
         }
 
         [Fact]
-        public async Task ReturnFalseWhenResponseIsNotSuccess()
+        public async Task ReturnBadRequestWhenResponseIsNotSuccess()
         {
             //Arrange
             var response = new HttpResponseMessage
@@ -74,13 +78,15 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
-            var productService = new ProductService(mockHttpClientFactory.Object);
+            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+
+            var productService = new ProductService(mockHttpClientFactory.Object, mockHttpContextAccessor.Object);
 
             //Act
-            var result = await productService.ProductRating(new ProductRatingWriteDto { ProductID = 1, Stars = 5 });
+            var result = await productService.ProductRating(new ProductRatingWriteDto { ProductId = 1, Stars = 5 });
 
             //Assert
-            Assert.False(result);
+            Assert.Equal((int)response.StatusCode, result);
         }
     }
 }

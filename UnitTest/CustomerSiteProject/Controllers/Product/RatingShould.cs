@@ -19,7 +19,7 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
             //Arrange
             var data = new ProductRatingWriteDto
             {
-                ProductID = id,
+                ProductId = id,
                 Stars = star
             };
 
@@ -40,14 +40,12 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
             //Arrange
             ProductRatingWriteDto mockData = new ProductRatingWriteDto
             {
-                ProductID = 1,
+                ProductId = 1,
                 Stars = 5
             };
 
-            var expectedValue = true;
-
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.ProductRating(mockData)).ReturnsAsync(expectedValue);
+            mockProductService.Setup(s => s.ProductRating(mockData)).ReturnsAsync(CustomerSite.Utils.PostResponse.OK);
 
             var productController = new ProductController(mockProductService.Object);
 
@@ -64,10 +62,9 @@ namespace UnitTest.CustomerSiteProject.Controllers.Product
         {
             //Arrange
             ProductRatingWriteDto mockData = null;
-            var expectedValue = false;
 
             var mockProductService = new Mock<IProductService>();
-            mockProductService.Setup(s => s.ProductRating(mockData)).ReturnsAsync(expectedValue);
+            mockProductService.Setup(s => s.ProductRating(mockData)).ReturnsAsync(CustomerSite.Utils.PostResponse.INTERNAL_SERVER_ERROR);
 
             var productController = new ProductController(mockProductService.Object);
 
