@@ -13,7 +13,7 @@ namespace BackEnd.Interfaces
     Task<ProductDetailReadDto> GetProductDetailById(int id);
     Task<ProductListReadDto> GetAllProducts(int page, int size);
     Task<IEnumerable<ProductReadDto>> GetRelativeProducts(int id, int size);
-    Task<bool> ProductRating(ProductRatingWriteDto data);
+    Task<bool> ProductRating(ProductRatingWriteDto data, string userId);
     Task<ProductListDto> AdminGetProducts(int page, int size);
     Task<ProductDetailDto> AdminGetProductDetail(int id);
     Task<ProductDetailDto> CreateProduct(CreateProductDto dto);
@@ -29,5 +29,17 @@ namespace BackEnd.Interfaces
     Task<CategoryDetailDto> CreateCategory(CreateCategoryDto dto);
     Task<CategoryDetailDto> UpdateCategory(CategoryDetailDto dto);
     Task<bool> DeleteCategory(int id);
+  }
+
+  public interface IAuthenticateService
+  {
+    Task<TokenDto> Login(LoginDto login, string role);
+    Task<bool> ClientRegister(ClientRegisterDto register);
+  }
+
+  public interface IAccountService
+  {
+    Task<AccountListDto> GetAccounts(int page, int size);
+    Task<AdminDetailDto> GetAccountInfo(string accountId);
   }
 }

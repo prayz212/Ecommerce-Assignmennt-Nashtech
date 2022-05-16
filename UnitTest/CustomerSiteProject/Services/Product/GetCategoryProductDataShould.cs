@@ -10,6 +10,7 @@ using CustomerSite.Services;
 using Shared.Clients;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace UnitTest.CustomerSiteProject.Services.Product
 {
@@ -54,7 +55,9 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
-            var productService = new ProductService(mockHttpClientFactory.Object);
+            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+
+            var productService = new ProductService(mockHttpClientFactory.Object, mockHttpContextAccessor.Object);
 
             //Act
             ProductListReadDto result = await productService.GetCategoryProductData("category", 1, 9);
@@ -90,7 +93,9 @@ namespace UnitTest.CustomerSiteProject.Services.Product
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             mockHttpClientFactory.Setup(c => c.CreateClient(ConstantVariable.CLIENT_NAME)).Returns(httpClient);
 
-            var productService = new ProductService(mockHttpClientFactory.Object);
+            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+
+            var productService = new ProductService(mockHttpClientFactory.Object, mockHttpContextAccessor.Object);
 
             //Act
             var result = await productService.GetCategoryProductData("category", 1, 9);

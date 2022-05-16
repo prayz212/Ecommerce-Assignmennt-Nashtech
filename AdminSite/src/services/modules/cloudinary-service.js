@@ -1,6 +1,5 @@
 import axiosRequest from "../../config/http-request";
 import UrlRequest from "../utils/url-request";
-import { CLOUDINARY_CONFIG } from "../../config/cloudinary";
 
 // @ts-ignore
 const cloudName = process.env.REACT_APP_CLOUDINARY_NAME;
@@ -14,8 +13,16 @@ const uploadImage = async (configuration) => {
   formData.append("signature", configuration.signature);
   formData.append("public_id", configuration.public_id);
 
+  //remove authorization token in header
   return axiosRequest
-    .post(UrlRequest.CLOUDINARY.UPLOAD_IMAGE(cloudName), formData)
+    .post(UrlRequest.CLOUDINARY.UPLOAD_IMAGE(cloudName), formData, {
+      transformRequest: [
+        (data, headers) => {
+          delete headers.Authorization;
+          return data;
+        },
+      ],
+    })
     .then(({ data }) => {
       return {
         name: data.original_filename || "",

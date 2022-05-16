@@ -10,6 +10,8 @@ const PRODUCT_EDIT = "/products/edit";
 
 const CUSTOMER_LIST = "/customers";
 
+const AUTHENTICATION_SIGN_IN = "/sign-in";
+
 export const NAVIGATE_URL = {
     DASHBORAD,
     CATEGORIES_LIST,
@@ -19,4 +21,5 @@ export const NAVIGATE_URL = {
     PRODUCT_CREATE,
     PRODUCT_EDIT,
     CUSTOMER_LIST,
+    AUTHENTICATION_SIGN_IN,
 }

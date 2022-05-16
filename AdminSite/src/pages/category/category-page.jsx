@@ -7,13 +7,11 @@ import DetailCategory from "../../components/category/detail-category";
 import { categoryService } from "../../services/modules";
 import { NAVIGATE_URL } from "../../constants/navigate-url";
 import Pagination from "../../components/common/pagination";
-import { NUMBER_RECORD_PER_PAGE } from "../../constants/variables";
+import { DEFAULT_PAGE_NUMBER, NUMBER_RECORD_PER_PAGE } from "../../constants/variables";
 import LoadingPage from "../loaders/loading-page";
 
 const CategoryPage = () => {
-  const [categories, setCategories] = useState([]);
-  const [totalPage, setTotalPage] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [data, setData] = useState({ categories: [], totalPage: 0, currentPage: 0 });
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogParam, setDialogParam] = useState({});
   const navigate = useNavigate();
@@ -27,11 +25,9 @@ const CategoryPage = () => {
 
   useEffect(() => {
     categoryService
-      .getCategories(1, NUMBER_RECORD_PER_PAGE)
-      .then(({ categories, totalPage, currentPage }) => {
-        setCategories(categories);
-        setTotalPage(totalPage);
-        setCurrentPage(currentPage);
+      .getCategories(DEFAULT_PAGE_NUMBER, NUMBER_RECORD_PER_PAGE)
+      .then((response) => {
+        setData(response);
       });
   }, []);
 
@@ -60,10 +56,10 @@ const CategoryPage = () => {
       .deleteCategory(id)
       .then((result) => {
         if (result) {
-          const newCategories = categories.filter(
+          const newCategories = data.categories.filter(
             (category) => category.id !== id
           );
-          setCategories(newCategories);
+          setData({...data, categories: newCategories});
         }
         return result;
       })
@@ -73,10 +69,8 @@ const CategoryPage = () => {
   const onPageNumberClick = (pageNumber) => {
     categoryService
       .getCategories(pageNumber, NUMBER_RECORD_PER_PAGE)
-      .then(({ categories, totalPage, currentPage }) => {
-        setCategories(categories);
-        setTotalPage(totalPage);
-        setCurrentPage(currentPage);
+      .then((response) => {
+        setData(response)
       });
   };
 
@@ -97,16 +91,16 @@ const CategoryPage = () => {
         <div className="flex-1 mb-16 border border-solid border-slate-700">
           <Table
             columns={["Mã thể loại", "Tên thể loại", "Tên hiển thị"]}
-            data={categories}
+            data={data.categories}
             onRowClick={onTableRowClick}
           />
         </div>
 
-        {totalPage > 1 && (
+        {data.totalPage > 1 && (
           <div className="absolute bottom-0 right-0 mb-4">
             <Pagination
-              total={totalPage}
-              current={currentPage}
+              total={data.totalPage}
+              current={data.currentPage}
               onClick={onPageNumberClick}
             />
           </div>

@@ -9,6 +9,8 @@ namespace BackEnd.Services
         {
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IAuthenticateService, AuthenticateService>();
+            services.AddScoped<IAccountService, AccountService>();
         }   
     }
 }

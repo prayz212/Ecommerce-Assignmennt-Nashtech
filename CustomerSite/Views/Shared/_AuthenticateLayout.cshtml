@@ -1,0 +1,24 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- --------------------- authenticate page -----------------  -->
+<div class="_account-page">
+    <div class="_container">
+        <div class="_row">
+            <div class="col-md-6 col-0">
+                <div class="d-none d-md-block">
+                    <img src="~/images/login.png" width="100%">
+                </div>
+            </div>
+            <div class="col-md-6 col-12 p-3">
+                @RenderBody()
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ <partial name="_ValidationScriptsPartial" /> }
+}

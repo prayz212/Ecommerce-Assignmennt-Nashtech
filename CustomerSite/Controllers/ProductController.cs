@@ -4,6 +4,9 @@ using CustomerSite.Models;
 using System.Threading.Tasks;
 using Shared.Clients;
 using CustomerSite.Utils;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CustomerSite.Controllers
 {
@@ -66,13 +69,20 @@ namespace CustomerSite.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Rating(ProductRatingWriteDto data)
         {
-            if (data is null || data.ProductID <= 0 || data.Stars <= 0)
+            if (data is null || data.ProductId <= 0 || data.Stars <= 0)
                 return BadRequest();
 
             var result = await _productService.ProductRating(data);
-            return result ? Ok() : BadRequest();
+            if (result == PostResponse.UNAUTHORIZED)
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return Unauthorized();
+            }
+                
+            return result == PostResponse.OK ? Ok() : BadRequest();
         }
     }
 }

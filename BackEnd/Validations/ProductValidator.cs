@@ -23,7 +23,7 @@ namespace BackEnd.Validations
                 .NotEmpty().WithMessage("Category Id must not empty");
 
             RuleFor(p => p.IsFeatured)
-                .NotEmpty().WithMessage("IsFeatured must not empty");
+                .NotNull().WithMessage("IsFeatured must not empty");
 
             RuleFor(p => p.Images)
                 .NotEmpty().WithMessage("Images must not empty");
@@ -52,7 +52,7 @@ namespace BackEnd.Validations
                 .NotEmpty().WithMessage("Category Id must not empty");
 
             RuleFor(p => p.IsFeatured)
-                .NotEmpty().WithMessage("IsFeatured must not empty");
+                .NotNull().WithMessage("IsFeatured must not empty");
         }
     }
 }

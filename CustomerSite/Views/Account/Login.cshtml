@@ -1,0 +1,46 @@
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "~/Views/Shared/_AuthenticateLayout.cshtml";
+}
+
+@model Shared.Clients.LoginDto;
+
+<!-- --------------------- login form section -----------------  -->
+<div class="_form-container">
+    <div class="_form-btn">
+        <span class="_form-title">Thông tin tài khoản</span>
+        <hr class="_indicator">
+        <form method="post" asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl">
+            <input asp-for="UserName" class="_form-input" type="text" placeholder="Tên tài khoản">
+            <div class="field-validation-valid text-danger" 
+                data-valmsg-for="UserName" 
+                data-valmsg-replace="true">
+            </div>
+
+            <input asp-for="Password" class="_form-input" type="password" placeholder="Mật khẩu">
+            <div class="field-validation-valid text-danger" 
+                data-valmsg-for="Password" 
+                data-valmsg-replace="true">
+            </div>
+            
+            @if (ViewBag.LoginErrorMsg != null)
+            {
+                <div class="field-validation-error text-danger">
+                    <span id="Login-error">@ViewBag.LoginErrorMsg</span>
+                </div>
+            }
+
+            <button type="submit" class="_btn">Đăng nhập</button>
+
+            @if (ViewBag.RegisterSuccessMsg != null)
+            {
+                <div class="field-validation-valid text-success">
+                    <span>@ViewBag.RegisterSuccessMsg</span>
+                </div>
+            }
+
+            <a asp-action="Register">Chưa có tài khoản? Đăng ký ngay</a>
+        </form>
+    </div>
+</div>

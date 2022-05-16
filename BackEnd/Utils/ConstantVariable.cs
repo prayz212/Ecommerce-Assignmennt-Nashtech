@@ -18,5 +18,9 @@ namespace BackEnd.Utils
 
         //Generic section
         public const int DEFAULT_VALUE_NUMBER_TYPE = 0;
+
+        //Account section
+        public const int DEFAULT_ACCOUNT_PAGE_NUMBER = 1;
+        public const int DEFAULT_ACCOUNT_SIZE_PER_PAGE = 10;
     }
 }

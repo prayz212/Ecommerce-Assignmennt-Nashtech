@@ -1,10 +1,11 @@
 using BackEnd.Models;
 using BackEnd.Models.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd
 {
-  public class ApplicationDbContext : DbContext
+  public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
   {
     public DbSet<Category> Categories { get; set; }
     
@@ -13,6 +14,7 @@ namespace BackEnd
     public DbSet<Image> Images { get; set; }
 
     public DbSet<Rating> Ratings { get; set; }
+    public DbSet<Admin> Admins { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

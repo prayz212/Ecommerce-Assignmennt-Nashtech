@@ -2,8 +2,8 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { NAVIGATE_URL } from "../../constants/navigate-url";
 
-const Navbar = () => {
-  const {pathname} = useLocation();
+const Navbar = ({ onSignOut, userInfo }) => {
+  const { pathname } = useLocation();
 
   return (
     <div className="flex h-full">
@@ -15,15 +15,19 @@ const Navbar = () => {
             className="w-12 h-12 rounded-full dark:bg-coolGray-500"
           />
           <div>
-            <h2 className="text-lg font-semibold">Leroy Jenkins</h2>
+            <h2 className="text-lg font-semibold">{userInfo.fullname}</h2>
             <span className="flex items-center space-x-1 text-xs text-coolGray-400">
-              System admin
+              EID: {userInfo.employeeId}
             </span>
           </div>
         </div>
         <div className="divide-y divide-coolGray-700">
           <ul className="pt-2 pb-4 space-y-1 text-sm">
-            <li className={`${pathname === '/' ? 'bg-gray-900' : ''} hover:bg-gray-700`}>
+            <li
+              className={`${
+                pathname === "/" ? "bg-gray-900" : ""
+              } hover:bg-gray-700`}
+            >
               <Link
                 to={NAVIGATE_URL.DASHBORAD}
                 className="flex items-center p-2 space-x-3 rounded-md"
@@ -38,7 +42,11 @@ const Navbar = () => {
                 <span>Dashboard</span>
               </Link>
             </li>
-            <li className={`${pathname === '/categories' ? 'bg-gray-900' : ''} hover:bg-gray-700`}>
+            <li
+              className={`${
+                pathname === "/categories" ? "bg-gray-900" : ""
+              } hover:bg-gray-700`}
+            >
               <Link
                 to={NAVIGATE_URL.CATEGORIES_LIST}
                 className="flex items-center p-2 space-x-3 rounded-md"
@@ -54,7 +62,11 @@ const Navbar = () => {
                 <span>Quản lý thể loại</span>
               </Link>
             </li>
-            <li className={`${pathname === '/products' ? 'bg-gray-900' : ''} hover:bg-gray-700`}>
+            <li
+              className={`${
+                pathname === "/products" ? "bg-gray-900" : ""
+              } hover:bg-gray-700`}
+            >
               <Link
                 to={NAVIGATE_URL.PRODUCT_LIST}
                 className="flex items-center p-2 space-x-3 rounded-md"
@@ -65,14 +77,16 @@ const Navbar = () => {
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-                  ></path>
+                  <path d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"></path>
                 </svg>
                 <span>Quản lý sản phẩm</span>
               </Link>
             </li>
-            <li className={`${pathname === '/customers' ? 'bg-gray-900' : ''} hover:bg-gray-700`}>
+            <li
+              className={`${
+                pathname === "/customers" ? "bg-gray-900" : ""
+              } hover:bg-gray-700`}
+            >
               <Link
                 to={NAVIGATE_URL.CUSTOMER_LIST}
                 className="flex items-center p-2 space-x-3 rounded-md"
@@ -83,9 +97,7 @@ const Navbar = () => {
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                  ></path>
+                  <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path>
                 </svg>
                 <span>Quản lý khách hàng</span>
               </Link>
@@ -93,8 +105,8 @@ const Navbar = () => {
           </ul>
           <ul className="pt-4 pb-2 space-y-1 text-sm">
             <li className="hover:bg-gray-700">
-              <a
-                rel="noopener noreferrer"
+              <button
+                onClick={() => onSignOut()}
                 className="flex items-center p-2 space-x-3 rounded-md"
               >
                 <svg
@@ -106,7 +118,7 @@ const Navbar = () => {
                   <rect width="32" height="64" x="256" y="232"></rect>
                 </svg>
                 <span>Đăng xuất</span>
-              </a>
+              </button>
             </li>
           </ul>
         </div>
