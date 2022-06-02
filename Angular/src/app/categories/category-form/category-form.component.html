@@ -1,0 +1,110 @@
+<div class="flex-1 mb-16">
+  <form
+    class="mx-4 mt-6"
+    #categoryForm="ngForm"
+    (submit)="onSubmit(categoryForm)"
+  >
+    <input
+      id="id"
+      name="id"
+      type="number"
+      [hidden]="true"
+      *ngIf="isEdit"
+      [ngModel]="category.id"
+    />
+
+    <div class="relative z-0 w-full mb-6 group">
+      <input
+        id="name"
+        type="text"
+        name="name"
+        placeholder=" "
+        class="block py-2.5 px-0 w-full text-sm text-gray-50 bg-transparent border-0 border-b-2 border-gray-400 appearance-none focus:outline-none focus:ring-0 focus:border-gray-300 peer"
+        [(ngModel)]="category.name"
+        #inputName="ngModel"
+        required
+      />
+      <label
+        htmlFor="name"
+        class="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-gray-200 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+      >
+        Tên thể loại
+      </label>
+      <span
+        class="peer-focus:font-medium text-sm text-red-600"
+        role="alert"
+        *ngIf="
+          !inputName.valid && (!inputName.pristine || categoryForm.submitted)
+        "
+      >
+        Tên thể loại là trường bắt buộc
+      </span>
+    </div>
+    <div class="relative z-0 w-full mb-6 group">
+      <input
+        id="displayName"
+        type="text"
+        name="displayName"
+        placeholder=" "
+        class="block py-2.5 px-0 w-full text-sm text-gray-50 bg-transparent border-0 border-b-2 border-gray-400 appearance-none focus:outline-none focus:ring-0 focus:border-gray-300 peer"
+        [(ngModel)]="category.displayName"
+        #inputDisplayName="ngModel"
+        required
+        minlength="5"
+      />
+      <label
+        htmlFor="displayName"
+        class="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-gray-200 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+      >
+        Hiển thị dưới tên
+      </label>
+      <span
+        class="peer-focus:font-medium text-sm text-red-600"
+        role="alert"
+        *ngIf="
+          !inputDisplayName.valid &&
+          (!inputDisplayName.pristine || categoryForm.submitted)
+        "
+      >
+        Tên hiển thị là trường bắt buộc và phải có tối thiểu 5 ký tự
+      </span>
+    </div>
+    <div class="relative z-0 w-full mb-6 group">
+      <input
+        id="description"
+        type="text"
+        name="description"
+        placeholder=" "
+        class="block py-2.5 px-0 w-full text-sm text-gray-50 bg-transparent border-0 border-b-2 border-gray-400 appearance-none focus:outline-none focus:ring-0 focus:border-gray-300 peer"
+        [(ngModel)]="category.description"
+        #inputDescription="ngModel"
+        required
+        minlength="10"
+      />
+      <label
+        htmlFor="description"
+        class="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-gray-200 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+      >
+        Mô tả
+      </label>
+      <span
+        class="peer-focus:font-medium text-sm text-red-600"
+        role="alert"
+        *ngIf="
+          !inputDescription.valid &&
+          (!inputDescription.pristine || categoryForm.submitted)
+        "
+      >
+        Mô tả là trường bắt buộc và phải có tối thiểu 10 ký tự
+      </span>
+    </div>
+    <div class="flex justify-end">
+      <button
+        type="submit"
+        class="mr-4 text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        {{isEdit ? "Cập nhật" : "Tạo mới"}}
+      </button>
+    </div>
+  </form>
+</div>

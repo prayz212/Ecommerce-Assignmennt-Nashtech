@@ -1,0 +1,11 @@
+<div class="flex h-full">
+  <div class="w-full flex flex-col relative">
+    <body-top-section
+      [redirectTo]="preUrl"
+      [enableButtonBack]="true"
+    ></body-top-section>
+    <category-form (onSubmitEvent)="onSubmit($event)" [type]="formType"></category-form>
+  </div>
+</div>
+
+<app-toast *ngIf="errorMessage" [messages]="errorMessage"></app-toast>

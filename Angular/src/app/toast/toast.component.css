@@ -1,0 +1,29 @@
+.toast-show-fadein {
+  -webkit-animation: fadein 0.5s;
+  animation: fadein 0.5s;
+}
+
+.toast-show-fadeout {
+  -webkit-animation: fadeout 0.5s;
+  animation: fadeout 0.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {right: 0; opacity: 0;}
+  to {right: 3rem; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {right: 0; opacity: 0;}
+  to {right: 3rem; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {right: 3rem; opacity: 1;}
+  to {right: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {right: 3rem; opacity: 1;}
+  to {right: 0; opacity: 0;}
+}

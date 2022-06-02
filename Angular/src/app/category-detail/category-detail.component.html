@@ -1,0 +1,86 @@
+<div class="flex h-full">
+  <div class="w-full flex flex-col relative">
+    <body-top-section
+      [redirectTo]="preUrl"
+      [enableButtonBack]="true"
+    ></body-top-section>
+    <div class="bg-slate-600 overflow-hidden sm:rounded-lg" *ngIf="category">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-50">
+          Chi tiết thể loại
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-200">
+          Các thông tin về thể loại sản phẩm
+        </p>
+      </div>
+      <div
+        class="border border-gray-600 max-h-[40rem] overflow-y-auto text-gray-100"
+      >
+        <dl>
+          <div
+            class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-700"
+          >
+            <dt class="text-sm font-medium text-gray-200">Mã thể loại</dt>
+            <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
+              {{ category.id }}
+            </dd>
+          </div>
+          <div
+            class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-600"
+          >
+            <dt class="text-sm font-medium text-gray-200">Tên thể loại</dt>
+            <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
+              {{ category.name }}
+            </dd>
+          </div>
+          <div
+            class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-700"
+          >
+            <dt class="text-sm font-medium text-gray-200">Tên hiển thị</dt>
+            <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
+              {{ category.displayName }}
+            </dd>
+          </div>
+          <div
+            class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-600"
+          >
+            <dt class="text-sm font-medium text-gray-200">Mô tả</dt>
+            <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
+              {{ category.description }}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+    <div class="flex justify-end" *ngIf="category">
+      <div class="my-2 mr-3">
+        <button
+          (click)="onEditClicked(category)"
+          type="button"
+          class="text-gray-100 bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-0 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-4 my-2"
+        >
+          Chỉnh sửa
+        </button>
+
+        <button
+          (click)="onDeleteClicked()"
+          type="button"
+          class="text-gray-100 bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-0 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 my-2"
+        >
+          Xoá
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-modal
+  [messages]="confirmMessages"
+  [show]="isShowModal"
+  confirmTextButton="Xác nhận"
+  cancelTextButton="Trở về"
+  (confirmClick)="onModalConfirmClick()"
+  (cancelClick)="onModalCancelClick()"
+></app-modal>
+
+<app-toast *ngIf="errorMessage" [messages]="errorMessage"></app-toast>

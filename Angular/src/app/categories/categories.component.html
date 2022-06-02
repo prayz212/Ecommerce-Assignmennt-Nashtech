@@ -1,0 +1,25 @@
+<div class="flex h-full">
+  <div class="w-full flex flex-col relative">
+    <body-top-section
+      titleText="Danh sách thể loại"
+      buttonText="Tạo mới"
+      [redirectTo]="createUrl"
+      [enableButtonCreate]="true"
+    ></body-top-section>
+    <div class="flex-1 mb-16 border border-solid border-slate-600">
+      <body-table
+        *ngIf="categories"
+        [columns]="columns"
+        [data]="categories"
+        (rowClickEvent)="onTableRowClick($event)"
+      ></body-table>
+    </div>
+    <div class="absolute bottom-0 right-0 mb-4" *ngIf="totalPage > 1">
+      <table-pagination
+        [current]="currentPage"
+        [total]="totalPage"
+        (pageClickEvent)="onPageNumberClick($event)"
+      ></table-pagination>
+    </div>
+  </div>
+</div>
