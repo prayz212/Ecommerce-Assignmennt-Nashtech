@@ -29,7 +29,6 @@ export class CategoryFormComponent implements OnInit, OnChanges {
       this.category = changes['formData'].currentValue;
     else
       this.category = new Category();
-
   }
 
   onSubmit(formData: NgForm): void {

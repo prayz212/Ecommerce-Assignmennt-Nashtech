@@ -17,6 +17,11 @@ import { ToastComponent } from './toast/toast.component';
 import { CategoryFormComponent } from './categories/category-form/category-form.component';
 import { CategoriesEditComponent } from './categories-edit/categories-edit.component';
 import { ModalComponent } from './modal/modal.component';
+import { LoginComponent } from './authentication/login.component';
+import { LoginFormComponent } from './authentication/login-form/login-form.component';
+import { AuthenticationComponent } from './layouts/authentication/authentication.component';
+import { MainComponent } from './layouts/main/main.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +37,11 @@ import { ModalComponent } from './modal/modal.component';
     CategoryFormComponent,
     CategoriesEditComponent,
     ModalComponent,
+    LoginComponent,
+    LoginFormComponent,
+    AuthenticationComponent,
+    MainComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

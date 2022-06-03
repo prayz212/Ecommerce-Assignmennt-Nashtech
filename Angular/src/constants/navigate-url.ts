@@ -1,4 +1,5 @@
-const DASHBOARD = "";
+const INDEX = "";
+const DASHBOARD = "dashboard";
 
 const CATEGORIES_LIST = "categories";
 const CATEGORIES_DETAIL = "categories/detail";
@@ -11,9 +12,11 @@ const PRODUCT_EDIT = "products/edit";
 
 const CUSTOMER_LIST = "customers";
 
-const AUTHENTICATION_SIGN_IN = "sign-in";
+const AUTHENTICATION = "authentication";
+const SIGN_IN = "sign-in";
 
 export const NAVIGATE_URL = {
+  INDEX,
   DASHBOARD,
   CATEGORIES_LIST,
   CATEGORIES_DETAIL,
@@ -23,5 +26,6 @@ export const NAVIGATE_URL = {
   PRODUCT_CREATE,
   PRODUCT_EDIT,
   CUSTOMER_LIST,
-  AUTHENTICATION_SIGN_IN,
+  AUTHENTICATION,
+  SIGN_IN,
 }

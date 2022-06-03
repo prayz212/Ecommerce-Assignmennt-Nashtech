@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NAVIGATE_URL } from 'src/constants/navigate-url';
@@ -11,7 +11,7 @@ import { Category } from '../categories/category.model';
   templateUrl: './categories-edit.component.html',
   styleUrls: ['./categories-edit.component.css'],
 })
-export class CategoriesEditComponent implements OnInit {
+export class CategoriesEditComponent implements OnInit, OnDestroy {
   preUrl!: string;
   formType = EDIT_FORM_TYPE;
   category!: Category;
@@ -26,6 +26,10 @@ export class CategoriesEditComponent implements OnInit {
   ngOnInit(): void {
     this.category = this.categoriesService.currentValue;
     this.preUrl = `${NAVIGATE_URL.CATEGORIES_DETAIL}/${this.category.id}`
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   onSubmit(formData: any): void {

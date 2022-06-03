@@ -1,0 +1,71 @@
+<form class="mt-8 space-y-6" #loginForm="ngForm" (submit)="onSubmit(loginForm)">
+  <input type="hidden" name="remember" defaultValue="true" />
+  <div class="rounded-md -space-y-px">
+    <div>
+      <label
+        htmlFor="username"
+        class="block text-sm font-medium text-gray-700"
+      >
+        Tên tài khoản
+      </label>
+      <input
+        type="text"
+        class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 shadow-sm rounded-md focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm"
+        placeholder="Tên tài khoản"
+        name="userName"
+        [(ngModel)]="login.userName"
+        #userName="ngModel"
+        required
+      />
+
+      <span
+        class="text-red-500"
+        role="alert"
+        *ngIf="(userName.dirty || userName.touched || loginForm.submitted)
+        && userName.errors?.['required']">
+        Tên tài khoản là trường bắt buộc
+      </span>
+    </div>
+
+    <div class="pt-3">
+      <label
+        htmlFor="password"
+        class="block text-sm font-medium text-gray-700"
+      >
+        Mật khẩu
+      </label>
+      <input
+        type="password"
+        autoComplete="current-password"
+        class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 shadow-sm rounded-md focus:outline-none focus:ring-teal-500 focus:border-teal-500 focus:z-10 sm:text-sm"
+        placeholder="Mật khẩu"
+        name="password"
+        [(ngModel)]="login.password"
+        #password="ngModel"
+        required
+        minlength="8"
+      />
+
+      <span
+        class="text-red-500"
+        *ngIf="(password.dirty || password.touched || loginForm.submitted)
+          && password.errors?.['required']">
+        Mật khẩu là trường bắt buộc
+      </span>
+
+      <span
+        class="text-red-500"
+        *ngIf="(password.dirty || password.touched)
+          && password.errors?.['minlength']">
+        Mật khẩu phải có tối thiểu 8 ký tự
+      </span>
+    </div>
+  </div>
+  <button
+    type="submit"
+    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-teal-500"
+  >
+    <span class="absolute left-0 inset-y-0 flex items-center pl-3"></span>
+    Đăng nhập
+  </button>
+</form>

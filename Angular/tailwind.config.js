@@ -3,7 +3,11 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'authentication': "url('src/assets/LoginBackground.jpg')",
+      },
+    },
   },
   plugins: [],
 }

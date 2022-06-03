@@ -3,6 +3,7 @@ import { DEFAULT_PAGE_NUMBER, NUMBER_RECORD_PER_PAGE } from "../constants/variab
 
 const BASE_CLIENT_API = environment.clientUrl;
 const BASE_ADMIN_API = environment.adminUrl;
+const BASE_API = environment.baseAPI;
 
 const GET_CATEGORY_LIST = (page = DEFAULT_PAGE_NUMBER, size= NUMBER_RECORD_PER_PAGE) => `${BASE_ADMIN_API}/categories?page=${page}&size=${size}`;
 // const GET_ALL_CATEGORIES = () => `${BASE_URL}/client/categories`;
@@ -19,7 +20,7 @@ const CREATE_CATEGORY = () => `${BASE_ADMIN_API}/categories`;
 
 // const UPLOAD_IMAGE = (cloudName) => `${BASE_CLOUDINARY_URL}/${cloudName}/auto/upload`;
 
-// const SIGN_IN = () => `${BASE_URL}/authenticate/login/admin`;
+const SIGN_IN = () => `${BASE_API}/authenticate/login/admin`;
 
 // const GET_CLIENT_LIST = (page = DEFAULT_PAGE_NUMBER, size = NUMBER_RECORD_PER_PAGE) => `${BASE_API_URL}/accounts/clients?page=${page}&size=${size}`;
 // const GET_USER_INFO = () => `${BASE_API_URL}/accounts/info`;
@@ -43,9 +44,9 @@ export default {
     // CLOUDINARY: {
     //     UPLOAD_IMAGE,
     // },
-    // AUTHENTICATE: {
-    //     SIGN_IN,
-    // },
+    AUTHENTICATE: {
+        SIGN_IN,
+    },
     // CLIENTS: {
     //     GET_CLIENT_LIST,
     //     GET_USER_INFO,

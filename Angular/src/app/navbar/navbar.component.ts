@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { NAVIGATE_URL } from '../../constants/navigate-url';
+import { AuthService } from '../authentication/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,10 +16,11 @@ export class NavbarComponent {
 
   listUrl = NAVIGATE_URL;
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) { }
 
 
   onSignOut(): void {
-    console.log("clicked");
+    this.authService.currentValue = undefined;
+    this.router.navigate([`${NAVIGATE_URL.AUTHENTICATION}/${NAVIGATE_URL.SIGN_IN}`]);
   }
 }

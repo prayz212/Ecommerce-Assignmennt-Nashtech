@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   baseURL: 'https://localhost:4546',
+  baseAPI: 'https://localhost:4546/api',
   adminUrl: 'https://localhost:4546/api/admin',
   clientUrl: 'https://localhost:4546/api/client'
 
