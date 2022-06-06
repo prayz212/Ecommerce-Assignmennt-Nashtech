@@ -11,11 +11,13 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    const token = this.authService.currentValue;
+    const currentUser = this.authService.currentValue;
 
-    if (token && Date.parse(token.expiration) > Date.now())
+    if (currentUser && currentUser.token && Date.parse(currentUser.expiration) > Date.now()) {
       return true;
+    }
 
+    this.authService.logout();
     this.router.navigate([`${NAVIGATE_URL.AUTHENTICATION}/${NAVIGATE_URL.SIGN_IN}`]);
     return false;
   }

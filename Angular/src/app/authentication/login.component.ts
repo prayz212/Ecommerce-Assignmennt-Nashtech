@@ -32,14 +32,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     if (valid) {
       this.subscription = this.authService.login(data).subscribe({
-        next: (response: IHttpResponse): void => {
-          console.info(response);
-
-          if (response.ok) {
-            this.authService.currentValue = response.body as Token;
+        next: (result: boolean): void => {
+          if (result) {
             this.router.navigate([NAVIGATE_URL.DASHBOARD]);
           }
-
+          else {
+            location.reload();
+          }
         },
         error: (error: Error): void => {
           console.warn(error);

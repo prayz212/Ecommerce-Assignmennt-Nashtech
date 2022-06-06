@@ -12,9 +12,11 @@ export class UnauthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      const token = this.authService.currentValue;
+      const currentUser = this.authService.currentValue;
 
-      if (token) return false;
+      if (currentUser && currentUser.token && Date.parse(currentUser.expiration) > Date.now())
+        return false;
+        
       return true;
   }
 }

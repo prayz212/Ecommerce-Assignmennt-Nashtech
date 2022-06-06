@@ -20,7 +20,7 @@ export class NavbarComponent {
 
 
   onSignOut(): void {
-    this.authService.currentValue = undefined;
+    this.authService.logout();
     this.router.navigate([`${NAVIGATE_URL.AUTHENTICATION}/${NAVIGATE_URL.SIGN_IN}`]);
   }
 }

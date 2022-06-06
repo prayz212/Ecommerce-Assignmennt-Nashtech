@@ -9,7 +9,7 @@ import { TopSectionComponent } from './top-section/top-section.component';
 import { CategoriesCreateComponent } from './categories-create/categories-create.component';
 import { TableComponent } from './table/table.component';
 import { CategoriesService } from './categories/categories.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { PaginationComponent } from './pagination/pagination.component';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
 import { FormsModule } from '@angular/forms';
@@ -22,6 +22,8 @@ import { LoginFormComponent } from './authentication/login-form/login-form.compo
 import { AuthenticationComponent } from './layouts/authentication/authentication.component';
 import { MainComponent } from './layouts/main/main.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { JwtInterceptor } from './helpers/jwt-interceptor';
+import { HttpErrorInterceptor } from './helpers/http-error-interceptor';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AppRoutingModule,
   ],
   providers: [
-    CategoriesService
+    CategoriesService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BackEnd.Controllers.Admin
 {
-    // [Authorize(Roles = UserRoles.ADMIN)]
+    [Authorize(Roles = UserRoles.ADMIN)]
     [ApiController]
     [Route("api/admin/categories")]
     public class AdminCategoryController : ControllerBase
